@@ -1,10 +1,9 @@
 <template>
-    <div class="text-xl text-blue-700">
-        Message from vue
-    </div>
+    <Toast :type="'success'" class="mt-20" closable>
+        Hello world from Vue with Flowbite component!
+    </Toast>
 </template>
 
-<script>
-export default {
-}
+<script setup>
+import { Toast } from 'flowbite-vue'
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-xl text-blue-700">
         Message from vue
     </div>
 </template>

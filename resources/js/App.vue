@@ -1,9 +1,17 @@
 <template>
-    <Toast :type="'success'" class="mt-20" closable>
-        Hello world from Vue with Flowbite component!
-    </Toast>
+    <nav>
+        <ul class="flex">
+            <li>
+                <router-link :to="{name: 'home'}">Home</router-link>
+            </li>
+            <li>
+                <router-link :to="{name: 'about'}">About</router-link>
+            </li>
+        </ul>
+    </nav>
+
+    <router-view />
 </template>
 
 <script setup>
-import { Toast } from 'flowbite-vue'
 </script>

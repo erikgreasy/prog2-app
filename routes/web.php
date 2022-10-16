@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +16,29 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $googleUser = Socialite::driver('google')->user();
+ 
+    $user = User::updateOrCreate([
+        'email' => $googleUser->getEmail()
+    ], [
+        'name' => $googleUser->getName(),
+        'password' => Hash::make('examplePassword123')
+    ]);
+
+    Auth::login($user);
+
+    return redirect('/');
+});
+
+Route::get('/check', function() {
+    dd(auth()->check());
+});
 
 Route::get('{any}', function() {
     return view('welcome');

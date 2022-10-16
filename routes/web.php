@@ -40,6 +40,12 @@ Route::get('/check', function() {
     dd(auth()->check());
 });
 
+Route::get('/logout', function() {
+    Auth::logout();
+
+    return redirect('/');
+});
+
 Route::get('{any}', function() {
     return view('welcome');
 })->where('any', '.*');

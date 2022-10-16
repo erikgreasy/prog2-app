@@ -7,6 +7,12 @@
             <li>
                 <router-link :to="{name: 'about'}">About</router-link>
             </li>
+            <li>
+                <router-link :to="{name: 'login'}">Login</router-link>
+            </li>
+            <li>
+                <a href="/logout">Logout</a>
+            </li>
         </ul>
     </nav>
 

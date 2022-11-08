@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\TestEvent;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -34,6 +35,10 @@ Route::get('/auth/callback', function () {
     Auth::login($user);
 
     return redirect('/');
+});
+
+Route::post('/websocket-handler', function() {
+    TestEvent::dispatch();
 });
 
 Route::get('/check', function() {

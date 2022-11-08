@@ -7,6 +7,9 @@
             <li>
                 <router-link :to="{name: 'about'}">About</router-link>
             </li>
+            <li>
+                <router-link :to="{name: 'websocket'}">Websocket</router-link>
+            </li>
         </ul>
         <ul v-if="store.loggedIn" class="ml-auto flex">
             <li>

@@ -39,7 +39,7 @@ const store = useAuthStore()
 onBeforeMount(async () => {
     try {
         const res = await axios.get('/api/user')
-        console.log(res)
+        // console.log(res)
         store.user = res.data
         store.loggedIn = true
     } catch(err) {

@@ -8,6 +8,7 @@ import AdminAssignmentsCreate from './views/admin/assignments/Create.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import AssignmentsIndex from './views/public/assignments/Index.vue';
 import AssignmentsShow from './views/public/assignments/Show.vue';
+import AdminDashboard from './views/admin/Dashboard.vue';
 
 export default [
     {
@@ -29,6 +30,11 @@ export default [
         path: '/zadania/:id',
         name: 'assignments.show',
         component: AssignmentsShow
+    },
+    {
+        path: '/admin',
+        name: 'admin.dashboard',
+        component: AdminDashboard
     },
     {
         path: "/admin/assignments",

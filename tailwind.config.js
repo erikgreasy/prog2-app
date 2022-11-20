@@ -8,7 +8,22 @@ module.exports = {
         'node_modules/flowbite/**/*.{js,jsx,ts,tsx}'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ['Inter', 'sans-serif']
+            },
+            container: {
+                center: true,
+                padding: '1rem',
+                screens: {
+                    '2xl': '1140px'
+                }
+            },
+            colors: {
+                primary: '#4E56A6',
+                primaryDark: '#41488A'
+            }
+        },
     },
     plugins: [
         require('flowbite/plugin')

@@ -5,6 +5,8 @@
 
             <input type="datetime-local" v-model="assignment.deadline">
 
+            <textarea v-model="assignment.excerpt"></textarea>
+
             <button>Submit</button>
         </form>
     </div>

@@ -5,6 +5,7 @@ import Websocket from './views/Websocket.vue';
 import AdminAssignmentsIndex from './views/admin/assignments/Index.vue';
 import AdminAssignmentsEdit from './views/admin/assignments/Edit.vue';
 import AdminAssignmentsCreate from './views/admin/assignments/Create.vue';
+import PageNotFound from './views/PageNotFound.vue';
 
 export default [
     {
@@ -42,4 +43,9 @@ export default [
         name: 'websocket',
         component: Websocket
     },
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: PageNotFound
+    }
 ];

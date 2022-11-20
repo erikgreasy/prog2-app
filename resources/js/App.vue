@@ -1,30 +1,32 @@
 <template>
-    <nav class="flex">
-        <ul class="flex">
-            <li>
-                <router-link :to="{name: 'home'}">Home</router-link>
-            </li>
-            <li>
-                <router-link :to="{name: 'about'}">About</router-link>
-            </li>
-            <li>
-                <router-link :to="{name: 'websocket'}">Websocket</router-link>
-            </li>
-        </ul>
-        <ul v-if="store.loggedIn" class="ml-auto flex">
-            <li>
-                {{ store.user.name }}
-            </li>
-            <li>
-                <a href="/logout">Logout</a>
-            </li>
-        </ul>
-        <ul v-else class="ml-auto flex">
-            <li>
-                <router-link :to="{name: 'login'}">Login</router-link>
-            </li>
-        </ul>
-    </nav>
+    <div class="container py-5">
+        <nav class="flex">
+            <!-- Logo -->
+            <router-link :to="{name: 'home'}" class="font-extrabold text-xl">Programovanie 2</router-link>
+            
+            <ul class="flex ml-auto">
+                <li>
+                    <router-link :to="{name: 'home'}">Home</router-link>
+                </li>
+                <li>
+                    <router-link :to="{name: 'assignments.index'}">Zadania</router-link>
+                </li>
+            </ul>
+            <ul v-if="store.loggedIn" class="ml-auto flex">
+                <li>
+                    {{ store.user.name }}
+                </li>
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            <ul v-else class="ml-auto flex">
+                <li>
+                    <router-link :to="{name: 'login'}">Login</router-link>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
     <router-view />
 </template>

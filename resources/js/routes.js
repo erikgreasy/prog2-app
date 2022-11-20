@@ -6,6 +6,8 @@ import AdminAssignmentsIndex from './views/admin/assignments/Index.vue';
 import AdminAssignmentsEdit from './views/admin/assignments/Edit.vue';
 import AdminAssignmentsCreate from './views/admin/assignments/Create.vue';
 import PageNotFound from './views/PageNotFound.vue';
+import AssignmentsIndex from './views/public/assignments/Index.vue';
+import AssignmentsShow from './views/public/assignments/Show.vue';
 
 export default [
     {
@@ -17,6 +19,16 @@ export default [
         path: "/",
         name: "home",
         component: Home,
+    },
+    {
+        path: '/zadania',
+        name: 'assignments.index',
+        component: AssignmentsIndex
+    },
+    {
+        path: '/zadania/:id',
+        name: 'assignments.show',
+        component: AssignmentsShow
     },
     {
         path: "/admin/assignments",

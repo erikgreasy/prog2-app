@@ -10,6 +10,8 @@ import AssignmentsIndex from './views/public/assignments/Index.vue';
 import AssignmentsShow from './views/public/assignments/Show.vue';
 import AdminDashboard from './views/admin/Dashboard.vue';
 
+import Admin from './views/layouts/Admin.vue'
+
 export default [
     {
         path: '/login',
@@ -24,7 +26,7 @@ export default [
     {
         path: '/zadania',
         name: 'assignments.index',
-        component: AssignmentsIndex
+        component: AssignmentsIndex,
     },
     {
         path: '/zadania/:id',
@@ -34,22 +36,34 @@ export default [
     {
         path: '/admin',
         name: 'admin.dashboard',
-        component: AdminDashboard
+        component: AdminDashboard,
+        meta: {
+            layout: Admin
+        }
     },
     {
         path: "/admin/assignments",
         name: 'admin.assignments.index',
-        component: AdminAssignmentsIndex
+        component: AdminAssignmentsIndex,
+        meta: {
+            layout: Admin
+        }
     },
     {
         path: "/admin/assignments/:id/edit",
         name: 'admin.assignments.edit',
-        component: AdminAssignmentsEdit
+        component: AdminAssignmentsEdit,
+        meta: {
+            layout: Admin
+        }
     },
     {
         path: "/admin/assignments/create",
         name: 'admin.assignments.create',
-        component: AdminAssignmentsCreate
+        component: AdminAssignmentsCreate,
+        meta: {
+            layout: Admin
+        }
     },
     {
         path: "/about",

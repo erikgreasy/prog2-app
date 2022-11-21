@@ -21,7 +21,8 @@ module.exports = {
             },
             colors: {
                 primary: '#4E56A6',
-                primaryDark: '#41488A'
+                primaryDark: '#41488A',
+                sliver: '#718096',
             }
         },
     },

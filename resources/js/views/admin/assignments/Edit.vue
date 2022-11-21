@@ -1,6 +1,12 @@
 <template>
     <div>
-        <h2 class="text-3xl">{{ assignment.title }}</h2>
+        <form @submit.prevent="updateAssignment">
+            <input type="text" v-model="assignment.title">
+
+            <textarea cols="30" rows="10" v-model="assignment.excerpt"></textarea>
+
+            <button>Aktualizovať</button>
+        </form>
 
         <button @click="deleteAssignment" class="bg-red-400">DELETE</button>
     </div>
@@ -24,6 +30,11 @@ export default {
             const res = await axios.delete(`/api/assignments/${this.$route.params.id}`)
 
             this.$router.push({name: 'admin.assignments.index'})
+        },
+        async updateAssignment() {
+            const res = await axios.put(`/api/assignments/${this.$route.params.id}`, this.assignment)
+
+            console.log(res)
         }
     },
 

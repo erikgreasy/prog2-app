@@ -15,7 +15,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        return Assignment::all();
+        return Assignment::latest()->get();
     }
 
     /**
@@ -47,9 +47,9 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Assignment $assignment)
     {
-        //
+        $assignment->update($request->all());
     }
 
     /**

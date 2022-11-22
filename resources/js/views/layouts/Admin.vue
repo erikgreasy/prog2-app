@@ -1,37 +1,20 @@
 <template>
     <div>
-        <header class="border-b border-gray-200 h-10">
+        <header class="border-b border-gray-200 h-12 fixed top-0 w-full z-10 px-5 flex items-center bg-white">
             <AppLogo />
         </header>
 
-        <aside class="fixed top-10 left-0 w-64 h-[calc(100%-2.5rem)]" aria-label="Sidenav">
+        <aside class="fixed top-12 left-0 w-64 h-[calc(100%-2.5rem)]" aria-label="Sidenav">
             <div
                 class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2">
-                    <li>
-                        <router-link :to="{name: 'admin.dashboard'}"
-                            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg aria-hidden="true"
-                                class="w-6 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                            </svg>
-                            <span class="ml-3">Dashboard</span>
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{name: 'admin.assignments.index'}"
-                            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg aria-hidden="true"
-                                class="w-6 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                            </svg>
-                            <span class="ml-3">Zadania</span>
-                        </router-link>
-                    </li>
+                    <AdminNavItem route-name="admin.dashboard">
+                        Dashboard
+                    </AdminNavItem>
+
+                    <AdminNavItem route-name="admin.assignments.index">
+                        Zadania
+                    </AdminNavItem>
                 </ul>
                 <!-- <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                     <li>
@@ -226,12 +209,13 @@
             </div>
         </aside>
 
-        <div class="relative left-64 p-10 w-[calc(100vw-16rem)]">
+        <div class="relative left-64 top-12 p-10 min-h-[calc(100vh-3rem)] w-[calc(100vw-16rem)] bg-[#FAFAFA]">
             <slot></slot>
         </div>
     </div>
 </template>
 
 <script setup>
+import AdminNavItem from '../../components/AdminNavItem.vue';
 import AppLogo from '../../components/AppLogo.vue';
 </script>

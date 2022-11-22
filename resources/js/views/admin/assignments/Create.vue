@@ -1,20 +1,21 @@
 <template>
     <div>
-        <form @submit.prevent="storeAssignment">
-            <input type="text" v-model="assignment.title">
-
-            <input type="datetime-local" v-model="assignment.deadline">
-
-            <textarea v-model="assignment.excerpt"></textarea>
-
-            <button>Submit</button>
-        </form>
+        <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm-light dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <AssignmentForm />
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import AppButton from '../../../components/AppButton.vue'
+import AssignmentForm from '../../../components/AssignmentForm.vue'
+
 export default {
+    components: {
+        AppButton,
+        AssignmentForm,
+    },
     data() {
         return {
             assignment: {

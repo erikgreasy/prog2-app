@@ -1,20 +1,18 @@
 <template>
     <div>
-        <form @submit.prevent="updateAssignment">
-            <input type="text" v-model="assignment.title">
-
-            <textarea cols="30" rows="10" v-model="assignment.excerpt"></textarea>
-
-            <button>Aktualizovať</button>
-        </form>
-
-        <button @click="deleteAssignment" class="bg-red-400">DELETE</button>
+        <AssignmentForm />
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import AssignmentForm from '../../../components/AssignmentForm.vue'
+
 export default {
+    components: {
+        AssignmentForm,
+    },
+
     data() {
         return {
             assignment: {}
@@ -31,7 +29,7 @@ export default {
 
             this.$router.push({name: 'admin.assignments.index'})
         },
-        async updateAssignment() {
+        async storeAssignment() {
             const res = await axios.put(`/api/assignments/${this.$route.params.id}`, this.assignment)
 
             console.log(res)

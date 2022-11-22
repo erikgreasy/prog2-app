@@ -12,6 +12,11 @@ class Assignment extends Model
     protected $fillable = [
         'title',
         'excerpt',
-        'deadline'
+        'deadline',
+        'content',
+    ];
+
+    protected $casts = [
+        'content' => 'array'
     ];
 }

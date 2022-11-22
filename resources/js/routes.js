@@ -8,6 +8,7 @@ import AdminAssignmentsCreate from './views/admin/assignments/Create.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import AssignmentsIndex from './views/public/assignments/Index.vue';
 import AssignmentsShow from './views/public/assignments/Show.vue';
+import AssignmentsShowMaterials from './views/public/assignments/ShowMaterials.vue';
 import AdminDashboard from './views/admin/Dashboard.vue';
 
 import Admin from './views/layouts/Admin.vue'
@@ -32,6 +33,11 @@ export default [
         path: '/zadania/:id',
         name: 'assignments.show',
         component: AssignmentsShow
+    },
+    {
+        path: '/zadania/:id/materialy',
+        name: 'assignments.show.materials',
+        component: AssignmentsShowMaterials
     },
     {
         path: '/admin',

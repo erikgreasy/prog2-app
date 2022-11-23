@@ -5,16 +5,18 @@
                 <!-- Logo -->
                 <AppLogo />
                 
-                <ul class="flex ml-auto">
-                    <li>
-                        <router-link :to="{name: 'home'}">Home</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{name: 'assignments.index'}">Zadania</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{name: 'admin.dashboard'}">Admin</router-link>
-                    </li>
+                <ul class="flex ml-auto gap-x-10">
+                    <NavbarItem route-name="home">
+                        Home
+                    </NavbarItem>
+
+                    <NavbarItem route-name="assignments.index">
+                        Zadania
+                    </NavbarItem>
+                    
+                    <NavbarItem route-name="admin.dashboard">
+                        Admin
+                    </NavbarItem>
                 </ul>
                 <!-- <AppButton :to="{name: 'login'}">
                     Prihlásenie
@@ -42,11 +44,14 @@
 <script>
 import AppButton from '../../components/AppButton.vue';
 import AppLogo from '../../components/AppLogo.vue';
+import NavbarItem from '../../components/NavbarItem.vue';
+
 export default {
     components: {
-        AppLogo,
-        AppButton,
-    },
+    AppLogo,
+    AppButton,
+    NavbarItem
+},
 
     created() {
         console.log('Public layout created')

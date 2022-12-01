@@ -4,7 +4,10 @@ export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
             loggedIn: false,
-            user: {}
+            user: function() {
+                console.log('asd')
+                return 'asd'
+            }
         }
     }
 })

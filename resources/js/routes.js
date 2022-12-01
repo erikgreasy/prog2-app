@@ -12,7 +12,10 @@ import AdminDashboard from './views/admin/Dashboard.vue';
 import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
 
+import auth from './middleware/auth.js';
+
 import Admin from './views/layouts/Admin.vue'
+import log from './middleware/log';
 
 export default [
     {
@@ -40,7 +43,8 @@ export default [
         name: 'admin.dashboard',
         component: AdminDashboard,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {

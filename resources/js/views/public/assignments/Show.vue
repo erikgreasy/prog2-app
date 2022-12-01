@@ -8,39 +8,47 @@
             <nav class="my-20">
                 <ul class="flex justify-center gap-x-8">
                     <li>
-                        <router-link to="#">Zadanie</router-link>
+                        <button @click="showSection('content')">Zadanie</button>
                     </li>
                     <li>
-                        <router-link to="#">Odovzdanie</router-link>
+                        <button @click="showSection('submission')">Odovzdanie</button>
                     </li>
                     <li>
-                        <router-link to="#">Materiály</router-link>
+                        <button @click="showSection('materials')">Materiály</button>
                     </li>
                 </ul>
             </nav>
-
-            <section class="grid grid-cols-4">
-                <div class="border-r border-[#D1D1D1] pr-10">
-                    <aside class="sticky top-10">
-                        <nav>
-                            <ul>
-                                <li>
-                                    <router-link to="#">Sekcia 1</router-link>
-                                </li>
-                                <li>
-                                    <router-link to="#">Sekcia 1</router-link>
-                                </li>
-                                <li>
-                                    <router-link to="#">Sekcia 1</router-link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </aside>
-                </div>
-                <div class="col-span-3 pl-10">
-                    {{ asssignment.content }}
-                </div>
-            </section>
+            <Transition name="fade" mode="out-in">
+                <section v-if="currentSection == 'content'" class="grid grid-cols-4">
+                    <div class="border-r border-[#D1D1D1] pr-10">
+                        <aside class="sticky top-10">
+                            <nav>
+                                <ul>
+                                    <li>
+                                        <router-link to="#">Sekcia 1</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="#">Sekcia 1</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="#">Sekcia 1</router-link>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </aside>
+                    </div>
+                    <div class="col-span-3 pl-10">
+                        {{ asssignment.content }}
+                    </div>
+                </section>
+                <section v-else-if="currentSection == 'submission'" class="grid grid-cols-4">
+                    Odovzdanie
+                </section>
+                
+                <section v-else-if="currentSection == 'materials'" class="grid grid-cols-4">
+                    Materialy
+                </section>
+            </Transition>
         </main>
     </div>
 </template>
@@ -51,7 +59,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            asssignment: {}
+            asssignment: {},
+            currentSection: 'content'
         }
     },
 
@@ -60,6 +69,10 @@ export default {
             const res = await axios.get(`/api/assignments/${this.$route.params.id}`)
             this.asssignment = res.data
             console.log(res)
+        },
+
+        showSection(sectionId) {
+            this.currentSection = sectionId
         }
     },
 
@@ -68,3 +81,14 @@ export default {
     }
 }
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

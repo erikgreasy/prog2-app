@@ -15,13 +15,16 @@ import AdminUsersEdit from './views/admin/users/Edit.vue';
 import auth from './middleware/auth.js';
 
 import Admin from './views/layouts/Admin.vue'
-import log from './middleware/log';
+import guest from './middleware/guest';
 
 export default [
     {
         path: '/login',
         name: 'login',
-        component: Login
+        component: Login,
+        meta: {
+            middleware: [guest]
+        }
     },
     {
         path: "/",

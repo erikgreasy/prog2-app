@@ -15,6 +15,10 @@
                     <AdminNavItem route-name="admin.assignments.index">
                         Zadania
                     </AdminNavItem>
+                    
+                    <AdminNavItem route-name="admin.users.index">
+                        Používatelia
+                    </AdminNavItem>
                 </ul>
                 <!-- <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                     <li>

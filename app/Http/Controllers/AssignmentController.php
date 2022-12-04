@@ -40,6 +40,11 @@ class AssignmentController extends Controller
         return Assignment::findOrFail($id);
     }
 
+    public function showBySlug(Assignment $assignment)
+    {
+        return $assignment;
+    }
+
     /**
      * Update the specified resource in storage.
      *

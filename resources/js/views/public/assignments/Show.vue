@@ -66,7 +66,7 @@ export default {
 
     methods: {
         async getAssignment() {
-            const res = await axios.get(`/api/assignments/${this.$route.params.id}`)
+            const res = await axios.get(`/api/assignments/slug/${this.$route.params.slug}`)
             this.asssignment = res.data
             console.log(res)
         },

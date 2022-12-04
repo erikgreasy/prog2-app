@@ -24,4 +24,5 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::apiResource('users', UserController::class);
 });
 
+Route::get('assignments/slug/{assignment:slug}', [AssignmentController::class, 'showBySlug'])->name('assignments.showBySlug');
 Route::apiResource('assignments', AssignmentController::class);

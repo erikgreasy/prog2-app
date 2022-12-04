@@ -10,7 +10,7 @@
     
                 <article v-for="assignment in filteredAssignments" :key="assignments.id" class="border-b border-[#dadada] py-6">
                     <h3 class="text-2xl font-extrabold mb-4">
-                        <router-link :to="{name: 'assignments.show', params: {id: assignment.id}}">
+                        <router-link :to="{name: 'assignments.show', params: {slug: assignment.slug}}">
                             {{ assignment.title }}
                         </router-link>
                     </h3>
@@ -23,7 +23,7 @@
                         <div class="text-sliver text-xs">
                             {{ assignment.deadline }}
                         </div>
-                        <router-link :to="{name: 'assignments.show', params: {id: assignment.id}}" class="text-primary font-semibold inline-flex items-center gap-x-5 text-[15px]">
+                        <router-link :to="{name: 'assignments.show', params: {slug: assignment.slug}}" class="text-primary font-semibold inline-flex items-center gap-x-5 text-[15px]">
                             Zobraziť
     
                             <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">

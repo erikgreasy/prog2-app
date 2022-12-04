@@ -26,6 +26,7 @@ class StoreAssignmentRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
+            'slug' => ['required', 'string', 'unique:assignments'],
             'excerpt' => ['required', 'string'],
             'deadline' => ['required', 'date'],
             'content' => ['nullable']

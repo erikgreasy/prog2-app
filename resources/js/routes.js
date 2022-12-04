@@ -37,7 +37,7 @@ export default [
         component: AssignmentsIndex,
     },
     {
-        path: '/zadania/:id',
+        path: '/zadania/:slug',
         name: 'assignments.show',
         component: AssignmentsShow
     },

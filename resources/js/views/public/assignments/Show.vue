@@ -60,16 +60,28 @@
                     <div class="border-r border-[#D1D1D1] pr-10">
                         <aside class="sticky top-10">
                             <nav>
-                                <ul>
-                                    <li>
-                                        <router-link to="#">Sekcia 1</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="#">Sekcia 1</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="#">Sekcia 1</router-link>
-                                    </li>
+                                <ul class="grid gap-y-5">
+                                    <ContentNavItem @set="activateHref" href="sekcia-1" :is-active="activeHref === 'sekcia-1'">
+                                        Sekcia 1
+    
+                                        <template #subitems>
+                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-a" :is-active="activeHref === 'sekcia-1-a'">
+                                                Sekcia 1 a
+                                            </ContentNavSubItem>
+    
+                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-b" :is-active="activeHref === 'sekcia-1-b'">
+                                                Sekcia 1 b
+                                            </ContentNavSubItem>
+                                            
+                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-c" :is-active="activeHref === 'sekcia-1-c'">
+                                                Sekcia 1 c
+                                            </ContentNavSubItem>
+                                        </template>
+                                    </ContentNavItem>
+                                   
+                                    <ContentNavItem @set="activateHref" href="sekcia-2" :is-active="activeHref === 'sekcia-2'">
+                                        Sekcia 2
+                                    </ContentNavItem>
                                 </ul>
                             </nav>
                         </aside>
@@ -92,30 +104,35 @@
 
 <script>
 import axios from 'axios';
+import ContentNavItem from '../../../components/public/assignments/ContentNavItem.vue';
+import ContentNavSubItem from '../../../components/public/assignments/ContentNavSubItem.vue';
 
 export default {
     data() {
         return {
             asssignment: {},
-            currentSection: 'content'
-        }
+            currentSection: "content",
+            activeHref: "sekcia-1-a"
+        };
     },
-
     methods: {
         async getAssignment() {
-            const res = await axios.get(`/api/assignments/slug/${this.$route.params.slug}`)
-            this.asssignment = res.data
-            console.log(res)
+            const res = await axios.get(`/api/assignments/slug/${this.$route.params.slug}`);
+            this.asssignment = res.data;
+            console.log(res);
         },
-
         showSection(sectionId) {
-            this.currentSection = sectionId
+            this.currentSection = sectionId;
+        },
+        activateHref(hrefId) {
+            console.log('aktivujem ' + hrefId)
+            this.activeHref = hrefId;
         }
     },
-
     mounted() {
-        this.getAssignment()
-    }
+        this.getAssignment();
+    },
+    components: { ContentNavSubItem, ContentNavItem }
 }
 </script>
 <style scoped>

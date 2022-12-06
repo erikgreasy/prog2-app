@@ -17,10 +17,13 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "@editorjs/editorjs": "^2.26.1",
+        "@editorjs/header": "^2.7.0",
         "@vitejs/plugin-vue": "^3.1.2",
         "flowbite": "^1.5.3",
         "flowbite-vue": "^0.0.6",
         "pinia": "^2.0.23",
+        "slugify": "^1.6.5",
         "vue": "^3.2.40",
         "vue-router": "^4.1.5"
     }

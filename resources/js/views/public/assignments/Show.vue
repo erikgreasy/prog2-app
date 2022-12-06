@@ -61,33 +61,30 @@
                         <aside class="sticky top-10">
                             <nav>
                                 <ul class="grid gap-y-5">
-                                    <ContentNavItem @set="activateHref" href="sekcia-1" :is-active="activeHref === 'sekcia-1'">
-                                        Sekcia 1
+                                    <ContentNavItem v-for="section in mainSections" 
+                                        @set="activateHref" 
+                                        :href="section.slug" 
+                                        :is-active="(activeHref === section.slug)"
+                                    >
+                                        {{ section.title }}
     
-                                        <template #subitems>
-                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-a" :is-active="activeHref === 'sekcia-1-a'">
-                                                Sekcia 1 a
-                                            </ContentNavSubItem>
-    
-                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-b" :is-active="activeHref === 'sekcia-1-b'">
-                                                Sekcia 1 b
-                                            </ContentNavSubItem>
-                                            
-                                            <ContentNavSubItem @set="activateHref" href="sekcia-1-c" :is-active="activeHref === 'sekcia-1-c'">
-                                                Sekcia 1 c
+                                        <template #subitems v-if="section.subItems.length">
+                                            <ContentNavSubItem
+                                                v-for="subsection in section.subItems" 
+                                                @set="activateHref" 
+                                                :href="subsection.slug" 
+                                                :is-active="(activeHref === subsection.slug)"
+                                            >
+                                                {{ subsection.title }}
                                             </ContentNavSubItem>
                                         </template>
-                                    </ContentNavItem>
-                                   
-                                    <ContentNavItem @set="activateHref" href="sekcia-2" :is-active="activeHref === 'sekcia-2'">
-                                        Sekcia 2
                                     </ContentNavItem>
                                 </ul>
                             </nav>
                         </aside>
                     </div>
                     <div class="col-span-3 pl-10">
-                        {{ asssignment.content }}
+                        <ContentParser :content="asssignment.content" />
                     </div>
                 </section>
                 <section v-else-if="currentSection == 'submission'" class="grid grid-cols-4">
@@ -106,6 +103,8 @@
 import axios from 'axios';
 import ContentNavItem from '../../../components/public/assignments/ContentNavItem.vue';
 import ContentNavSubItem from '../../../components/public/assignments/ContentNavSubItem.vue';
+import ContentParser from '../../../components/public/assignments/ContentParser.vue';
+import slugify from 'slugify'
 
 export default {
     data() {
@@ -132,7 +131,36 @@ export default {
     mounted() {
         this.getAssignment();
     },
-    components: { ContentNavSubItem, ContentNavItem }
+
+    computed: {
+        mainSections() {
+            const headingBlocks = this.asssignment.content?.blocks.filter(block => {
+                return block.type === 'header'
+            })
+
+            const output = []
+
+            headingBlocks?.forEach(block => {
+                if(block.data.level === 2) {
+                    output.push({
+                        title: block.data.text,
+                        slug: slugify(block.data.text.toLowerCase()),
+                        subItems: []
+                    })
+                } else {
+                    const lastEl = output[output.length - 1]
+
+                    lastEl.subItems.push({
+                        title: block.data.text,
+                        slug: slugify(block.data.text.toLowerCase()),
+                    })
+                }
+            })
+
+            return output
+        },
+    },
+    components: { ContentNavSubItem, ContentNavItem, ContentParser }
 }
 </script>
 <style scoped>

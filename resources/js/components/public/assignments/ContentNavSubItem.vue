@@ -22,13 +22,13 @@ defineProps({
             ></span>
         </Transition>
 
-        <router-link 
-            :to="`#${href}`" 
+        <a
+            :href="`#${href}`" 
             @click="$emit('set', href)" 
             :class="{'text-primary font-semibold' : isActive}"
             class="transition duration-600"
         >
             <slot></slot>
-        </router-link>
+        </a>
     </li>
 </template>

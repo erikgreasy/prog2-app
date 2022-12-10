@@ -19,6 +19,7 @@ class AssignmentFactory extends Factory
     {
         return [
             'title' => $this->faker->word(),
+            'slug' => str()->slug($this->faker->words(4, asText: true)),
             'deadline' => Carbon::now()->addMonth(),
         ];
     }

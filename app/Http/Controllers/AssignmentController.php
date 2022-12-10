@@ -52,7 +52,7 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assignment $assignment)
+    public function update(StoreAssignmentRequest $request, Assignment $assignment)
     {
         $assignment->update($request->all());
     }

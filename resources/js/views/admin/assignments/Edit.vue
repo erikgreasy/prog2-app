@@ -1,27 +1,71 @@
 <template>
-    <div class="grid grid-cols-12 gap-8">
-        <AdminCard class="col-span-9">
-            <AssignmentForm @store-assignment="updateAssignment" />
+    <div>
+        <div class="flex justify-between items-center mb-5">
+            <h1 class="font-semibold text-2xl">Upraviť zadanie</h1>
 
-            <button class="text-red-600 mt-10" @click="deleteAssignment">Delete</button>
-        </AdminCard>
+            <div class="flex items-center gap-x-5">
+                <AppButton 
+                    v-if="assignment.slug" 
+                    :to="{name: 'assignments.show', params: {slug: assignment.slug}}"
+                    size="small"
+                    type="outline"
+                >Zobraziť</AppButton>
 
-        <AdminCard class="col-span-3">
-            Bocny panel
-        </AdminCard>
+                <AppButton @click="submitForm" size="small" button>Uložiť</AppButton>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-8">
+            <div class="col-span-9">
+                <AssignmentForm @submit-form="alert('daco')" :errors="errors" />
+            </div>
+    
+            <AdminCard class="col-span-3">
+                Bocny panel
+            </AdminCard>
+        </div>
     </div>
 </template>
 
 <script setup>
 import axios from 'axios'
-import { onMounted, provide, ref, toRaw } from 'vue';
+import { onMounted, provide, ref, toRaw, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import AppButton from '../../../components/AppButton.vue';
 import AssignmentForm from '../../../components/AssignmentForm.vue'
+import useEventsBus from '@/eventBus.js'
 
 const route = useRoute()
 const router = useRouter()
 
 const assignment = ref({})
+const errors = ref([])
+
+const { emit, bus } = useEventsBus()
+
+const componentEmits = defineEmits(['storeAssignment'])
+
+const submitForm = () => {
+    errors.value = {}
+
+    // emit event to get editor data
+    emit('storingAssignment')
+
+
+
+    // enjoy!
+}
+
+watch(() => bus.value.get('contentEditor'), async contentPromise => {
+    const outputData = await contentPromise[0]
+
+    assignment.value.content = outputData
+
+    // after receiving, emit event to send request
+    updateAssignment()
+})
+
+
 
 provide('assignment', assignment)
 
@@ -47,6 +91,14 @@ const updateAssignment = async () => {
             alert('success')
         }
     } catch(err) {
+        const res = err.response
+
+        if(res.status === 422) {
+            console.log(res)
+            errors.value = res.data.errors
+            return
+        }
+
         alert('Pri ukladaní nasatala chyba')
         console.error(err)
     }

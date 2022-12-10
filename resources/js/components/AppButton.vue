@@ -1,22 +1,17 @@
 <template>
-    <button v-if="button"
+    <component
+        :is="button ? 'button': 'router-link'"
         :class="{
             'bg-white text-primary hover:bg-primaryDark hover:text-white' : type == 'outline',
-            'bg-primary text-white hover:bg-primaryDark' : type == 'primary'
-        }" 
-        class=" border border-primary py-3 px-14 rounded-lg min-w-[200px] transition text-center"
+            'bg-primary text-white hover:bg-primaryDark' : type == 'primary',
+            'py-3 px-14 min-w-[200px]' : size == 'regular',
+            'py-2 px-8 text-sm min-w-[130px]' : size == 'small',
+        }"
+        :to="to ? to : ''"
+        class=" inline-block border border-primary rounded-lg  transition text-center"
     >
         <slot></slot>
-    </button>
-    <router-link v-else :to="to"
-        :class="{
-            'bg-white text-primary hover:bg-primaryDark hover:text-white' : type == 'outline',
-            'bg-primary text-white hover:bg-primaryDark' : type == 'primary'
-        }" 
-        class=" border border-primary py-3 px-14 rounded-lg min-w-[200px] transition text-center"
-    >
-        <slot></slot>
-    </router-link>
+    </component>
 </template>
 
 <script>
@@ -25,6 +20,10 @@ export default {
         type: {
             type: String,
             default: 'primary'
+        },
+        size: {
+            type: String,
+            default: 'regular'
         },
         button: {
             type: Boolean,

@@ -46,11 +46,11 @@ onMounted(() => {
 </template>
 
 <style>
-#editorjs h1 {
+#editorjs h2 {
     font-size: 30px !important;
 }
 
-#editorjs h2 {
+#editorjs h3 {
     font-size: 24px !important;
 }   
 

@@ -13,6 +13,8 @@ import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
 
 import auth from './middleware/auth.js';
+import admin from './middleware/admin';
+import teacher from './middleware/teacher';
 
 import Admin from './views/layouts/Admin.vue'
 import guest from './middleware/guest';
@@ -47,7 +49,7 @@ export default [
         component: AdminDashboard,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, teacher]
         }
     },
     {
@@ -56,7 +58,7 @@ export default [
         component: AdminAssignmentsIndex,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, teacher]
         }
     },
     {
@@ -65,7 +67,7 @@ export default [
         component: AdminAssignmentsEdit,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, teacher]
         }
     },
     {
@@ -74,7 +76,7 @@ export default [
         component: AdminAssignmentsCreate,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, teacher]
         }
     },
     {
@@ -83,7 +85,7 @@ export default [
         component: AdminUsersIndex,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, teacher]
         }
     },
     {
@@ -92,7 +94,7 @@ export default [
         component: AdminUsersEdit,
         meta: {
             layout: Admin,
-            middleware: [auth]
+            middleware: [auth, admin]
         }
     },
     {

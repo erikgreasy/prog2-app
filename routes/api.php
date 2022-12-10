@@ -21,8 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('assignments', AssignmentController::class)->except('index');
+    Route::group(['middleware' => ['teacher']], function() {
+        Route::apiResource('users', UserController::class);
+        Route::apiResource('assignments', AssignmentController::class)->except('index');
+    });
 });
 
 Route::get('assignments', [AssignmentController::class, 'index'])->name('assignments.index');

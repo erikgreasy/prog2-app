@@ -55,7 +55,8 @@ export default [
         name: 'admin.assignments.index',
         component: AdminAssignmentsIndex,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {
@@ -63,7 +64,8 @@ export default [
         name: 'admin.assignments.edit',
         component: AdminAssignmentsEdit,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {
@@ -71,7 +73,8 @@ export default [
         name: 'admin.assignments.create',
         component: AdminAssignmentsCreate,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {
@@ -79,7 +82,8 @@ export default [
         name: 'admin.users.index',
         component: AdminUsersIndex,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {
@@ -87,7 +91,8 @@ export default [
         name: 'admin.users.edit',
         component: AdminUsersEdit,
         meta: {
-            layout: Admin
+            layout: Admin,
+            middleware: [auth]
         }
     },
     {

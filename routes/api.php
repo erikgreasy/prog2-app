@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\AssignmentController;
 
 /*
@@ -21,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::post('/logout', LogoutController::class)->name('logout');
+
     Route::group(['middleware' => ['teacher']], function() {
         Route::apiResource('users', UserController::class);
         Route::apiResource('assignments', AssignmentController::class)->except('index');

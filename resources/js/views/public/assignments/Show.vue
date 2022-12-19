@@ -56,44 +56,11 @@
                 </ul>
             </nav>
             <Transition name="fade" mode="out-in">
-                <section v-if="currentSection == 'content'" class="grid grid-cols-4">
-                    <div class="border-r border-[#D1D1D1] pr-10">
-                        <aside class="sticky top-10">
-                            <nav>
-                                <ul class="grid gap-y-5">
-                                    <ContentNavItem v-for="section in mainSections" 
-                                        @set="activateHref" 
-                                        :href="section.slug" 
-                                        :is-active="(activeHref === section.slug)"
-                                    >
-                                        {{ section.title }}
-    
-                                        <template #subitems v-if="section.subItems.length">
-                                            <ContentNavSubItem
-                                                v-for="subsection in section.subItems" 
-                                                @set="activateHref" 
-                                                :href="subsection.slug" 
-                                                :is-active="(activeHref === subsection.slug)"
-                                            >
-                                                {{ subsection.title }}
-                                            </ContentNavSubItem>
-                                        </template>
-                                    </ContentNavItem>
-                                </ul>
-                            </nav>
-                        </aside>
-                    </div>
-                    <div class="col-span-3 pl-10">
-                        <ContentParser :content="asssignment.content" />
-                    </div>
-                </section>
-                <section v-else-if="currentSection == 'submission'" class="grid grid-cols-4">
-                    <button @click="submitAssignment">Odovzdať</button>
-                </section>
+                <ContentSection v-if="currentSection == 'content'" :assignment="asssignment" />
                 
-                <section v-else-if="currentSection == 'materials'" class="grid grid-cols-4">
-                    Materialy
-                </section>
+                <SubmissionSection v-else-if="currentSection == 'submission'" :assignment="asssignment" />
+                
+                <MaterialsSection v-else-if="currentSection == 'materials'" />
             </Transition>
         </main>
     </div>
@@ -101,17 +68,15 @@
 
 <script setup>
 import axios from 'axios';
-import ContentNavItem from '../../../components/public/assignments/ContentNavItem.vue';
-import ContentNavSubItem from '../../../components/public/assignments/ContentNavSubItem.vue';
-import ContentParser from '../../../components/public/assignments/ContentParser.vue';
-import slugify from 'slugify'
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import ContentSection from '@/components/public/assignments/ContentSection.vue';
+import MaterialsSection from '@/components/public/assignments/MaterialsSection.vue';
+import SubmissionSection from '@/components/public/assignments/SubmissionSection.vue';
 
 const route = useRoute()
 const asssignment = ref({})
 const currentSection = ref('content')
-const activeHref = ref('sekcia-1-a')
   
 const getAssignment = async () => {
     const res = await axios.get(`/api/assignments/slug/${route.params.slug}`);
@@ -122,45 +87,8 @@ const showSection = (sectionId) => {
     currentSection.value = sectionId
 }
 
-const activateHref = (hrefId) => {
-    activeHref.value = hrefId;
-}
-        
-const submitAssignment = async () => {
-    const res = await axios.post(`/api/assignments/${asssignment.value.id}/submit`)
-    console.log(res)
-}
-
 onMounted(() => {
     getAssignment()
-})
-
-
-const mainSections = computed(() => {
-    const headingBlocks = asssignment.value.content?.blocks.filter(block => {
-        return block.type === 'header'
-    })
-
-    const output = []
-
-    headingBlocks?.forEach(block => {
-        if(block.data.level === 2) {
-            output.push({
-                title: block.data.text,
-                slug: slugify(block.data.text.toLowerCase()),
-                subItems: []
-            })
-        } else {
-            const lastEl = output[output.length - 1]
-
-            lastEl.subItems.push({
-                title: block.data.text,
-                slug: slugify(block.data.text.toLowerCase()),
-            })
-        }
-    })
-
-    return output
 })
 </script>
 <style scoped>

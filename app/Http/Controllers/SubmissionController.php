@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Models\Assignment;
+use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use PhpParser\Node\Expr\Assign;
 
 class SubmissionController extends Controller
 {
@@ -18,5 +18,14 @@ class SubmissionController extends Controller
         })->with('submissions')->get();
 
         return $assignments;
+    }
+
+    public function show(User $user, Submission $submission)
+    {
+        if(auth()->user()->role === Role::STUDENT) {
+            abort(403);
+        }
+
+        return $submission;
     }
 }

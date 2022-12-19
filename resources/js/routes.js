@@ -11,6 +11,7 @@ import AdminDashboard from './views/admin/Dashboard.vue';
 import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
 import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
+import AdminUsersSubmissionsShow from '@/views/admin/submissions/Show.vue';
 
 import auth from './middleware/auth.js';
 import admin from './middleware/admin';
@@ -93,6 +94,15 @@ export default [
         path: '/admin/users/:userId/submissions',
         name: 'admin.users.submissions',
         component: AdminUsersSubmissionsIndex,
+        meta: {
+            layout: Admin,
+            middleware: [auth, admin]
+        }
+    },
+    {
+        path: '/admin/users/:userId/submissions/:id',
+        name: 'admin.users.submissions.show',
+        component: AdminUsersSubmissionsShow,
         meta: {
             layout: Admin,
             middleware: [auth, admin]

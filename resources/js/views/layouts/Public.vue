@@ -5,7 +5,7 @@
                 <!-- Logo -->
                 <AppLogo />
                 
-                <ul class="flex ml-auto gap-x-10">
+                <ul class="flex items-center ml-auto gap-x-10">
                     <NavbarItem route-name="home">
                         Home
                     </NavbarItem>
@@ -14,9 +14,13 @@
                         Zadania
                     </NavbarItem>
                     
-                    <NavbarItem route-name="admin.dashboard">
-                        Admin
-                    </NavbarItem>
+                    <AppButton v-if="!authStore.loggedIn" @click.prevent="openLogin" href="/login" size="small" raw>
+                        Prihlásiť sa
+                    </AppButton>
+
+                    <AppButton v-else @click="logout" size="small" button>
+                        Odhlásiť sa
+                    </AppButton>
                 </ul>
                 <!-- <AppButton :to="{name: 'login'}">
                     Prihlásenie
@@ -41,20 +45,14 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import AppButton from '../../components/AppButton.vue';
 import AppLogo from '../../components/AppLogo.vue';
 import NavbarItem from '../../components/NavbarItem.vue';
+import { useAuthStore } from '@/stores/auth.js'
+import { useAuth } from './../../composables/auth';
 
-export default {
-    components: {
-    AppLogo,
-    AppButton,
-    NavbarItem
-},
+const authStore = useAuthStore()
 
-    created() {
-        console.log('Public layout created')
-    }
-}
+const { logout, openLogin } = useAuth()
 </script>

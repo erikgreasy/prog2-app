@@ -1,7 +1,8 @@
 <?php
 
-use App\Events\TestEvent;
+use App\Enums\Role;
 use App\Models\User;
+use App\Events\TestEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,10 @@ Route::get('/auth/callback', function () {
 
     Auth::login($user);
 
+    if($user->role === Role::ADMIN->value || $user->role === Role::TEACHER->value) {
+        return redirect('/admin');
+    }
+
     return redirect('/');
 });
 
@@ -45,11 +50,9 @@ Route::get('/check', function() {
     dd(auth()->check());
 });
 
-Route::get('/logout', function() {
-    Auth::logout();
-
-    return redirect('/');
-});
+Route::get('/login', function() {
+    return response()->redirectTo('/auth/redirect');
+})->middleware('guest');
 
 Route::get('{any}', function() {
     return view('welcome');

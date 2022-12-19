@@ -8,7 +8,7 @@
                 </div>
     
                 <div class="flex gap-x-6 justify-center">
-                    <AppButton :to="{name: 'login'}">Prihlásenie</AppButton>
+                    <AppButton href="/login" @click="openLogin" raw>Prihlásenie</AppButton>
                     <AppButton :to="{name: 'assignments.index'}" type="outline">Zadania</AppButton>
                 </div>
             </div>
@@ -18,9 +18,7 @@
 
 <script setup>
 import AppButton from '../components/AppButton.vue';
+import { useAuth } from '../composables/auth';
 
+const { openLogin }  = useAuth()
 </script>
-
-<style>
-
-</style>

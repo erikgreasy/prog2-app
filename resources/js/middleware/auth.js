@@ -1,11 +1,13 @@
 import { useAuthStore } from './../stores/auth';
+import { useAuth } from '@/composables/auth.js';
 
 export default function auth({to, next, router}) {
     const store = useAuthStore()
 
-    if(to.name != 'login' && !store.loggedIn) {
-        console.log('redirect to login')
-        router.push('/login')
+    const { openLogin } = useAuth()
+
+    if(!store.loggedIn) {
+        openLogin()
     } else {
         return next()
     }

@@ -1,6 +1,5 @@
 import Home from './views/Home.vue';
 import About from './views/About.vue';
-import Login from './views/Login.vue';
 import Websocket from './views/Websocket.vue';
 import AdminAssignmentsIndex from './views/admin/assignments/Index.vue';
 import AdminAssignmentsEdit from './views/admin/assignments/Edit.vue';
@@ -20,14 +19,6 @@ import Admin from './views/layouts/Admin.vue'
 import guest from './middleware/guest';
 
 export default [
-    {
-        path: '/login',
-        name: 'login',
-        component: Login,
-        meta: {
-            middleware: [guest]
-        }
-    },
     {
         path: "/",
         name: "home",

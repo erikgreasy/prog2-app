@@ -29,7 +29,23 @@ export default {
             type: Boolean,
             default: false
         },
+        raw: {
+            type: Boolean,
+            default: false
+        },
         to: [Object, String]
+    },
+
+    computed: {
+        htmlEl() {
+            if(this.button) {
+                return 'button'
+            } else if(this.raw) {
+                return 'a'
+            } else {
+                return 'router-link'
+            }
+        }
     }
 }
 

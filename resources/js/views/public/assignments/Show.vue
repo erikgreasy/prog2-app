@@ -88,7 +88,7 @@
                     </div>
                 </section>
                 <section v-else-if="currentSection == 'submission'" class="grid grid-cols-4">
-                    Odovzdanie
+                    <button @click="submitAssignment">Odovzdať</button>
                 </section>
                 
                 <section v-else-if="currentSection == 'materials'" class="grid grid-cols-4">
@@ -126,6 +126,11 @@ export default {
         activateHref(hrefId) {
             console.log('aktivujem ' + hrefId)
             this.activeHref = hrefId;
+        },
+        
+        async submitAssignment() {
+            const res = await axios.post(`/api/assignments/${this.asssignment.id}/submit`)
+            console.log(res)
         }
     },
     mounted() {

@@ -10,6 +10,7 @@ import AssignmentsShow from './views/public/assignments/Show.vue';
 import AdminDashboard from './views/admin/Dashboard.vue';
 import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
+import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
 
 import auth from './middleware/auth.js';
 import admin from './middleware/admin';
@@ -83,6 +84,15 @@ export default [
         path: '/admin/users/:id/edit',
         name: 'admin.users.edit',
         component: AdminUsersEdit,
+        meta: {
+            layout: Admin,
+            middleware: [auth, admin]
+        }
+    },
+    {
+        path: '/admin/users/:userId/submissions',
+        name: 'admin.users.submissions',
+        component: AdminUsersSubmissionsIndex,
         meta: {
             layout: Admin,
             middleware: [auth, admin]

@@ -17,6 +17,11 @@
                                     {{ item.name }}
                                 </router-link>
                             </th>
+                            <td>
+                                <RouterLink :to="{name: 'admin.users.submissions', params: {userId: item.id}}">
+                                    Prehlad
+                                </RouterLink>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

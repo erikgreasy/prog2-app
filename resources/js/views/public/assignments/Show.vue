@@ -99,74 +99,69 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
 import ContentNavItem from '../../../components/public/assignments/ContentNavItem.vue';
 import ContentNavSubItem from '../../../components/public/assignments/ContentNavSubItem.vue';
 import ContentParser from '../../../components/public/assignments/ContentParser.vue';
 import slugify from 'slugify'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-export default {
-    data() {
-        return {
-            asssignment: {},
-            currentSection: "content",
-            activeHref: "sekcia-1-a"
-        };
-    },
-    methods: {
-        async getAssignment() {
-            const res = await axios.get(`/api/assignments/slug/${this.$route.params.slug}`);
-            this.asssignment = res.data;
-            console.log(res);
-        },
-        showSection(sectionId) {
-            this.currentSection = sectionId;
-        },
-        activateHref(hrefId) {
-            console.log('aktivujem ' + hrefId)
-            this.activeHref = hrefId;
-        },
-        
-        async submitAssignment() {
-            const res = await axios.post(`/api/assignments/${this.asssignment.id}/submit`)
-            console.log(res)
-        }
-    },
-    mounted() {
-        this.getAssignment();
-    },
-
-    computed: {
-        mainSections() {
-            const headingBlocks = this.asssignment.content?.blocks.filter(block => {
-                return block.type === 'header'
-            })
-
-            const output = []
-
-            headingBlocks?.forEach(block => {
-                if(block.data.level === 2) {
-                    output.push({
-                        title: block.data.text,
-                        slug: slugify(block.data.text.toLowerCase()),
-                        subItems: []
-                    })
-                } else {
-                    const lastEl = output[output.length - 1]
-
-                    lastEl.subItems.push({
-                        title: block.data.text,
-                        slug: slugify(block.data.text.toLowerCase()),
-                    })
-                }
-            })
-
-            return output
-        },
-    },
-    components: { ContentNavSubItem, ContentNavItem, ContentParser }
+const route = useRoute()
+const asssignment = ref({})
+const currentSection = ref('content')
+const activeHref = ref('sekcia-1-a')
+  
+const getAssignment = async () => {
+    const res = await axios.get(`/api/assignments/slug/${route.params.slug}`);
+    asssignment.value = res.data;
 }
+
+const showSection = (sectionId) => {
+    currentSection.value = sectionId
+}
+
+const activateHref = (hrefId) => {
+    activeHref.value = hrefId;
+}
+        
+const submitAssignment = async () => {
+    const res = await axios.post(`/api/assignments/${asssignment.value.id}/submit`)
+    console.log(res)
+}
+
+onMounted(() => {
+    getAssignment()
+})
+
+
+const mainSections = computed(() => {
+    const headingBlocks = asssignment.value.content?.blocks.filter(block => {
+        return block.type === 'header'
+    })
+
+    const output = []
+
+    headingBlocks?.forEach(block => {
+        if(block.data.level === 2) {
+            output.push({
+                title: block.data.text,
+                slug: slugify(block.data.text.toLowerCase()),
+                subItems: []
+            })
+        } else {
+            const lastEl = output[output.length - 1]
+
+            lastEl.subItems.push({
+                title: block.data.text,
+                slug: slugify(block.data.text.toLowerCase()),
+            })
+        }
+    })
+
+    return output
+})
 </script>
 <style scoped>
 .fade-enter-active,

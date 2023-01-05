@@ -37,42 +37,26 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
+import { ref, computed, onMounted } from 'vue'
 import PageHeader from '../../../components/PageHeader.vue';
 
-export default {
-    components: { PageHeader },
-    
-    data() {
-        return {
-            assignments: [],
-            search: '',
-        }
-    },
+const assignments = ref([])
+const search = ref('')
 
-    computed: {
-        filteredAssignments() {
-            return this.assignments.filter(item => {
-                return item.title.toLowerCase().includes(this.search.toLowerCase())
-            })
-        }
-    },
+const filteredAssignments = computed(() => {
+    return assignments.value.filter(item => {
+        return item.title.toLowerCase().includes(search.value.toLowerCase())
+    })
+})
 
-    methods: {
-        async fetchAssignments() {
-            const res = await axios.get('/api/assignments')
-            this.assignments = res.data
-        },
-
-        runSearch() {
-
-        }
-
-    },
-
-    mounted() {
-        this.fetchAssignments()
-    }
+const fetchAssignments = async () => {
+    const res = await axios.get('/api/assignments')
+    assignments.value = res.data
 }
+
+onMounted(() => {
+    fetchAssignments()
+})
 </script>

@@ -3,6 +3,8 @@
 use App\Enums\Role;
 use App\Models\User;
 use App\Events\TestEvent;
+use App\Http\Controllers\VcsAuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +43,10 @@ Route::get('/auth/callback', function () {
 
     return redirect('/');
 });
+
+Route::get('/connect-github', [VcsAuthController::class, 'redirect']);
+
+Route::get('/github-callback', [VcsAuthController::class, 'callback']);
 
 Route::post('/websocket-handler', function() {
     TestEvent::dispatch();

@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\AssignmentSubmissionController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\CurrentAssignmentController;
+use App\Http\Controllers\AssignmentSubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('assignments', [AssignmentController::class, 'index'])->name('assignments.index');
+Route::get('assignments/slug/{assignment:slug}', [AssignmentController::class, 'showBySlug'])->name('assignments.showBySlug');
+Route::get('/assignments/current', CurrentAssignmentController::class)->name('assignments.current');
+
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::post('/assignments/{assignment}/submit', AssignmentSubmissionController::class);
@@ -33,6 +38,3 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::apiResource('assignments', AssignmentController::class)->except('index');
     });
 });
-
-Route::get('assignments', [AssignmentController::class, 'index'])->name('assignments.index');
-Route::get('assignments/slug/{assignment:slug}', [AssignmentController::class, 'showBySlug'])->name('assignments.showBySlug');

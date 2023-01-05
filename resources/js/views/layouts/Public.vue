@@ -18,9 +18,10 @@
                         Prihlásiť sa
                     </AppButton>
 
-                    <AppButton v-else @click="logout" size="small" button>
-                        Odhlásiť sa
-                    </AppButton>
+
+                    <NavbarItem v-else route-name="myprofile">
+                        {{ authStore.user.name }}
+                    </NavbarItem>
                 </ul>
                 <!-- <AppButton :to="{name: 'login'}">
                     Prihlásenie

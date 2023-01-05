@@ -12,6 +12,7 @@ import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
 import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
 import AdminUsersSubmissionsShow from '@/views/admin/submissions/Show.vue';
+import Myprofile from '@/views/Myprofile.vue'
 
 import auth from './middleware/auth.js';
 import admin from './middleware/admin';
@@ -35,6 +36,14 @@ export default [
         path: '/zadania/:slug',
         name: 'assignments.show',
         component: AssignmentsShow
+    },
+    {
+        path: '/my-profile',
+        name: 'myprofile',
+        component: Myprofile,
+        meta: {
+            middleware: [auth]
+        }
     },
     {
         path: '/admin',

@@ -10,17 +10,11 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'excerpt',
-        'deadline',
-        'content',
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'content' => 'array',
-        'deadline' => 'datetime',
+        'deadline' => 'datetime:Y-m-d H:i:s',
     ];
 
     public function submissions(): HasMany

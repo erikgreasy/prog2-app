@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AssignmentStatus;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Models\Assignment;
 use Illuminate\Http\Request;
@@ -16,6 +17,11 @@ class AssignmentController extends Controller
     public function index()
     {
         return Assignment::latest()->get();
+    }
+
+    public function published()
+    {
+        return Assignment::where('status', AssignmentStatus::PUBLISH->value)->latest()->get();
     }
 
     /**

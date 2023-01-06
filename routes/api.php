@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('assignments', [AssignmentController::class, 'index'])->name('assignments.index');
+Route::get('assignments/published', [AssignmentController::class, 'published'])->name('assignments.published');
 Route::get('assignments/slug/{assignment:slug}', [AssignmentController::class, 'showBySlug'])->name('assignments.showBySlug');
 Route::get('/assignments/current', CurrentAssignmentController::class)->name('assignments.current');
 
@@ -39,7 +39,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['middleware' => ['teacher']], function() {
         Route::apiResource('/users/{user}/submissions', SubmissionController::class);
+        Route::apiResource('assignments', AssignmentController::class);
+    });
+
+    Route::group(['middleware' => ['admin']], function() {
         Route::apiResource('users', UserController::class);
-        Route::apiResource('assignments', AssignmentController::class)->except('index');
     });
 });

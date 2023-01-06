@@ -52,7 +52,7 @@ const filteredAssignments = computed(() => {
 })
 
 const fetchAssignments = async () => {
-    const res = await axios.get('/api/assignments')
+    const res = await axios.get('/api/assignments/published')
     assignments.value = res.data
 }
 

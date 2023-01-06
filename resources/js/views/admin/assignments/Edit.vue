@@ -21,7 +21,10 @@
             </div>
     
             <AdminCard class="col-span-3">
-                Bocny panel
+                <select v-model="assignment.status">
+                    <option value="publish">Publikované</option>
+                    <option value="draft">Koncept</option>
+                </select>
             </AdminCard>
         </div>
     </div>

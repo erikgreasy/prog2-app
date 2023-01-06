@@ -87,9 +87,24 @@ class AssignmentTest extends TestCase
         ]);
     }
 
+    public function test_all_assignments_endpoint_cannot_be_accessed_by_non_auth()
+    {
+        $this->getJson('/api/assignments')
+            ->assertStatus(401);
+    }
+        
+    public function test_all_assignments_endpoint_cannot_be_assigned_by_students()
+    {
+        Sanctum::actingAs(User::factory()->create(['role' => Role::STUDENT->value]));
+     
+        $this->getJson('/api/assignments')
+            ->assertStatus(403);
+    }
+
     public function test_published_assignments_can_be_fetched_by_everyone()
     {
-        $response = $this->getJson(route('assignments.index'));
+        $response = $this->getJson(route('assignments.published'));
+        
         $response->assertStatus(200);
     }
 

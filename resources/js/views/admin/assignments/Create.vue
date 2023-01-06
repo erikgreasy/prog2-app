@@ -1,7 +1,15 @@
 <template>
     <div>
+        <div class="flex justify-between items-center mb-5">
+            <h1 class="font-semibold text-2xl">Upraviť zadanie</h1>
+
+            <div class="flex items-center gap-x-5">
+                <AppButton @click="storeAssignment" size="small" button>Uložiť</AppButton>
+            </div>
+        </div>
+
         <AdminCard>
-            <AssignmentForm :assignment="assignment" @store-assignment="storeAssignment" />
+            <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
         </AdminCard>
         
     </div>
@@ -11,8 +19,9 @@
 import axios from 'axios'
 import AssignmentForm from '../../../components/AssignmentForm.vue'
 import AdminCard from '../../../components/AdminCard.vue'
+import AppButton from '@/components/AppButton.vue'
 import { useRouter } from 'vue-router'
-import { ref, toRaw, watch } from 'vue';
+import { ref, toRaw, watch, provide } from 'vue';
 import useEventsBus from '@/eventBus.js';
 
 const { emit, bus } = useEventsBus()
@@ -24,18 +33,28 @@ const assignment = ref({
     content: {}
 })
 
+const errors = ref([])
+
 const storeAssignment = async () => {
-    console.log('try to store following assignment')
+    // console.log('try to store following assignment')
 
-    // try {
-    //     const res = await axios.post('/api/assignments', assignment.value)
-    //     const newAssignment = res.data
+    try {
+        const res = await axios.post('/api/assignments', assignment.value)
+        const newAssignment = res.data
 
-    //     router.push({name: 'admin.assignments.edit', params: {id: newAssignment.id}})
-    // } catch(err) {
-    //     console.log(err)
-    //     console.log(err.response)
-    // }
+        router.push({name: 'admin.assignments.edit', params: {id: newAssignment.id}})
+    } catch(err) {
+        const res = err.response
+
+        if(res.status === 422) {
+            console.log(res)
+            errors.value = res.data.errors
+            return
+        }
+
+        alert('Pri ukladaní nasatala chyba')
+        console.error(err)
+    }
 }
 
 watch(() => bus.value.get('contentEditor'), async contentPromise => {
@@ -53,6 +72,8 @@ watch(() => bus.value.get('contentEditor'), async contentPromise => {
     // })
 
 })
+
+provide('assignment', assignment)
 
 </script>
 

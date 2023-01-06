@@ -8,6 +8,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\CurrentAssignmentController;
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\VcsController;
 
 /*
@@ -40,6 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::group(['middleware' => ['teacher']], function() {
         Route::apiResource('/users/{user}/submissions', SubmissionController::class);
         Route::apiResource('assignments', AssignmentController::class);
+        Route::apiResource('/students', StudentController::class)->except(['store', 'update', 'destroy']);
     });
 
     Route::group(['middleware' => ['admin']], function() {

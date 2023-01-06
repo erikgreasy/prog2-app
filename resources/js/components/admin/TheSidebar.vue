@@ -18,6 +18,10 @@ import AdminNavItem from '../../components/AdminNavItem.vue';
                 <AdminNavItem route-name="admin.users.index">
                     Používatelia
                 </AdminNavItem>
+               
+                <AdminNavItem route-name="admin.students.index">
+                    Študenti
+                </AdminNavItem>
             </ul>
         </div>
     </aside>

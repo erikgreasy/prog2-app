@@ -12,6 +12,8 @@ import AdminUsersIndex from './views/admin/users/Index.vue';
 import AdminUsersEdit from './views/admin/users/Edit.vue';
 import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
 import AdminUsersSubmissionsShow from '@/views/admin/submissions/Show.vue';
+import AdminStudentsIndex from '@/views/admin/students/Index.vue'
+import AdminStudentsShow from '@/views/admin/students/Show.vue'
 import Myprofile from '@/views/Myprofile.vue'
 
 import auth from './middleware/auth.js';
@@ -115,6 +117,24 @@ export default [
         meta: {
             layout: Admin,
             middleware: [auth, admin]
+        }
+    },
+    {
+        path: '/admin/students',
+        name: 'admin.students.index',
+        component: AdminStudentsIndex,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
+        path: '/admin/students/:id',
+        name: 'admin.students.show',
+        component: AdminStudentsShow,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
         }
     },
     {

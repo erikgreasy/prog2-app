@@ -2,10 +2,6 @@
 import { computed } from 'vue';
 
 defineProps({
-    type: {
-        type: String,
-        default: 'text'
-    },
     additionalClasses: {
         type: String,
         default: ''

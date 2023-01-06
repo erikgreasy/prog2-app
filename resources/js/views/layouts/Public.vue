@@ -26,22 +26,6 @@
                         {{ authStore.user.name }}
                     </NavbarItem>
                 </ul>
-                <!-- <AppButton :to="{name: 'login'}">
-                    Prihlásenie
-                </AppButton> -->
-                <!-- <ul v-if="store.loggedIn" class="ml-auto flex">
-                    <li>
-                        {{ store.user.name }}
-                    </li>
-                    <li>
-                        <a href="/logout">Logout</a>
-                    </li>
-                </ul>
-                <ul v-else class="ml-auto flex">
-                    <li>
-                        <router-link :to="{name: 'login'}">Login</router-link>
-                    </li>
-                </ul> -->
             </nav>
         </div>
 

@@ -18,6 +18,9 @@
                         Prihlásiť sa
                     </AppButton>
 
+                    <NavbarItem v-else-if="authStore.user.role === 'admin' || authStore.user.role === 'teacher'" route-name="admin.dashboard">
+                        {{ authStore.user.name }}
+                    </NavbarItem>
 
                     <NavbarItem v-else route-name="myprofile">
                         {{ authStore.user.name }}

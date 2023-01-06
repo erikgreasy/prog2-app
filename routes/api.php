@@ -8,6 +8,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\CurrentAssignmentController;
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\VcsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,10 @@ Route::get('/assignments/current', CurrentAssignmentController::class)->name('as
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::post('/assignments/{assignment}/submit', AssignmentSubmissionController::class);
+    
+    Route::post('/vcs/repos/store', [VcsController::class, 'store']);
+    Route::get('/vcs/repos/show', [VcsController::class, 'show']);
+    Route::get('/vcs/repos', [VcsController::class, 'index']);
 
     Route::group(['middleware' => ['teacher']], function() {
         Route::apiResource('/users/{user}/submissions', SubmissionController::class);

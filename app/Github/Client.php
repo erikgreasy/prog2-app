@@ -63,4 +63,13 @@ class Client
         $compileCmd = "gcc $repoPath/file01.c -o $repoPath/file01.exe";
         shell_exec($compileCmd);
     }
+
+    public function getRepos()
+    {
+        $res = Http::withHeaders([
+            'Authorization' => 'token ' . auth()->user()->github_access_token
+        ])->get('https://api.github.com/user/repos?per_page=100');
+
+        return $res->json();
+    }
 }

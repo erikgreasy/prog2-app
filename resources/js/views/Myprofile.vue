@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import PageHeader from '@/components/PageHeader.vue';
 import { useAuthStore } from '@/stores/auth';
+import VcsSection from '@/components/public/my-profile/VcsSection.vue'
 
 const authStore = useAuthStore()
 const currentAssignment = ref(null)
@@ -60,17 +61,7 @@ onMounted(async () => {
 
             <hr>
 
-            <section>
-                <h2 class="font-extrabold text-2xl">
-                    github
-                </h2>
-
-                <a v-if="!authStore.user.github_access_token" href="/connect-github">Connect</a>
-
-                <select v-else>
-                    
-                </select>
-            </section>
+            <VcsSection />
         </div>
     </div>
 </template>

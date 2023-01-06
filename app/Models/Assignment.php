@@ -19,7 +19,8 @@ class Assignment extends Model
     ];
 
     protected $casts = [
-        'content' => 'array'
+        'content' => 'array',
+        'deadline' => 'datetime',
     ];
 
     public function submissions(): HasMany

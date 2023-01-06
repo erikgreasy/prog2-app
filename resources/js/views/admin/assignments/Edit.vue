@@ -5,8 +5,8 @@
 
             <div class="flex items-center gap-x-5">
                 <AppButton 
-                    v-if="assignment.slug" 
-                    :to="{name: 'assignments.show', params: {slug: assignment.slug}}"
+                    v-if="realSlug" 
+                    :to="{name: 'assignments.show', params: {slug: realSlug}}"
                     size="small"
                     type="outline"
                 >Zobraziť</AppButton>
@@ -40,6 +40,7 @@ const router = useRouter()
 
 const assignment = ref({})
 const errors = ref([])
+const realSlug = ref(null)
 
 const { emit, bus } = useEventsBus()
 
@@ -72,6 +73,7 @@ provide('assignment', assignment)
 const getAssignment = async () => {
     const res = await axios.get(`/api/assignments/${route.params.id}`)
     assignment.value = res.data
+    realSlug.value = res.data.slug
 }
 
 const deleteAssignment = async () => {
@@ -89,6 +91,7 @@ const updateAssignment = async () => {
         
         if(res.status === 200) {
             alert('success')
+            realSlug.value = assignment.value.slug
         }
     } catch(err) {
         const res = err.response

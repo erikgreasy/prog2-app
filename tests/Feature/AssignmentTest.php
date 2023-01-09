@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AssignmentStatus;
 use App\Enums\Role;
 use Tests\TestCase;
 use App\Models\User;
@@ -110,9 +111,21 @@ class AssignmentTest extends TestCase
 
     public function test_published_assignment_detail_can_be_fetched_by_everyone()
     {
-        $assignment = Assignment::factory()->create();
+        $assignment = Assignment::factory()->create([
+            'status' => AssignmentStatus::PUBLISH->value
+        ]);
 
         $response = $this->getJson(route('assignments.showBySlug', $assignment->slug));
         $response->assertStatus(200);
+    }
+
+    public function test_draft_assignment_detail_fetched_by_slug_returns_404 ()
+    {
+        $assignment = Assignment::factory()->create([
+            'status' => AssignmentStatus::DRAFT->value
+        ]);
+
+        $this->getJson("/api/assignments/slug/{$assignment->slug}")
+            ->assertNotFound();
     }
 }

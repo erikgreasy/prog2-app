@@ -25,6 +25,8 @@
                     <NavbarItem v-else route-name="myprofile">
                         {{ authStore.user.name }}
                     </NavbarItem>
+
+                    <a href="/login-dev">Login dev</a>
                 </ul>
             </nav>
         </div>

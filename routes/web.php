@@ -60,6 +60,14 @@ Route::get('/login', function() {
     return response()->redirectTo('/auth/redirect');
 })->middleware('guest');
 
+Route::get('/login-dev', function() {
+    Auth::login(
+        User::where('role', Role::ADMIN->value)->first()
+    );
+
+    return redirect('/');
+});
+
 Route::get('{any}', function() {
     return view('welcome');
 })->where('any', '^(?!api).*');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AssignmentStatus;
+use App\Enums\Role;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Models\Assignment;
 use Illuminate\Http\Request;
@@ -48,7 +49,19 @@ class AssignmentController extends Controller
 
     public function showBySlug(Assignment $assignment)
     {
-        abort_if($assignment->status !== AssignmentStatus::PUBLISH->value, 404);
+        if(
+            $assignment->status !== AssignmentStatus::PUBLISH->value &&
+            ! auth()->check()
+        ) {
+            abort(404);
+        }
+
+        if(
+            $assignment->status !== AssignmentStatus::PUBLISH->value &&
+            auth()->user()->role === Role::STUDENT->value
+        ) {
+            abort(404);
+        }
 
         return $assignment;
     }

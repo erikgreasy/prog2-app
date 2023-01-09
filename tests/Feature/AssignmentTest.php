@@ -109,7 +109,7 @@ class AssignmentTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_published_assignment_detail_can_be_fetched_by_everyone()
+    public function test_published_assignment_detail_can_be_fetched_by_slug_by_everyone()
     {
         $assignment = Assignment::factory()->create([
             'status' => AssignmentStatus::PUBLISH->value
@@ -119,7 +119,7 @@ class AssignmentTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_draft_assignment_detail_fetched_by_slug_returns_404 ()
+    public function test_draft_assignment_detail_cannot_be_fetched_by_slug_by_non_auth ()
     {
         $assignment = Assignment::factory()->create([
             'status' => AssignmentStatus::DRAFT->value
@@ -127,5 +127,43 @@ class AssignmentTest extends TestCase
 
         $this->getJson("/api/assignments/slug/{$assignment->slug}")
             ->assertNotFound();
+    }
+
+    public function test_draft_assignment_detail_cannot_be_fetched_by_slug_by_student ()
+    {
+        Sanctum::actingAs(User::factory()->create(['role' => Role::STUDENT->value]));
+        
+        $assignment = Assignment::factory()->create([
+            'status' => AssignmentStatus::DRAFT->value
+        ]);
+
+        $this->getJson("/api/assignments/slug/{$assignment->slug}")
+            ->assertNotFound();
+    }
+
+    public function test_draft_assignment_detail_can_be_fetched_by_slug_by_teacher ()
+    {
+        Sanctum::actingAs(User::factory()->create(['role' => Role::TEACHER->value]));
+        
+        $assignment = Assignment::factory()->create([
+            'status' => AssignmentStatus::DRAFT->value
+        ]);
+
+        $this->getJson("/api/assignments/slug/{$assignment->slug}")
+            ->assertSuccessful()
+            ->assertJson($assignment->toArray());
+    }
+
+    public function test_draft_assignment_detail_can_be_fetched_by_slug_by_admin ()
+    {
+        Sanctum::actingAs(User::factory()->create(['role' => Role::ADMIN->value]));
+        
+        $assignment = Assignment::factory()->create([
+            'status' => AssignmentStatus::DRAFT->value
+        ]);
+
+        $this->getJson("/api/assignments/slug/{$assignment->slug}")
+            ->assertSuccessful()
+            ->assertJson($assignment->toArray());
     }
 }

@@ -48,6 +48,8 @@ class AssignmentController extends Controller
 
     public function showBySlug(Assignment $assignment)
     {
+        abort_if($assignment->status !== AssignmentStatus::PUBLISH->value, 404);
+
         return $assignment;
     }
 

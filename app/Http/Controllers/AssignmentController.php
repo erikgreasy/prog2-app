@@ -50,14 +50,14 @@ class AssignmentController extends Controller
     public function showBySlug(Assignment $assignment)
     {
         if(
-            $assignment->status !== AssignmentStatus::PUBLISH->value &&
+            ! $assignment->isPublished() &&
             ! auth()->check()
         ) {
             abort(404);
         }
 
         if(
-            $assignment->status !== AssignmentStatus::PUBLISH->value &&
+            ! $assignment->isPublished() &&
             auth()->user()->role === Role::STUDENT->value
         ) {
             abort(404);

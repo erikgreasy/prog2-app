@@ -1,19 +1,15 @@
 <template>
     <div>
-        <div class="flex justify-between items-center mb-5">
-            <h1 class="font-semibold text-2xl">Upraviť zadanie</h1>
+        <PageHeader title="Upraviť zadanie">
+            <AppButton 
+                v-if="realSlug" 
+                :to="{name: 'assignments.show', params: {slug: realSlug}}"
+                size="small"
+                type="outline"
+            >Zobraziť</AppButton>
 
-            <div class="flex items-center gap-x-5">
-                <AppButton 
-                    v-if="realSlug" 
-                    :to="{name: 'assignments.show', params: {slug: realSlug}}"
-                    size="small"
-                    type="outline"
-                >Zobraziť</AppButton>
-
-                <AppButton @click="submitForm" size="small" button>Uložiť</AppButton>
-            </div>
-        </div>
+            <AppButton @click="submitForm" size="small" button>Uložiť</AppButton>
+        </PageHeader>
 
         <div class="grid grid-cols-12 gap-8">
             <div class="col-span-9">
@@ -37,6 +33,7 @@ import { useRoute, useRouter } from 'vue-router';
 import AppButton from '../../../components/AppButton.vue';
 import AssignmentForm from '../../../components/AssignmentForm.vue'
 import useEventsBus from '@/eventBus.js'
+import PageHeader from '@/components/admin/PageHeader.vue';
 
 const route = useRoute()
 const router = useRouter()

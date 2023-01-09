@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import PageHeader from '@/components/admin/PageHeader.vue';
 
 const users = ref([])
 
@@ -16,6 +17,8 @@ onMounted(() => {
 
 <template>
     <div>
+        <PageHeader title="Študenti" />
+        
         <AdminCard>
             <div class="overflow-x-auto relative shadow">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

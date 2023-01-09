@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
+import PageHeader from '@/components/admin/PageHeader.vue';
 
 const route = useRoute()
 const student = ref(null)
@@ -19,6 +20,8 @@ onMounted(async () => {
 
 <template>
     <div>
+        <PageHeader title="Detail študenta" />
+        
         {{ student }}
     </div>
 </template>

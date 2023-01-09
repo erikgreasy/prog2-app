@@ -1,4 +1,5 @@
 <script setup>
+import PageHeader from '@/components/admin/PageHeader.vue';
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
@@ -17,6 +18,8 @@ onMounted(() => {
 
 <template>
     <div>
+        <PageHeader title="Používatelia" />
+        
         <AdminCard>
             <div class="overflow-x-auto relative shadow">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -25,19 +28,20 @@ onMounted(() => {
                             <th scope="col" class="py-3 px-6">
                                 Používateľ
                             </th>
+                            <th scope="col" class="py-3 px-6">
+                                Rola
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="item in users" :key="item.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <router-link :to="{name: 'admin.users.edit', params: {id: item.id}}">
                                     {{ item.name }}
                                 </router-link>
                             </th>
-                            <td>
-                                <RouterLink :to="{name: 'admin.users.submissions', params: {userId: item.id}}">
-                                    Prehlad
-                                </RouterLink>
+                            <td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ item.role }}
                             </td>
                         </tr>
                     </tbody>

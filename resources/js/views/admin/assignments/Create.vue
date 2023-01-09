@@ -1,17 +1,12 @@
 <template>
     <div>
-        <div class="flex justify-between items-center mb-5">
-            <h1 class="font-semibold text-2xl">Upraviť zadanie</h1>
-
-            <div class="flex items-center gap-x-5">
-                <AppButton @click="storeAssignment" size="small" button>Uložiť</AppButton>
-            </div>
-        </div>
+        <PageHeader title="Upraviť zadanie">
+            <AppButton @click="storeAssignment" size="small" button>Uložiť</AppButton>
+        </PageHeader>
 
         <AdminCard>
             <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
         </AdminCard>
-        
     </div>
 </template>
 
@@ -23,6 +18,7 @@ import AppButton from '@/components/AppButton.vue'
 import { useRouter } from 'vue-router'
 import { ref, toRaw, watch, provide } from 'vue';
 import useEventsBus from '@/eventBus.js';
+import PageHeader from '@/components/admin/PageHeader.vue'
 
 const { emit, bus } = useEventsBus()
 const router = useRouter()

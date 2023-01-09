@@ -1,17 +1,13 @@
 <template>
     <div>
-        <div class="flex justify-between items-center mb-5">
-            <h1 class="font-semibold text-2xl">Zadania</h1>
-
-            <div>
-                <AppButton 
+        <PageHeader title="Zadania">
+            <AppButton 
                     :to="{name: 'admin.assignments.create'}"
                     size="small"
                 >
                     Nové zadanie
                 </AppButton>
-            </div>
-        </div>
+        </PageHeader>
 
         <div class="overflow-x-auto relative shadow">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -43,6 +39,7 @@
 </template>
 
 <script setup>
+import PageHeader from '@/components/admin/PageHeader.vue';
 import axios from 'axios'
 import { onMounted, ref } from 'vue';
 import AppButton from '../../../components/AppButton.vue';

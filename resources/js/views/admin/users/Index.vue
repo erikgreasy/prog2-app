@@ -1,3 +1,20 @@
+<script setup>
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
+
+const users = ref([])
+
+const getUsers = async () => {
+    const res = await axios.get('/api/users')
+    console.log(res)
+    users.value = res.data
+}
+
+onMounted(() => {
+    getUsers()
+})
+</script>
+
 <template>
     <div>
         <AdminCard>
@@ -6,7 +23,7 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="py-3 px-6">
-                                Názov zadania
+                                Používateľ
                             </th>
                         </tr>
                     </thead>
@@ -29,31 +46,3 @@
         </AdminCard>
     </div>
 </template>
-
-<script>
-import axios from 'axios'
-
-export default {
-    data() {
-        return {
-            users: []
-        }
-    },
-
-    methods: {
-        async getUsers() {
-            const res = await axios.get('/api/users')
-            console.log(res)
-            this.users = res.data
-        }
-    },
-    
-    mounted() {
-        this.getUsers()
-    }
-}
-</script>
-
-<style>
-
-</style>

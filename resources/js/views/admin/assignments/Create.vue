@@ -1,15 +1,3 @@
-<template>
-    <div>
-        <PageHeader title="Upraviť zadanie">
-            <AppButton @click="storeAssignment" size="small" button>Uložiť</AppButton>
-        </PageHeader>
-
-        <AdminCard>
-            <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
-        </AdminCard>
-    </div>
-</template>
-
 <script setup>
 import axios from 'axios'
 import AssignmentForm from '../../../components/AssignmentForm.vue'
@@ -31,7 +19,12 @@ const assignment = ref({
 
 const errors = ref([])
 
-const storeAssignment = async () => {
+const storeAsDraft = () => {
+    assignment.value.status = 'draft'
+    store()
+}
+
+const store = async () => {
     // console.log('try to store following assignment')
 
     try {
@@ -73,6 +66,15 @@ provide('assignment', assignment)
 
 </script>
 
-<style>
+<template>
+    <div>
+        <PageHeader title="Upraviť zadanie">
+            <AppButton @click="storeAsDraft" size="small" type="outline" button>Uložiť ako koncept</AppButton>
+            <AppButton @click="store" size="small" button>Publikovať</AppButton>
+        </PageHeader>
 
-</style>
+        <AdminCard>
+            <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
+        </AdminCard>
+    </div>
+</template>

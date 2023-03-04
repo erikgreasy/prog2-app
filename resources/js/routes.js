@@ -14,7 +14,13 @@ import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
 import AdminUsersSubmissionsShow from '@/views/admin/submissions/Show.vue';
 import AdminStudentsIndex from '@/views/admin/students/Index.vue'
 import AdminStudentsShow from '@/views/admin/students/Show.vue'
+import AdminAssignmentTestsIndex from '@/views/admin/assignment-tests/Index.vue'
+import AdminAssignmentTestsCreate from '@/views/admin/assignment-tests/Create.vue'
+import AdminAssignmentTestsEdit from '@/views/admin/assignment-tests/Edit.vue'
+import AdminAssignmentTestsShow from '@/views/admin/assignment-tests/Show.vue'
 import Myprofile from '@/views/Myprofile.vue'
+import AssignmentsSubmissionsShow from '@/views/public/assignments-submissions/Show.vue'
+import Login from '@/views/Login.vue'
 
 import auth from './middleware/auth.js';
 import admin from './middleware/admin';
@@ -38,6 +44,11 @@ export default [
         path: '/zadania/:slug',
         name: 'assignments.show',
         component: AssignmentsShow
+    },
+    {
+        path: '/zadania/:slug/odovzdania/:index',
+        name: 'assignments.submissions.show',
+        component: AssignmentsSubmissionsShow,
     },
     {
         path: '/my-profile',
@@ -84,12 +95,48 @@ export default [
         }
     },
     {
+        path: "/admin/assignments/:id/tests",
+        name: 'admin.assignment-tests.index',
+        component: AdminAssignmentTestsIndex,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
+        path: "/admin/assignments/:id/tests/create",
+        name: 'admin.assignment-tests.create',
+        component: AdminAssignmentTestsCreate,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
+        path: "/admin/assignments/:assignment_id/tests/:test_id",
+        name: 'admin.assignment-tests.show',
+        component: AdminAssignmentTestsShow,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
+        path: "/admin/assignments/:assignment_id/tests/:test_id/edit",
+        name: 'admin.assignment-tests.edit',
+        component: AdminAssignmentTestsEdit,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
         path: '/admin/users',
         name: 'admin.users.index',
         component: AdminUsersIndex,
         meta: {
             layout: Admin,
-            middleware: [auth, teacher]
+            middleware: [auth, admin]
         }
     },
     {
@@ -136,6 +183,11 @@ export default [
             layout: Admin,
             middleware: [auth, teacher]
         }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
     },
     {
         path: "/about",

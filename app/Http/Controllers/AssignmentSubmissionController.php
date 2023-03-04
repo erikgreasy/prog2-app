@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class AssignmentSubmissionController extends Controller
 {
-    public function __invoke(Request $request, Assignment $assignment)
+    public function index(Assignment $assignment)
     {
-        // check if assignment can be submitted by user
-        
-        // fetch code
+        return $assignment->submissions()->where('user_id', auth()->id())->get();
+    }
 
-        // send it to tester
-
-        // store results
-        return auth()->user()->submissions()->create([
-            'assignment_id' => $assignment->id,
-            'points' => 10,
-            'report' => '',
-            'ip' => $request->ip(),
-        ]);
+    public function show(Assignment $assignment, int $submissionIndex)
+    {
+        return $assignment
+            ->submissions()
+            ->where('user_id', auth()->id())
+            ->skip($submissionIndex - 1)
+            ->firstOrFail();
     }
 }

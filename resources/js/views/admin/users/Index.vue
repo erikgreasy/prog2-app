@@ -1,7 +1,11 @@
 <script setup>
+import AdminTable from '@/components/admin/AdminTable.vue';
 import PageHeader from '@/components/admin/PageHeader.vue';
+import TableCell from '@/components/admin/TableCell.vue';
+import TableHead from '@/components/admin/TableHead.vue';
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import TableRow from '../TableRow.vue';
 
 const users = ref([])
 
@@ -20,33 +24,19 @@ onMounted(() => {
     <div>
         <PageHeader title="Používatelia" />
         
-        <AdminCard>
-            <div class="overflow-x-auto relative shadow">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="py-3 px-6">
-                                Používateľ
-                            </th>
-                            <th scope="col" class="py-3 px-6">
-                                Rola
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in users" :key="item.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <router-link :to="{name: 'admin.users.edit', params: {id: item.id}}">
-                                    {{ item.name }}
-                                </router-link>
-                            </th>
-                            <td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ item.role }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </AdminCard>
+        <AdminTable>
+            <TableHead :head="['Používateľ', 'Rola']"></TableHead>
+
+            <TableRow v-for="item in users" :key="item.id">
+                <TableCell>
+                    <router-link :to="{name: 'admin.users.edit', params: {id: item.id}}" class="font-semibold text-primary">
+                        {{ item.name }}
+                    </router-link>
+                </TableCell>
+                <TableCell>
+                    {{ item.role }}
+                </TableCell>
+            </TableRow>
+        </AdminTable>
     </div>
 </template>

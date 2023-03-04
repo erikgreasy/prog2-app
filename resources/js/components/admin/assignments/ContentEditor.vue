@@ -1,13 +1,21 @@
 <script setup>
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
+import ImageTool from '@editorjs/image';
 import { inject, onMounted, watch } from 'vue';
 import useEventsBus from '@/eventBus.js';
+import List from '@editorjs/list';
+import NestedList from '@editorjs/nested-list';
+import InlineCode from '@editorjs/inline-code'
+import CodeTool from '@editorjs/code'
 
 const { bus, emit } = useEventsBus()
 
 let editor = null
 
+const props = defineProps({
+    name: String,
+})
 
 watch(() => bus.value.get('storingAssignment'), () => {
     console.log('get storing evenet in editor, lets parse the content')
@@ -25,11 +33,47 @@ const assignment = inject('assignment')
 onMounted(() => {
 
     editor = new EditorJS({
+        holder: `editor-${props.name}`,
         tools: {
+            list: {
+                class: NestedList,
+                inlineToolbar: true,
+                config: {
+                    defaultStyle: 'unordered'
+                }
+            },
             header: {
                 class: Header,
                 config: {
                     levels: [2, 3],
+                }
+            },
+            code: CodeTool,
+            inlineCode: {
+                class: InlineCode,
+                shortcut: 'CMD+SHIFT+M',
+            },
+            image: {
+                class: ImageTool,
+                config: {
+                    uploader: {
+                        async uploadByFile(file) {
+                            const formData = new FormData()
+                            formData.append('file', file)
+
+                            const res = await axios.post('/api/upload-file', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+
+                            return res.data
+                        }
+                    }
+                    // endpoints: {
+                    //     byFile: '/api/upload-file', // Your backend file uploader endpoint
+                    //     byUrl: '/storage', // Your endpoint that provides uploading by Url
+                    // }
                 }
             }
         },
@@ -41,16 +85,16 @@ onMounted(() => {
 
 <template>
     <div class="bg-gray-50 rounded-lg px-5 py-2 border border-gray-300">
-        <div id="editorjs"></div>
+        <div :id="`editor-${name}`" class="editorjs-editor"></div>
     </div>
 </template>
 
 <style>
-#editorjs h2 {
+.editorjs-editor h2 {
     font-size: 30px !important;
 }
 
-#editorjs h3 {
+.editorjs-editor h3 {
     font-size: 24px !important;
 }   
 

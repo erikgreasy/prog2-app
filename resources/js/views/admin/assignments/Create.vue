@@ -7,6 +7,11 @@ import { useRouter } from 'vue-router'
 import { ref, toRaw, watch, provide } from 'vue';
 import useEventsBus from '@/eventBus.js';
 import PageHeader from '@/components/admin/PageHeader.vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import AppInput from '@/components/admin/forms/AppInput.vue';
+import InputGroup from '@/components/admin/forms/InputGroup.vue';
+import InputError from '@/components/admin/forms/InputError.vue';
+import InputWithError from '@/components/admin/forms/InputWithError.vue';
 
 const { emit, bus } = useEventsBus()
 const router = useRouter()
@@ -14,10 +19,13 @@ const router = useRouter()
 const assignment = ref({
     title: '',
     deadline: '',
-    content: {}
+    content: {},
+    materials: [],
 })
 
 const errors = ref([])
+
+const notificationsStore = useNotificationsStore()
 
 const storeAsDraft = () => {
     assignment.value.status = 'draft'
@@ -31,6 +39,8 @@ const store = async () => {
         const res = await axios.post('/api/assignments', assignment.value)
         const newAssignment = res.data
 
+        notificationsStore.addNotification('Úspešne vytvorené')
+
         router.push({name: 'admin.assignments.edit', params: {id: newAssignment.id}})
     } catch(err) {
         const res = err.response
@@ -38,6 +48,9 @@ const store = async () => {
         if(res.status === 422) {
             console.log(res)
             errors.value = res.data.errors
+
+            notificationsStore.addNotification('Formulár obsahuje chyby', 'error')
+
             return
         }
 
@@ -73,8 +86,16 @@ provide('assignment', assignment)
             <AppButton @click="store" size="small" button>Publikovať</AppButton>
         </PageHeader>
 
-        <AdminCard>
-            <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
-        </AdminCard>
+        <div class="grid grid-cols-12 gap-8 items-start">
+            <div class="col-span-9">
+                <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
+            </div>
+    
+            <AdminCard class="col-span-3">
+                <InputWithError label="Body:" :errors="errors?.points">
+                    <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
+                </InputWithError>
+            </AdminCard>
+        </div>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="assignment">
         <PageHeader title="Upraviť zadanie">
             <AppButton 
                 v-if="realSlug" 
@@ -8,19 +8,29 @@
                 type="outline"
             >Zobraziť</AppButton>
 
-            <AppButton @click="submitForm" size="small" button>Uložiť</AppButton>
+            <AppButton :to="{name: 'admin.assignment-tests.index', id: assignment.id}" size="small" type="outline">
+                Testy
+            </AppButton>
+
+            <AppButton @click="submitForm" size="small" button>Aktualizovať</AppButton>
         </PageHeader>
 
-        <div class="grid grid-cols-12 gap-8">
+        <div class="grid grid-cols-12 gap-8 items-start">
             <div class="col-span-9">
                 <AssignmentForm @submit-form="alert('daco')" :errors="errors" />
             </div>
     
             <AdminCard class="col-span-3">
-                <select v-model="assignment.status">
+                <InputWithError label="Body:" :errors="errors?.points">
+                    <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
+                </InputWithError>
+                
+                <AppSelect v-model="assignment.status">
                     <option value="publish">Publikované</option>
                     <option value="draft">Koncept</option>
-                </select>
+                </AppSelect>
+                <!-- <select v-model="assignment.status"> -->
+                <!-- </select> -->
             </AdminCard>
         </div>
     </div>
@@ -34,11 +44,22 @@ import AppButton from '../../../components/AppButton.vue';
 import AssignmentForm from '../../../components/AssignmentForm.vue'
 import useEventsBus from '@/eventBus.js'
 import PageHeader from '@/components/admin/PageHeader.vue';
+import { useAssignments } from '@/composables/assignments';
+import ContentEditor from '@/components/admin/assignments/ContentEditor.vue';
+import { useNotificationsStore } from '@/stores/notifications';
+import AppInput from '@/components/admin/forms/AppInput.vue';
+import InputGroup from '@/components/admin/forms/InputGroup.vue';
+import InputError from '@/components/admin/forms/InputError.vue';
+import InputWithError from '@/components/admin/forms/InputWithError.vue';
+import AppSelect from '@/components/admin/forms/AppSelect.vue';
+
 
 const route = useRoute()
 const router = useRouter()
 
-const assignment = ref({})
+const notificationsStore = useNotificationsStore()
+
+// const assignment = ref({})
 const errors = ref([])
 const realSlug = ref(null)
 
@@ -68,13 +89,10 @@ watch(() => bus.value.get('contentEditor'), async contentPromise => {
 
 
 
-provide('assignment', assignment)
 
-const getAssignment = async () => {
-    const res = await axios.get(`/api/assignments/${route.params.id}`)
-    assignment.value = res.data
-    realSlug.value = res.data.slug
-}
+const { getAssignment, assignment } = useAssignments()
+
+provide('assignment', assignment)
 
 const deleteAssignment = async () => {
     const res = await axios.delete(`/api/assignments/${route.params.id}`)
@@ -90,8 +108,8 @@ const updateAssignment = async () => {
         console.log(res)
         
         if(res.status === 200) {
-            alert('success')
             realSlug.value = assignment.value.slug
+            notificationsStore.addNotification('Úspešne aktualizované')
         }
     } catch(err) {
         const res = err.response
@@ -99,6 +117,9 @@ const updateAssignment = async () => {
         if(res.status === 422) {
             console.log(res)
             errors.value = res.data.errors
+
+            notificationsStore.addNotification('Formulár obsahuje chyby!', 'error')
+
             return
         }
 
@@ -107,11 +128,9 @@ const updateAssignment = async () => {
     }
 }
 
-onMounted(() => {
-    getAssignment()
+
+onMounted(async () => {
+    await getAssignment()
+    realSlug.value = assignment.value.slug
 })
 </script>
-
-<style>
-
-</style>

@@ -17,7 +17,7 @@ const activateHref = (hrefId) => {
 }
 
 const mainSections = computed(() => {
-    const headingBlocks = props.assignment?.content?.blocks.filter(block => {
+    const headingBlocks = props.assignment?.content?.blocks?.filter(block => {
         return block.type === 'header'
     })
 

@@ -2,14 +2,20 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VcsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TestCaseController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\UploadFileController;
+use App\Http\Controllers\TestScenarioController;
+use App\Http\Controllers\FulltextSearchController;
 use App\Http\Controllers\CurrentAssignmentController;
 use App\Http\Controllers\AssignmentSubmissionController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\VcsController;
+use App\Http\Controllers\VcsAssignmentSubmissionController;
+use App\Http\Controllers\ManualAssignmentSubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,16 +38,33 @@ Route::get('/assignments/current', CurrentAssignmentController::class)->name('as
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
-    Route::post('/assignments/{assignment}/submit', AssignmentSubmissionController::class);
+    Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
+    Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class);
+
+
+    // SUBMISSIONS
+    Route::get('/assignments/{assignment}/submissions', [AssignmentSubmissionController::class, 'index']);
+    Route::get('/assignments/{assignment}/submissions/{submissionIndex}', [AssignmentSubmissionController::class, 'show']);
     
     Route::post('/vcs/repos/store', [VcsController::class, 'store']);
     Route::get('/vcs/repos/show', [VcsController::class, 'show']);
     Route::get('/vcs/repos', [VcsController::class, 'index']);
 
+    Route::post('/upload-file', UploadFileController::class);
+
     Route::group(['middleware' => ['teacher']], function() {
         Route::apiResource('/users/{user}/submissions', SubmissionController::class);
+        Route::get('assignments/{assignment}/tests', [TestScenarioController::class, 'index']);
+        Route::get('assignments/{assignment}/tests/{test}', [TestScenarioController::class, 'show']);
+        Route::put('assignments/{assignment}/tests/{test}', [TestScenarioController::class, 'update']);
+        Route::delete('assignments/{assignment}/tests/{scenario}', [TestScenarioController::class, 'destroy']);
+        Route::post('assignments/{assignment}/tests', [TestScenarioController::class, 'store']);
+
+        Route::resource('assignments/{assignment}/tests/{test}/cases', TestCaseController::class);
+        
         Route::apiResource('assignments', AssignmentController::class);
         Route::apiResource('/students', StudentController::class)->except(['store', 'update', 'destroy']);
+        Route::get('/fulltext-search', FulltextSearchController::class);
     });
 
     Route::group(['middleware' => ['admin']], function() {

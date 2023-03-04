@@ -19,7 +19,7 @@ export function useAuth() {
     }
 
     const openLogin = () => {
-        window.location.href = '/auth/redirect'
+        router.push({name: 'login'})
     }
 
     return { logout, openLogin }

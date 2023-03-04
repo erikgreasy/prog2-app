@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('assignment_id')->constrained();
             $table->decimal('points')->nullable();
-            $table->text('report');
+            $table->json('report')->nullable();
             $table->string('ip');
             $table->timestamps();
         });

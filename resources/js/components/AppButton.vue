@@ -9,6 +9,7 @@
         }"
         :to="to ? to : ''"
         class=" inline-block border border-primary rounded-lg  transition text-center"
+        :type="button ? role : ''"
     >
         <slot></slot>
     </component>
@@ -33,7 +34,11 @@ export default {
             type: Boolean,
             default: false
         },
-        to: [Object, String]
+        to: [Object, String],
+        role: {
+            type: String,
+            default: 'submit'
+        }
     },
 
     computed: {

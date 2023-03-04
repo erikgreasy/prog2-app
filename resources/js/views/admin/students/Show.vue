@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
     <div>
-        <PageHeader title="Detail študenta" />
+        <PageHeader :title="`Detail študenta ${student?.name}`" />
         
         {{ student }}
     </div>

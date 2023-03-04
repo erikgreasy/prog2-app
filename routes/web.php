@@ -56,9 +56,9 @@ Route::get('/check', function() {
     dd(auth()->check());
 });
 
-Route::get('/login', function() {
-    return response()->redirectTo('/auth/redirect');
-})->middleware('guest');
+// Route::get('/login', function() {
+//     return response()->redirectTo('/auth/redirect');
+// })->middleware('guest');
 
 Route::get('/login-dev', function() {
     Auth::login(

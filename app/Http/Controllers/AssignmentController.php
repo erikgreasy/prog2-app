@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\AssignmentStatus;
 use App\Enums\Role;
 use App\Http\Requests\StoreAssignmentRequest;
+use App\Http\Resources\AssignmentResource;
 use App\Models\Assignment;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -22,7 +24,9 @@ class AssignmentController extends Controller
 
     public function published()
     {
-        return Assignment::where('status', AssignmentStatus::PUBLISH->value)->latest()->get();
+        return AssignmentResource::collection(
+            Assignment::where('status', AssignmentStatus::PUBLISH->value)->latest()->get()
+        );
     }
 
     /**
@@ -33,7 +37,21 @@ class AssignmentController extends Controller
      */
     public function store(StoreAssignmentRequest $request)
     {
-        return Assignment::create($request->validated());
+        $validated = $request->safe()->except('materials');
+
+        if (!isset($validated['status']) || $validated['status'] === AssignmentStatus::PUBLISH->value) {
+            $validated += ['published_at' => now()];
+        }
+
+        $assignment = Assignment::create($validated);
+
+        collect($request->validated('materials'))->each(function (array $material) use ($assignment) {
+            $assignment->materials()->create([
+                'src' => $material['src']
+            ]);
+        });
+
+        return $assignment;
     }
 
     /**
@@ -63,7 +81,7 @@ class AssignmentController extends Controller
             abort(404);
         }
 
-        return $assignment;
+        return new AssignmentResource($assignment);
     }
 
     /**
@@ -75,7 +93,33 @@ class AssignmentController extends Controller
      */
     public function update(StoreAssignmentRequest $request, Assignment $assignment)
     {
-        $assignment->update($request->all());
+        $existingMaterialsToKeep = collect($request->validated('materials'))->filter(fn(array $item) => isset($item['id']))->pluck('id');
+
+        $assignment->materials->each(function (Material $material) use ($existingMaterialsToKeep) {
+            if (!$existingMaterialsToKeep->contains($material->id)) {
+                $material->delete();
+            }
+        });
+
+        collect($request->validated('materials'))->each(function (array $material) use ($assignment) {
+            if (isset($material['id'])) {
+                Material::find($material['id'])->update([
+                    'src' => $material['src']
+                ]);
+            } else {
+                $assignment->materials()->create([
+                    'src' => $material['src']
+                ]);
+            }
+        });
+
+        $validated = $request->safe()->except('materials');
+
+        if (!$assignment->published_at && $request->validated('status') === AssignmentStatus::PUBLISH->value) {
+            $validated += ['published_at' => now()];
+        }
+        
+        $assignment->update($validated);
     }
 
     /**

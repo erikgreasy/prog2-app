@@ -8,21 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAssignmentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
@@ -32,6 +17,11 @@ class StoreAssignmentRequest extends FormRequest
             'deadline' => ['required', 'date'],
             'content' => ['nullable'],
             'status' => ['in:' . implode(',', array_column(AssignmentStatus::cases(), 'value'))],
+            'materials' => ['array'],
+            'points' => ['required', 'numeric', 'min:0'],
+            'submission_instructions' => ['nullable', 'string'],
+            'materials.*.id' => ['nullable', 'integer'],
+            'materials.*.src' => ['required'],
         ];
     }
 }

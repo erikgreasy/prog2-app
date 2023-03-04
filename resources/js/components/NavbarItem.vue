@@ -1,6 +1,6 @@
 <template>
     <li>
-        <router-link :to="{name: routeName}" class="font-semibold text-sm text-sliver">
+        <router-link :to="{name: routeName}" class="font-semibold text-sm text-sliver" :class="[additionalClass]">
             <slot></slot>
         </router-link>
     </li>
@@ -10,6 +10,7 @@
 defineProps({
     routeName: {
         type: String
-    }
+    },
+    additionalClass: String,
 })
 </script>

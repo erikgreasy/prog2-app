@@ -1,59 +1,106 @@
 <template>
-    <form>
-        <!-- <div class="sm:col-span-2 mb-5"> -->
-            <AppInput 
-                v-model="assignment.title"
-                :errors="errors.title"
-                placeholder="Názov zadania"
-                additional-classes="!bg-white !text-xl"
-            />
-            <!-- <input type="text" 
-                
-                class="bg-white border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
-                
-            > -->
-        <!-- </div> -->
+    <div>
+        <form v-if="assignment">
+            <InputGroup>
+                <AppInput 
+                    v-model="assignment.title"
+                    :errors="errors.title"
+                    @change="slugifyTitle"
+                    placeholder="Názov zadania"
+                    additional-classes="!bg-white !text-xl"
+                />
+            </InputGroup>
+    
+            <AdminCard>
+                <div class="mb-5">
+                    <InputWithError label="Slug:" :errors="errors?.slug">
+                        <AppInput @change="transformSlug" v-model="assignment.slug" :errors="errors?.slug" placeholder="Slug" />
+                    </InputWithError>
+                </div>
+        
+                <div class="mb-5">
+                    <InputWithError label="Deadline:" :errors="errors?.deadline">
+                        <AppInput type="datetime-local" v-model="assignment.deadline" :errors="errors?.deadline" />
+                    </InputWithError>
+                </div>
+        
+                <div class="mb-5">
+                    <InputWithError label="Krátky popis:" :errors="errors?.excerpt">
+                        <AppTextarea v-model="assignment.excerpt" placeholder="Krátky popis" :errors="errors?.excerpt" />
+                    </InputWithError>
+                </div>
+        
+                <div>
+                    <InputLabel>Obsah:</InputLabel>
+                    <ContentEditor name="content" />
+                </div>
+            </AdminCard>
+        </form>
 
-        <AdminCard>
-            <div class="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Slug:</label>
-                <AppInput v-model="assignment.slug" :errors="errors?.slug" placeholder="Slug" />
-            </div>
-            <!-- <div class="mb-5">
-                <input type="text" v-model="assignment.slug" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Slug">
-                <p v-if="errors.slug" class="mt-2 text-xs text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> Some error message.</p>
-            </div> -->
+        <div class="mt-5">
+            <h2>Odovzdanie</h2>
     
-            <div class="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deadline</label>
-                <AppInput type="datetime-local" v-model="assignment.deadline" :errors="errors?.deadline" />
-            </div>
-    
-            <div class="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Krátky popis</label>
-                <AppTextarea v-model="assignment.excerpt" placeholder="Krátky popis" :errors="errors?.excerpt" />
-            </div>
-    
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Obsah</label>
-                <ContentEditor />
-            </div>
-        </AdminCard>
-    </form>
+            <AdminCard>
+                <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea>
+                <!-- <ContentEditor name="submission_instructions" /> -->
+            </AdminCard>
+        </div>
+
+        <div class="mt-5">
+            <h2>Materiály</h2>
+
+            <AdminCard>
+                <div v-for="(material, index) in assignment.materials" :key="index">
+                    <InputWithError :errors="errors[`materials.${index}.src`]">
+                        <div class="flex items-center gap-x-3 w-full">
+                            <AppInput v-model="material.src" :errors="errors[`materials.${index}.src`]" />
+                            <button @click="removeMaterial(index)" type="button" class="text-xl">&times;</button>
+                        </div>
+                    </InputWithError>
+                </div>
+
+                <AppButton @click="addMaterial" size="small">Pridať materiál</AppButton>
+            </AdminCard>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import ContentEditor from './admin/assignments/ContentEditor.vue'
-import { computed, inject } from 'vue';
+import { inject } from 'vue';
 import AdminCard from './AdminCard.vue';
 import InputGroup from './admin/forms/InputGroup.vue';
 import AppInput from '@/components/admin/forms/AppInput.vue'
 import AppTextarea from './admin/forms/AppTextarea.vue';
+import InputLabel from './admin/forms/InputLabel.vue';
+import InputWithError from './admin/forms/InputWithError.vue';
+import AppButton from '@/components/AppButton.vue';
+import slugify from 'slugify'
 
 const assignment = inject('assignment')
 
 const props = defineProps({
     errors: Object
 })
+
+const addMaterial = () => {
+    assignment.value.materials.push({})
+}
+
+const removeMaterial = index => {
+    assignment.value.materials.splice(index, 1)
+}
+
+const slugifyTitle = () => {
+    if (assignment.value.slug?.length) {
+        return
+    }
+    
+    assignment.value.slug = slugify(assignment.value.title).toLowerCase()
+}
+
+const transformSlug = () => {
+    assignment.value.slug = slugify(assignment.value.slug).toLowerCase()
+}
 
 </script>

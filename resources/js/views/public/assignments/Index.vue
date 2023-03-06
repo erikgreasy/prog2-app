@@ -12,11 +12,17 @@
                 </div>
     
                 <article v-for="assignment in filteredAssignments" :key="assignments.id" class="border-b border-[#dadada] py-6">
-                    <h3 class="text-2xl font-extrabold mb-4">
-                        <router-link :to="{name: 'assignments.show', params: {slug: assignment.slug}}">
-                            {{ assignment.title }}
-                        </router-link>
-                    </h3>
+                    <div class="flex items-center mb-4">
+                        <h3 class="text-2xl font-extrabold">
+                            <router-link :to="{name: 'assignments.show', params: {slug: assignment.slug}}">
+                                {{ assignment.title }}
+                            </router-link>
+                        </h3>
+    
+                        <span v-if="assignment.is_current" class="ml-5 py-1 px-3 rounded-lg text-white bg-primary text-sm">
+                            Aktuálne zadanie
+                        </span>
+                    </div>
         
                     <div class="text-sliver mb-4 lg:pr-10">
                         {{ assignment.excerpt }}

@@ -3,12 +3,10 @@
 use App\Enums\Role;
 use App\Models\User;
 use App\Events\TestEvent;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VcsAuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,28 +19,10 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
-});
+// AUTH
+Route::get('/auth/redirect', [AuthController::class, 'redirect']);
+Route::get('/auth/callback', [AuthController::class, 'callback']);
 
-Route::get('/auth/callback', function () {
-    $googleUser = Socialite::driver('google')->user();
- 
-    $user = User::updateOrCreate([
-        'email' => $googleUser->getEmail()
-    ], [
-        'name' => $googleUser->getName(),
-        'password' => Hash::make('examplePassword123')
-    ]);
-
-    Auth::login($user);
-
-    if($user->role === Role::ADMIN->value || $user->role === Role::TEACHER->value) {
-        return redirect('/admin');
-    }
-
-    return redirect('/');
-});
 
 Route::get('/connect-github', [VcsAuthController::class, 'redirect']);
 

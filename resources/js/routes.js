@@ -20,6 +20,9 @@ import AdminAssignmentTestsEdit from '@/views/admin/assignment-tests/Edit.vue'
 import AdminAssignmentTestsShow from '@/views/admin/assignment-tests/Show.vue'
 import Myprofile from '@/views/Myprofile.vue'
 import AssignmentsSubmissionsShow from '@/views/public/assignments-submissions/Show.vue'
+import AssignmentLayout from '@/views/layouts/Assignment.vue'
+import AssignmentsShowSubmission from '@/views/public/assignments/Submission.vue'
+import AssignmentsShowMaterials from '@/views/public/assignments/Materials.vue'
 import Login from '@/views/Login.vue'
 
 import auth from './middleware/auth.js';
@@ -43,7 +46,26 @@ export default [
     {
         path: '/zadania/:slug',
         name: 'assignments.show',
-        component: AssignmentsShow
+        component: AssignmentsShow,
+        meta: {
+            layout: AssignmentLayout,
+        }
+    },
+    {
+        path: '/zadania/:slug/odovzdanie',
+        name: 'assignments.show.submission',
+        component: AssignmentsShowSubmission,
+        meta: {
+            layout: AssignmentLayout,
+        }
+    },
+    {
+        path: '/zadania/:slug/materialy',
+        name: 'assignments.show.materials',
+        component: AssignmentsShowMaterials,
+        meta: {
+            layout: AssignmentLayout,
+        }
     },
     {
         path: '/zadania/:slug/odovzdania/:index',

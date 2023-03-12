@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('assignments', function (Blueprint $table) {
-            $table->timestamp('published_at')->nullable()->after('status');
+            $table->timestamp('published_at')->nullable()->after('deadline');
         });
     }
 

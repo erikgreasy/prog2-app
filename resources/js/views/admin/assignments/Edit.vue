@@ -20,18 +20,15 @@
                 <AssignmentForm @submit-form="alert('daco')" :errors="errors" />
             </div>
     
-            <AdminCard class="col-span-3">
-                <InputWithError label="Body:" :errors="errors?.points">
-                    <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
-                </InputWithError>
-                
-                <AppSelect v-model="assignment.status">
-                    <option value="publish">Publikované</option>
-                    <option value="draft">Koncept</option>
-                </AppSelect>
-                <!-- <select v-model="assignment.status"> -->
-                <!-- </select> -->
-            </AdminCard>
+            <div class="col-span-3">
+                <AdminCard>
+                    <h3 class="mb-4 font-semibold">Publikovanie</h3>
+    
+                    <InputWithError label="Dátum publikovania:">
+                        <AppInput type="datetime-local" v-model="assignment.published_at" />
+                    </InputWithError>
+                </AdminCard>
+            </div>
         </div>
     </div>
 </template>
@@ -52,6 +49,7 @@ import InputGroup from '@/components/admin/forms/InputGroup.vue';
 import InputError from '@/components/admin/forms/InputError.vue';
 import InputWithError from '@/components/admin/forms/InputWithError.vue';
 import AppSelect from '@/components/admin/forms/AppSelect.vue';
+import InputLabel from '@/components/admin/forms/InputLabel.vue';
 
 
 const route = useRoute()
@@ -110,6 +108,7 @@ const updateAssignment = async () => {
         if(res.status === 200) {
             realSlug.value = assignment.value.slug
             notificationsStore.addNotification('Úspešne aktualizované')
+            getAssignment()
         }
     } catch(err) {
         const res = err.response

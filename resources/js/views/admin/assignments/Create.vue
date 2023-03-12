@@ -27,11 +27,6 @@ const errors = ref([])
 
 const notificationsStore = useNotificationsStore()
 
-const storeAsDraft = () => {
-    assignment.value.status = 'draft'
-    store()
-}
-
 const store = async () => {
     // console.log('try to store following assignment')
 
@@ -82,8 +77,7 @@ provide('assignment', assignment)
 <template>
     <div>
         <PageHeader title="Upraviť zadanie">
-            <AppButton @click="storeAsDraft" size="small" type="outline" button>Uložiť ako koncept</AppButton>
-            <AppButton @click="store" size="small" button>Publikovať</AppButton>
+            <AppButton @click="store" size="small" button>Uložiť</AppButton>
         </PageHeader>
 
         <div class="grid grid-cols-12 gap-8 items-start">
@@ -91,11 +85,21 @@ provide('assignment', assignment)
                 <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
             </div>
     
-            <AdminCard class="col-span-3">
-                <InputWithError label="Body:" :errors="errors?.points">
-                    <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
-                </InputWithError>
-            </AdminCard>
+            <div class="col-span-3">
+                <AdminCard class="mb-5">
+                    <InputWithError label="Body:" :errors="errors?.points">
+                        <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
+                    </InputWithError>
+                </AdminCard>
+
+                <AdminCard>
+                    <h3 class="mb-4 font-semibold">Publikovanie</h3>
+    
+                    <InputWithError label="Dátum publikovania:">
+                        <AppInput type="datetime-local" v-model="assignment.published_at" />
+                    </InputWithError>
+                </AdminCard>
+            </div>
         </div>
     </div>
 </template>

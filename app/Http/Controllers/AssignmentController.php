@@ -25,7 +25,7 @@ class AssignmentController extends Controller
     public function published()
     {
         return AssignmentResource::collection(
-            Assignment::where('status', AssignmentStatus::PUBLISH->value)->latest()->get()
+            Assignment::published()->latest()->get()
         );
     }
 
@@ -38,11 +38,7 @@ class AssignmentController extends Controller
     public function store(StoreAssignmentRequest $request)
     {
         $validated = $request->safe()->except('materials');
-
-        if (!isset($validated['status']) || $validated['status'] === AssignmentStatus::PUBLISH->value) {
-            $validated += ['published_at' => now()];
-        }
-
+        
         $assignment = Assignment::create($validated);
 
         collect($request->validated('materials'))->each(function (array $material) use ($assignment) {

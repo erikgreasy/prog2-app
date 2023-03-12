@@ -5,6 +5,7 @@ namespace App\Models;
 use Laravel\Scout\Searchable;
 use App\Enums\AssignmentStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,13 +20,13 @@ class Assignment extends Model
 
     protected $casts = [
         'content' => 'array',
-        'deadline' => 'datetime:Y-m-d H:i:s',
-        'published_at' => 'datetime',
+        'deadline' => 'datetime:Y-m-d H:i',
+        'published_at' => 'datetime:Y-m-d H:i',
     ];
 
     public function isPublished()
     {
-        return $this->status === AssignmentStatus::PUBLISH->value;
+        return $this->published_at <= now();
     }
 
     public function submissions(): HasMany
@@ -51,5 +52,10 @@ class Assignment extends Model
             'excerpt' => $this->title,
             'slug' => $this->title,
         ];
+    }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('published_at', '<=', now());
     }
 }

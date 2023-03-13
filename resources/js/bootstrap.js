@@ -27,7 +27,7 @@ window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
-    wsHost: 'localhost',
+    wsHost: window.location.hostname,
     wsPort: 6001,
     forceTLS: false,
     encrypted: false,

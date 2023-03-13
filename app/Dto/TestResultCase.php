@@ -11,9 +11,13 @@ class TestResultCase
      */
     public function __construct(
         public readonly int $id,
-        public readonly string $stdOut,
-        public readonly string $stdErr,
         public readonly bool $success,
+        public readonly ?string $cmdIn = null,
+        public readonly ?string $stdIn = null,
+        public readonly ?string $stdOut = null,
+        public readonly ?string $stdErr = null,
+        public readonly ?string $actualStdout = null,
+        public readonly ?string $actualStderr = null,
         public readonly array $messages = []
     )
     {

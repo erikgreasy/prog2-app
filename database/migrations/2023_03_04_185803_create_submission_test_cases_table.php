@@ -12,8 +12,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('submission_test_scenario_id')->constrained()->cascadeOnDelete();
             $table->boolean('is_success');
-            $table->string('std_out');
-            $table->string('err_out');
+            $table->string('cmdin')->nullable();
+            $table->string('stdin')->nullable();
+            $table->string('stdout')->nullable();
+            $table->string('errout')->nullable();
+            $table->string('actual_stdout')->nullable();
+            $table->string('actual_stderr')->nullable();
             $table->json('messages');
             $table->timestamps();
         });

@@ -21,9 +21,13 @@ class DummyTester implements Tester
             $cases = collect($scenario->cases)->map(function (TesterInputCase $case) {
                 return new TestResultCase(
                     $case->id,
+                    true,
+                    'cmd in',
+                    'std in',
                     'std out',
                     'std err',
-                    true
+                    'actual_stdout',
+                    'actual stderr'
                 );
             });
 

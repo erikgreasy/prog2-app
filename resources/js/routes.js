@@ -23,6 +23,7 @@ import AssignmentsSubmissionsShow from '@/views/public/assignments-submissions/S
 import AssignmentLayout from '@/views/layouts/Assignment.vue'
 import AssignmentsShowSubmission from '@/views/public/assignments/Submission.vue'
 import AssignmentsShowMaterials from '@/views/public/assignments/Materials.vue'
+import AssignmentsShowInstructions from '@/views/public/assignments/Instructions.vue'
 import Login from '@/views/Login.vue'
 
 import auth from './middleware/auth.js';
@@ -55,6 +56,14 @@ export default [
         path: '/zadania/:slug/odovzdanie',
         name: 'assignments.show.submission',
         component: AssignmentsShowSubmission,
+        meta: {
+            layout: AssignmentLayout,
+        }
+    },
+    {
+        path: '/zadania/:slug/instrukcie',
+        name: 'assignments.show.instructions',
+        component: AssignmentsShowInstructions,
         meta: {
             layout: AssignmentLayout,
         }

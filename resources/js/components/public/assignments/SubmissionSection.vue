@@ -41,12 +41,8 @@ const submitAssignment = async () => {
                 />
             </section>
     
-            <section class="grid grid-cols-3 mt-20">
-                <div class="border-r border-[#D1D1D1]">
-                    <SubmissionHistory :assignmentId="assignment.id" />
-                </div>
-    
-                <div class="editorjs-parser col-span-2 pl-10" v-html="assignment.submission_instructions"></div>
+            <section class="mt-20">
+                <SubmissionHistory :assignmentId="assignment.id" />
             </section>
         </div>
 

@@ -45,6 +45,16 @@ const imgIndex = id => {
             <div v-else-if="block.type === 'raw'">
                 <div v-html="block.data.html"></div>
             </div>
+
+            <div v-else-if="block.type === 'attaches'">
+                <a :href="block.data.file.url" target="_blank">SUBOR</a>
+            </div>
+
+            <div v-else-if="block.type === 'video'">
+                <video controls>
+                    <source :src="block.data.file.url">
+                </video>
+            </div>
         </div>
     </div>
 </template>

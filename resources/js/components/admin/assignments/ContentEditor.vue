@@ -9,6 +9,8 @@ import NestedList from '@editorjs/nested-list';
 import InlineCode from '@editorjs/inline-code'
 import CodeTool from '@editorjs/code'
 import RawTool from '@editorjs/raw'
+import AttachesTool from '@editorjs/attaches'
+import VideoTool from '@vietlongn/editorjs-video';
 
 const { bus, emit } = useEventsBus()
 
@@ -78,6 +80,45 @@ onMounted(() => {
                 }
             },
             raw: RawTool,
+            attaches: {
+                class: AttachesTool,
+                config: {
+                    uploader: {
+                        async uploadByFile(file) {
+                            const formData = new FormData()
+                            formData.append('file', file)
+
+                            const res = await axios.post('/api/upload-file', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+
+                            return res.data
+                        }
+                    }
+                }
+            },
+            video: {
+                class: VideoTool,
+                config: {
+                    uploader: {
+                        async uploadByFile(file) {
+                            const formData = new FormData()
+                            formData.append('file', file)
+
+                            const res = await axios.post('/api/upload-file', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+
+                            return res.data
+                        }
+                    }
+                }
+                }
+            
         },
         data: assignment.value.content
     });

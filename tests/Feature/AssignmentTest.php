@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\AssignmentStatus;
 use App\Enums\Role;
+use App\Http\Resources\AssignmentResource;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Assignment;
@@ -112,7 +113,7 @@ class AssignmentTest extends TestCase
     public function test_published_assignment_detail_can_be_fetched_by_slug_by_everyone()
     {
         $assignment = Assignment::factory()->create([
-            'status' => AssignmentStatus::PUBLISH->value
+            'published_at' => now()->subDay()
         ]);
 
         $response = $this->getJson(route('assignments.showBySlug', $assignment->slug));
@@ -122,7 +123,7 @@ class AssignmentTest extends TestCase
     public function test_draft_assignment_detail_cannot_be_fetched_by_slug_by_non_auth ()
     {
         $assignment = Assignment::factory()->create([
-            'status' => AssignmentStatus::DRAFT->value
+            'published_at' => null
         ]);
 
         $this->getJson("/api/assignments/slug/{$assignment->slug}")
@@ -134,7 +135,7 @@ class AssignmentTest extends TestCase
         Sanctum::actingAs(User::factory()->create(['role' => Role::STUDENT->value]));
         
         $assignment = Assignment::factory()->create([
-            'status' => AssignmentStatus::DRAFT->value
+            'published_at' => null
         ]);
 
         $this->getJson("/api/assignments/slug/{$assignment->slug}")
@@ -146,12 +147,15 @@ class AssignmentTest extends TestCase
         Sanctum::actingAs(User::factory()->create(['role' => Role::TEACHER->value]));
         
         $assignment = Assignment::factory()->create([
-            'status' => AssignmentStatus::DRAFT->value
+            'published_at' => null
         ]);
-
-        $this->getJson("/api/assignments/slug/{$assignment->slug}")
+        // dd((new AssignmentResource($assignment))->toArray(request()));
+        
+        $res = $this->getJson("/api/assignments/slug/{$assignment->slug}")
             ->assertSuccessful()
-            ->assertJson($assignment->toArray());
+            ->assertJson(AssignmentResource::make($assignment)->resolve());
+            // ->assertSimilarJson(AssignmentResource::make($assignment)->toArray(request())->toArray());
+        dd($res->get);
     }
 
     public function test_draft_assignment_detail_can_be_fetched_by_slug_by_admin ()
@@ -159,7 +163,7 @@ class AssignmentTest extends TestCase
         Sanctum::actingAs(User::factory()->create(['role' => Role::ADMIN->value]));
         
         $assignment = Assignment::factory()->create([
-            'status' => AssignmentStatus::DRAFT->value
+            'published_at' => null
         ]);
 
         $this->getJson("/api/assignments/slug/{$assignment->slug}")

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,9 +14,21 @@ class SubmissionTestScenario extends Model
 
     protected $guarded = ['id'];
 
-    protected $with = [
-        'resultCases'
+    protected $appends = [
+        'is_success'
     ];
+
+    protected $with = [
+        'scenario',
+        'resultCases',
+    ];
+
+    public function isSuccess(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->failedResultCases->isEmpty()
+        );
+    }
 
     public function submission(): BelongsTo
     {
@@ -30,5 +43,15 @@ class SubmissionTestScenario extends Model
     public function resultCases(): HasMany
     {
         return $this->hasMany(SubmissionTestCase::class);
+    }
+
+    public function successResultCases(): HasMany
+    {
+        return $this->hasMany(SubmissionTestCase::class)->where('is_success', true);
+    }
+
+    public function failedResultCases(): HasMany
+    {
+        return $this->hasMany(SubmissionTestCase::class)->where('is_success', false);
     }
 }

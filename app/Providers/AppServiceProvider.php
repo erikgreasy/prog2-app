@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Contracts\Tester;
 use App\DummyTester;
+use App\Contracts\Tester;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        JsonResource::withoutWrapping();
     }
 }

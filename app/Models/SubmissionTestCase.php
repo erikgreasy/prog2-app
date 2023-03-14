@@ -12,6 +12,10 @@ class SubmissionTestCase extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'is_success' => 'bool'
+    ];
+
     public function resultScenario(): BelongsTo
     {
         return $this->belongsTo(SubmissionTestScenario::class);

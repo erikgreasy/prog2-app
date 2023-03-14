@@ -24,6 +24,6 @@ class AssignmentResource extends JsonResource
                 'raw' => $this->published_at,
                 'readable' => $this->published_at?->format('d.m.Y H:i')
             ],
-        ]);
+        ])->toArray();
     }
 }

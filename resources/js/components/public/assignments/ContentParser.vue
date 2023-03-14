@@ -41,6 +41,10 @@ const imgIndex = id => {
             <div v-else-if="block.type === 'code'">
                 <pre><code v-html="block.data.code"></code></pre>
             </div>
+
+            <div v-else-if="block.type === 'raw'">
+                <div v-html="block.data.html"></div>
+            </div>
         </div>
     </div>
 </template>

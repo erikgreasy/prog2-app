@@ -8,6 +8,7 @@ import List from '@editorjs/list';
 import NestedList from '@editorjs/nested-list';
 import InlineCode from '@editorjs/inline-code'
 import CodeTool from '@editorjs/code'
+import RawTool from '@editorjs/raw'
 
 const { bus, emit } = useEventsBus()
 
@@ -75,7 +76,8 @@ onMounted(() => {
                     //     byUrl: '/storage', // Your endpoint that provides uploading by Url
                     // }
                 }
-            }
+            },
+            raw: RawTool,
         },
         data: assignment.value.content
     });

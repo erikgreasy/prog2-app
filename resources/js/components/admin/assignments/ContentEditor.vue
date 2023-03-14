@@ -11,6 +11,8 @@ import CodeTool from '@editorjs/code'
 import RawTool from '@editorjs/raw'
 import AttachesTool from '@editorjs/attaches'
 import VideoTool from '@vietlongn/editorjs-video';
+import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
+import Paragraph from '@editorjs/paragraph'
 
 const { bus, emit } = useEventsBus()
 
@@ -37,7 +39,13 @@ onMounted(() => {
 
     editor = new EditorJS({
         holder: `editor-${props.name}`,
+        defaultBlock: 'paragraph',
         tools: {
+            paragraph: {
+                class: Paragraph,
+                inlineToolbar: true,
+                tunes: ['alignTool'],
+            },
             list: {
                 class: NestedList,
                 inlineToolbar: true,
@@ -49,7 +57,8 @@ onMounted(() => {
                 class: Header,
                 config: {
                     levels: [2, 3],
-                }
+                },
+                tunes: ['alignTool'],
             },
             code: CodeTool,
             inlineCode: {
@@ -117,7 +126,10 @@ onMounted(() => {
                         }
                     }
                 }
-                }
+            },
+            alignTool: {
+                class:AlignmentTuneTool,
+            }
             
         },
         data: assignment.value.content

@@ -20,10 +20,23 @@ const imgIndex = id => {
 <template>
     <div class="editorjs-parser">
         <div v-for="block in content?.blocks" :key="block.id">
-            <p v-if="block.type === 'paragraph'" v-html="block.data.text"></p>
+            <p 
+                v-if="block.type === 'paragraph'" v-html="block.data.text" 
+                :class="{
+                    'text-left': block.tunes.alignTool.alignment === 'left',
+                    'text-center': block.tunes.alignTool.alignment === 'center',
+                    'text-right': block.tunes.alignTool.alignment === 'right',
+                }"
+            ></p>
 
             <div v-else-if="block.type === 'header'" :id="makeSlug(block.data.text)">
-                <component :is="`h${block.data.level}`">
+                <component :is="`h${block.data.level}`"
+                    :class="{
+                        'text-left': block.tunes?.alignTool?.alignment === 'left',
+                        'text-center': block.tunes?.alignTool?.alignment === 'center',
+                        'text-right': block.tunes?.alignTool?.alignment === 'right',
+                    }"
+                >
                     {{ block.data.text }}
                 </component>
             </div>

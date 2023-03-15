@@ -17,12 +17,10 @@ class StoreAssignmentRequest extends FormRequest
             'deadline' => ['required', 'date'],
             'content' => ['nullable'],
             'status' => ['in:' . implode(',', array_column(AssignmentStatus::cases(), 'value'))],
-            'materials' => ['array'],
+            'materials' => ['nullable'],
             'published_at' => ['nullable', 'date'],
             'points' => ['required', 'numeric', 'min:0'],
-            'submission_instructions' => ['nullable', 'string'],
-            'materials.*.id' => ['nullable', 'integer'],
-            'materials.*.src' => ['required'],
+            'submission_instructions' => ['nullable'],
         ];
     }
 }

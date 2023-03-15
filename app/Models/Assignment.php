@@ -16,10 +16,10 @@ class Assignment extends Model
 
     protected $guarded = ['id'];
 
-    protected $with = ['materials'];
-
     protected $casts = [
         'content' => 'array',
+        'submission_instructions' => 'array',
+        'materials' => 'array',
         'deadline' => 'datetime:Y-m-d H:i',
         'published_at' => 'datetime:Y-m-d H:i',
     ];
@@ -37,11 +37,6 @@ class Assignment extends Model
     public function testScenarios(): HasMany
     {
         return $this->hasMany(TestScenario::class);
-    }
-
-    public function materials(): HasMany
-    {
-        return $this->hasMany(Material::class);
     }
 
     public function toSearchableArray(): array

@@ -7,7 +7,6 @@ use App\Enums\Role;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Resources\AssignmentResource;
 use App\Models\Assignment;
-use App\Models\Material;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -37,15 +36,9 @@ class AssignmentController extends Controller
      */
     public function store(StoreAssignmentRequest $request)
     {
-        $validated = $request->safe()->except('materials');
+        $validated = $request->safe();
         
         $assignment = Assignment::create($validated);
-
-        collect($request->validated('materials'))->each(function (array $material) use ($assignment) {
-            $assignment->materials()->create([
-                'src' => $material['src']
-            ]);
-        });
 
         return $assignment;
     }
@@ -89,33 +82,7 @@ class AssignmentController extends Controller
      */
     public function update(StoreAssignmentRequest $request, Assignment $assignment)
     {
-        $existingMaterialsToKeep = collect($request->validated('materials'))->filter(fn(array $item) => isset($item['id']))->pluck('id');
-
-        $assignment->materials->each(function (Material $material) use ($existingMaterialsToKeep) {
-            if (!$existingMaterialsToKeep->contains($material->id)) {
-                $material->delete();
-            }
-        });
-
-        collect($request->validated('materials'))->each(function (array $material) use ($assignment) {
-            if (isset($material['id'])) {
-                Material::find($material['id'])->update([
-                    'src' => $material['src']
-                ]);
-            } else {
-                $assignment->materials()->create([
-                    'src' => $material['src']
-                ]);
-            }
-        });
-
-        $validated = $request->safe()->except('materials');
-
-        if (!$assignment->published_at && $request->validated('status') === AssignmentStatus::PUBLISH->value) {
-            $validated += ['published_at' => now()];
-        }
-        
-        $assignment->update($validated);
+        $assignment->update($request->validated());
     }
 
     /**

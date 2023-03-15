@@ -20,7 +20,6 @@ const assignment = ref({
     title: '',
     deadline: '',
     content: {},
-    materials: [],
 })
 
 const errors = ref([])

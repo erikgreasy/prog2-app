@@ -62,16 +62,12 @@
             <h2>Materiály</h2>
 
             <AdminCard>
-                <div v-for="(material, index) in assignment.materials" :key="index">
-                    <InputWithError :errors="errors[`materials.${index}.src`]">
-                        <div class="flex items-center gap-x-3 w-full">
-                            <AppInput v-model="material.src" :errors="errors[`materials.${index}.src`]" />
-                            <button @click="removeMaterial(index)" type="button" class="text-xl">&times;</button>
-                        </div>
-                    </InputWithError>
-                </div>
-
-                <AppButton @click="addMaterial" size="small">Pridať materiál</AppButton>
+                <ContentEditor 
+                    ref="materialsEditor"
+                    name="materials"
+                    :content="assignment.materials"
+                    @processed="data => assignment.materials = data"
+                />
             </AdminCard>
         </div>
     </div>
@@ -102,10 +98,12 @@ const { bus } = useEventsBus()
 
 const contentEditor = ref()
 const instructionsEditor = ref()
+const materialsEditor = ref()
 
 watch(() => bus.value.get('storingAssignment'), async () => {
     assignment.value.content = await contentEditor.value.save()
     assignment.value.submission_instructions = await instructionsEditor.value.save()
+    assignment.value.materials = await materialsEditor.value.save()
 
     emit('processed')
 })

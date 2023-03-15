@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->json('content')->nullable();
             $table->string('excerpt')->nullable();
+            $table->json('materials')->nullable();
             $table->timestamp('deadline');
             $table->timestamps();
         });

@@ -2,9 +2,7 @@
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
-import { inject, onMounted, watch } from 'vue';
-import useEventsBus from '@/eventBus.js';
-import List from '@editorjs/list';
+import { onMounted } from 'vue';
 import NestedList from '@editorjs/nested-list';
 import InlineCode from '@editorjs/inline-code'
 import CodeTool from '@editorjs/code'
@@ -14,26 +12,22 @@ import VideoTool from '@vietlongn/editorjs-video';
 import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
 import Paragraph from '@editorjs/paragraph'
 
-const { bus, emit } = useEventsBus()
+const emit = defineEmits(['processed'])
 
 let editor = null
 
 const props = defineProps({
     name: String,
+    content: Object,
 })
 
-watch(() => bus.value.get('storingAssignment'), () => {
-    console.log('get storing evenet in editor, lets parse the content')
+const save = async () => {
+    const content = await editor.save()
 
-    // console.log(editor)
-    emit('contentEditor', editor.save())
+    return content
+}
 
-  // destruct the parameters
-    // const [sidebarCollapsedBus] = val ?? []
-    // sidebarCollapsed.value = sidebarCollapsedBus
-})
-
-const assignment = inject('assignment')
+defineExpose({save: save})
 
 onMounted(() => {
 
@@ -82,10 +76,6 @@ onMounted(() => {
                             return res.data
                         }
                     }
-                    // endpoints: {
-                    //     byFile: '/api/upload-file', // Your backend file uploader endpoint
-                    //     byUrl: '/storage', // Your endpoint that provides uploading by Url
-                    // }
                 }
             },
             raw: RawTool,
@@ -132,7 +122,7 @@ onMounted(() => {
             }
             
         },
-        data: assignment.value.content
+        data: props.content
     });
 })
 
@@ -151,21 +141,5 @@ onMounted(() => {
 
 .editorjs-editor h3 {
     font-size: 24px !important;
-}   
-
-/* .ce-toolbar__actions {
-    opacity: 1 !important;
-} */
-
-
-/* .ce-toolbar {
-    display: block !important;
 }
-
-.ce-block__content {
-    background: rgba(235, 235, 235, .5);
-    padding: 0 10px;
-    margin-bottom: 5px;
-    border-radius: 6px;
-} */
 </style>

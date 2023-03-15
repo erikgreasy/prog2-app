@@ -17,7 +17,7 @@
 
         <div class="grid grid-cols-12 gap-8 items-start">
             <div class="col-span-9">
-                <AssignmentForm @submit-form="alert('daco')" :errors="errors" />
+                <AssignmentForm @processed="updateAssignment" :errors="errors" />
             </div>
     
             <div class="col-span-3">
@@ -35,21 +35,16 @@
 
 <script setup>
 import axios from 'axios'
-import { onMounted, provide, ref, toRaw, watch } from 'vue';
+import { onMounted, provide, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import AppButton from '../../../components/AppButton.vue';
 import AssignmentForm from '../../../components/AssignmentForm.vue'
 import useEventsBus from '@/eventBus.js'
 import PageHeader from '@/components/admin/PageHeader.vue';
 import { useAssignments } from '@/composables/assignments';
-import ContentEditor from '@/components/admin/assignments/ContentEditor.vue';
 import { useNotificationsStore } from '@/stores/notifications';
 import AppInput from '@/components/admin/forms/AppInput.vue';
-import InputGroup from '@/components/admin/forms/InputGroup.vue';
-import InputError from '@/components/admin/forms/InputError.vue';
 import InputWithError from '@/components/admin/forms/InputWithError.vue';
-import AppSelect from '@/components/admin/forms/AppSelect.vue';
-import InputLabel from '@/components/admin/forms/InputLabel.vue';
 
 
 const route = useRoute()
@@ -61,7 +56,7 @@ const notificationsStore = useNotificationsStore()
 const errors = ref([])
 const realSlug = ref(null)
 
-const { emit, bus } = useEventsBus()
+const { emit } = useEventsBus()
 
 const componentEmits = defineEmits(['storeAssignment'])
 
@@ -75,18 +70,6 @@ const submitForm = () => {
 
     // enjoy!
 }
-
-watch(() => bus.value.get('contentEditor'), async contentPromise => {
-    const outputData = await contentPromise[0]
-
-    assignment.value.content = outputData
-
-    // after receiving, emit event to send request
-    updateAssignment()
-})
-
-
-
 
 const { getAssignment, assignment } = useAssignments()
 

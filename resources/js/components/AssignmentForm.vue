@@ -32,7 +32,12 @@
         
                 <div>
                     <InputLabel>Obsah:</InputLabel>
-                    <ContentEditor name="content" />
+                    <ContentEditor
+                        ref="contentEditor"
+                        name="content"
+                        :content="assignment.content"
+                        @processed="data => assignment.content = data"
+                    />
                 </div>
             </AdminCard>
         </form>
@@ -41,7 +46,14 @@
             <h2>Odovzdanie</h2>
     
             <AdminCard>
-                <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea>
+                <ContentEditor 
+                    ref="instructionsEditor" 
+                    name="submission_instructions" 
+                    :content="assignment.submission_instructions"
+                    @processed="data => assignment.submission_instructions = data" 
+                />
+
+                <!-- <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea> -->
                 <!-- <ContentEditor name="submission_instructions" /> -->
             </AdminCard>
         </div>
@@ -67,7 +79,7 @@
 
 <script setup>
 import ContentEditor from './admin/assignments/ContentEditor.vue'
-import { inject } from 'vue';
+import { inject, ref, watch } from 'vue';
 import AdminCard from './AdminCard.vue';
 import InputGroup from './admin/forms/InputGroup.vue';
 import AppInput from '@/components/admin/forms/AppInput.vue'
@@ -76,11 +88,26 @@ import InputLabel from './admin/forms/InputLabel.vue';
 import InputWithError from './admin/forms/InputWithError.vue';
 import AppButton from '@/components/AppButton.vue';
 import slugify from 'slugify'
+import useEventsBus from '@/eventBus';
 
 const assignment = inject('assignment')
 
 const props = defineProps({
     errors: Object
+})
+
+const emit = defineEmits(['processed'])
+
+const { bus } = useEventsBus()
+
+const contentEditor = ref()
+const instructionsEditor = ref()
+
+watch(() => bus.value.get('storingAssignment'), async () => {
+    assignment.value.content = await contentEditor.value.save()
+    assignment.value.submission_instructions = await instructionsEditor.value.save()
+
+    emit('processed')
 })
 
 const addMaterial = () => {

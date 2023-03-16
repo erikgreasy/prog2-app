@@ -17,6 +17,6 @@ class StudentController extends Controller
     {
         abort_if($student->role !== Role::STUDENT->value, 404);
 
-        return $student;
+        return $student->load('submissions');
     }
 }

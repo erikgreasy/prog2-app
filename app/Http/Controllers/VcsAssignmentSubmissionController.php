@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DecideWhetherUserCanSubmitAssignment;
 use App\Dto\TesterInput;
 use App\Models\TestCase;
 use App\Contracts\Tester;
@@ -15,10 +16,8 @@ use App\Actions\ProcessAssignmentWithTester;
 
 class VcsAssignmentSubmissionController extends Controller
 {
-    public function __invoke(Request $request, Assignment $assignment, Tester $tester, ProcessAssignmentWithTester $processAssignmentWithTester)
+    public function __invoke(Request $request, Assignment $assignment, ProcessAssignmentWithTester $processAssignmentWithTester)
     {
-        // check if assignment can be submitted by user
-
         $submission = auth()->user()->submissions()->create([
             'assignment_id' => $assignment->id,
             'ip' => $request->ip(),

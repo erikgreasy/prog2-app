@@ -14,7 +14,23 @@ const props = defineProps({
 })
 
 const submitAssignment = async () => {
-    const res = await axios.post(`/api/assignments/${props.assignment.id}/submit`)
+    try {
+        const res = await axios.post(`/api/assignments/${props.assignment.id}/submit`)
+    } catch (err) {
+        const res = err.response
+        
+        if (!res) {
+            alert('Pri odovzdávaní nastala chyba')
+            return
+        }
+
+        if (res.status === 400) {
+            alert(res.data.message)
+            return
+        }
+
+        alert('Pri odovzdávaní nastala chyba')
+    }
     console.log(res)
 }
 </script>

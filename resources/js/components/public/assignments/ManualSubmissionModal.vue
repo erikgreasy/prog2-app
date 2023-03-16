@@ -38,8 +38,19 @@ const submitManually = async () => {
         emit('submit')
 
     } catch(err) {
-        console.log(err)
-        console.log(err.response)
+        const res = err.response
+
+        if (!res) {
+            alert('Pri odvzdávaní nastala chyba')
+            return
+        }
+
+        if (res.status === 400) {
+            alert(res.data.message)
+            return
+        }
+
+        alert('Pri odvzdávaní nastala chyba')
     }
 }
 

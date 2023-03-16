@@ -38,8 +38,11 @@ Route::get('/assignments/current', CurrentAssignmentController::class)->name('as
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
-    Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
-    Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class);
+    
+    Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class)
+        ->middleware(\App\Http\Middleware\PreventExceedingSubmissions::class);
+    Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)
+        ->middleware(\App\Http\Middleware\PreventExceedingSubmissions::class);
 
 
     // SUBMISSIONS

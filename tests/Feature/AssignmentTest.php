@@ -59,7 +59,8 @@ class AssignmentTest extends TestCase
             'title' => 'Assignment title',
             'slug' => 'assignment-title',
             'deadline' => now()->nextWeekday()->toDateTimeLocalString(),
-            'excerpt' => 'Lorem ipsum dolor sit'
+            'excerpt' => 'Lorem ipsum dolor sit',
+            'points' => 10,
         ];
 
         $this->postJson(route('assignments.store'), $assignmentData)->assertCreated();
@@ -165,6 +166,6 @@ class AssignmentTest extends TestCase
 
         $this->getJson("/api/assignments/slug/{$assignment->slug}")
             ->assertSuccessful()
-            ->assertJson($assignment->toArray());
+            ->assertJson(AssignmentResource::make($assignment)->resolve());
     }
 }

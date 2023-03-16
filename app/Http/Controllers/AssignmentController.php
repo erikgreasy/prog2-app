@@ -36,9 +36,7 @@ class AssignmentController extends Controller
      */
     public function store(StoreAssignmentRequest $request)
     {
-        $validated = $request->safe();
-        
-        $assignment = Assignment::create($validated);
+        $assignment = Assignment::create($request->validated());
 
         return $assignment;
     }

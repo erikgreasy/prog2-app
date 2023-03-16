@@ -39,13 +39,14 @@ Route::get('/assignments/current', CurrentAssignmentController::class)->name('as
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
     
-    Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class)
-        ->middleware(\App\Http\Middleware\PreventExceedingSubmissions::class);
-    Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)
-        ->middleware(\App\Http\Middleware\PreventExceedingSubmissions::class);
+    Route::group(['middleware' => [
+        \App\Http\Middleware\PreventExceedingSubmissions::class, 
+        \App\Http\Middleware\PreventDuplicitSubmission::class
+    ]], function () {
+        Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
+        Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class);
+    });
 
-
-    // SUBMISSIONS
     Route::get('/assignments/{assignment}/submissions', [AssignmentSubmissionController::class, 'index']);
     Route::get('/assignments/{assignment}/submissions/{submissionIndex}', [AssignmentSubmissionController::class, 'show']);
     

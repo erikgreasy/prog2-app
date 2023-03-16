@@ -142,20 +142,17 @@ class AssignmentTest extends TestCase
             ->assertNotFound();
     }
 
-    public function test_draft_assignment_detail_can_be_fetched_by_slug_by_teacher ()
+    public function test_draft_assignment_detail_can_be_fetched_by_slug_by_teacher()
     {
         Sanctum::actingAs(User::factory()->create(['role' => Role::TEACHER->value]));
         
         $assignment = Assignment::factory()->create([
             'published_at' => null
         ]);
-        // dd((new AssignmentResource($assignment))->toArray(request()));
         
-        $res = $this->getJson("/api/assignments/slug/{$assignment->slug}")
+        $this->getJson("/api/assignments/slug/{$assignment->slug}")
             ->assertSuccessful()
             ->assertJson(AssignmentResource::make($assignment)->resolve());
-            // ->assertSimilarJson(AssignmentResource::make($assignment)->toArray(request())->toArray());
-        dd($res->get);
     }
 
     public function test_draft_assignment_detail_can_be_fetched_by_slug_by_admin ()

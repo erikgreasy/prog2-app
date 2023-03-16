@@ -17,11 +17,11 @@ class AssignmentResource extends JsonResource
                 'readable' => number_format($this->points, 2, ',', ' ') . 'b'
             ],
             'deadline' => [
-                'raw' => $this->deadline,
+                'raw' => $this->deadline->toString(),
                 'readable' => $this->deadline->format('d.m.Y H:i')
             ],
             'published_at' => [
-                'raw' => $this->published_at,
+                'raw' => $this->published_at?->toString(),
                 'readable' => $this->published_at?->format('d.m.Y H:i')
             ],
         ])->toArray();

@@ -26,7 +26,7 @@ class Assignment extends Model
 
     public function isPublished()
     {
-        return $this->published_at <= now();
+        return $this->published_at && $this->published_at <= now();
     }
 
     public function submissions(): HasMany

@@ -12,6 +12,7 @@ import AdminCard from './components/AdminCard.vue'
 import middlewarePipeline from './middlewarePipeline';
 import { useAuthStore } from './stores/auth';
 import log from './middleware/log';
+import { useUserNotificationsStore } from './stores/userNotifications';
 
 const app = createApp(App)
 
@@ -22,6 +23,8 @@ app.component('AdminCard', AdminCard)
 
 const store = useAuthStore()
 
+const userNotificationsStore = useUserNotificationsStore()
+
 const globalMiddlewares = [log]
 
 axios.get('/api/user')
@@ -29,6 +32,11 @@ axios.get('/api/user')
     store.user = res.data
     store.loggedIn = true
     console.log('success login')
+
+    window.Echo.private('App.Models.User.' + store.user?.id)
+        .notification((notification) => {
+            userNotificationsStore.getNotifications()
+        });
 })
 .catch(err => {
     if(err.response.status == 401) {
@@ -68,4 +76,4 @@ axios.get('/api/user')
 
     app.mount('#app')
 })
-
+    

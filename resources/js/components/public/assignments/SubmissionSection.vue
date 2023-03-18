@@ -31,7 +31,6 @@ const submitAssignment = async () => {
 
         alert('Pri odovzdávaní nastala chyba')
     }
-    console.log(res)
 }
 </script>
 

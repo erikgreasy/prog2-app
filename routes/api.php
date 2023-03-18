@@ -16,6 +16,8 @@ use App\Http\Controllers\CurrentAssignmentController;
 use App\Http\Controllers\AssignmentSubmissionController;
 use App\Http\Controllers\VcsAssignmentSubmissionController;
 use App\Http\Controllers\ManualAssignmentSubmissionController;
+use App\Http\Controllers\MarkNotificationAsReadController;
+use App\Http\Controllers\UserNotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
         Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class);
     });
+
+    // Notifications
+    Route::get('/notifications', UserNotificationsController::class);
+    Route::post('/notifications/{notification}/mark-as-read', MarkNotificationAsReadController::class);
 
     Route::get('/assignments/{assignment}/submissions', [AssignmentSubmissionController::class, 'index']);
     Route::get('/assignments/{assignment}/submissions/{submissionIndex}', [AssignmentSubmissionController::class, 'show']);

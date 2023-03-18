@@ -47,6 +47,8 @@
                 © 2022 ÚIM FEI STU
             </div>
         </footer>
+
+        <UserNotifications />
     </div>
 </template>
 
@@ -54,6 +56,7 @@
 import AppButton from '../../components/AppButton.vue';
 import AppLogo from '../../components/AppLogo.vue';
 import NavbarItem from '../../components/NavbarItem.vue';
+import UserNotifications from '@/components/public/UserNotifications.vue';
 import { useAuthStore } from '@/stores/auth.js'
 import { useAuth } from './../../composables/auth';
 

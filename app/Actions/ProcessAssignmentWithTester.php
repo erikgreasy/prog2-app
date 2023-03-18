@@ -11,6 +11,7 @@ use App\Models\Assignment;
 use App\Models\Submission;
 use App\Models\SubmissionTestScenario;
 use App\Models\TestScenario;
+use App\Notifications\SubmissionProcessed;
 use Spatie\QueueableAction\QueueableAction;
 
 class ProcessAssignmentWithTester
@@ -51,6 +52,8 @@ class ProcessAssignmentWithTester
             'report' => $result,
             'points' => $this->resolvePoints($submission),
         ]);
+
+        $submission->user->notify(new SubmissionProcessed($submission));
     }
 
     private function resolvePoints(Submission $submission): float

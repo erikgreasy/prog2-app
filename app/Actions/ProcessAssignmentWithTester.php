@@ -16,7 +16,7 @@ use Spatie\QueueableAction\QueueableAction;
 class ProcessAssignmentWithTester
 {
     use QueueableAction;
-    
+
     public function __construct(private Tester $tester)
     {
     }
@@ -25,16 +25,12 @@ class ProcessAssignmentWithTester
     {
         $result = $this->tester->run($input);
 
-        $submission->update([
-            'report' => $result
-        ]);
-
         collect($result->scenarios)->each(function (TestResultScenario $scenario) use ($submission) {
             $hasFailedCases = collect($scenario->cases)->filter(fn (TestResultCase $case) => !$case->success)->isNotEmpty();
 
             $resultScenario = $submission->resultScenarios()->create([
                 'test_scenario_id' => $scenario->id,
-                'points' => $hasFailedCases ? 0 : TestScenario::find($scenario->id)->first()->points
+                'points' => $hasFailedCases ? 0 : TestScenario::find($scenario->id)->first()->points,
             ]);
 
             collect($scenario->cases)->each(function (TestResultCase $case) use ($resultScenario) {
@@ -50,5 +46,31 @@ class ProcessAssignmentWithTester
                 ]);
             });
         });
+
+        $submission->update([
+            'report' => $result,
+            'points' => $this->resolvePoints($submission),
+        ]);
+    }
+
+    private function resolvePoints(Submission $submission): float
+    {
+        $actualPoints = $submission->resultScenarios()->sum('points');
+        
+        $maxPoints =  match($submission->try) {
+            1 => 10,
+            2 => 9,
+            3 => 7,
+            4 => 5,
+            5 => 3,
+            6 => 1,
+            default => 0
+        };
+
+        if ($actualPoints > $maxPoints) {
+            return $maxPoints;
+        }
+
+        return $actualPoints;
     }
 }

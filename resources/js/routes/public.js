@@ -1,5 +1,4 @@
 import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
 import Websocket from '@/views/Websocket.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import AssignmentsIndex from '@/views/public/assignments/Index.vue';
@@ -74,11 +73,6 @@ export default [
         path: '/login',
         name: 'login',
         component: Login,
-    },
-    {
-        path: "/about",
-        name: "about",
-        component: About,
     },
     {
         path: '/websocket',

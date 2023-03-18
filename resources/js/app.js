@@ -6,13 +6,13 @@ import { createApp } from 'vue';
 import { createWebHistory, createRouter } from "vue-router";
 import { createPinia } from "pinia";
 
-import routes from './routes/index';
-import App from './App.vue';
-import AdminCard from './components/AdminCard.vue'
-import middlewarePipeline from './middlewarePipeline';
-import { useAuthStore } from './stores/auth';
-import log from './middleware/log';
-import { useUserNotificationsStore } from './stores/userNotifications';
+import routes from '@/routes/index';
+import App from '@/App.vue';
+import AdminCard from '@/components/AdminCard.vue'
+import middlewarePipeline from '@/middlewarePipeline';
+import { useAuthStore } from '@/stores/auth';
+import log from '@/middleware/log';
+import { useUserNotificationsStore } from '@/stores/userNotifications';
 
 const app = createApp(App)
 

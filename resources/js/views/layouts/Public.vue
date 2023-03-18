@@ -53,12 +53,12 @@
 </template>
 
 <script setup>
-import AppButton from '../../components/AppButton.vue';
-import AppLogo from '../../components/AppLogo.vue';
-import NavbarItem from '../../components/NavbarItem.vue';
+import AppButton from '@/components/AppButton.vue';
+import AppLogo from '@/components/AppLogo.vue';
+import NavbarItem from '@/components/NavbarItem.vue';
 import UserNotifications from '@/components/public/UserNotifications.vue';
 import { useAuthStore } from '@/stores/auth.js'
-import { useAuth } from './../../composables/auth';
+import { useAuth } from '@/composables/auth';
 
 const authStore = useAuthStore()
 

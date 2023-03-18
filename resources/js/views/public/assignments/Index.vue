@@ -53,7 +53,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, computed, onMounted, onDeactivated, onUnmounted } from 'vue'
-import PageHeader from '../../../components/PageHeader.vue';
+import PageHeader from '@/components/PageHeader.vue';
 
 const assignments = ref([])
 const search = ref('')

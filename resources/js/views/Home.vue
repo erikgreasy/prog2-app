@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import AppButton from '../components/AppButton.vue';
-import { useAuth } from '../composables/auth';
+import AppButton from '@/components/AppButton.vue';
+import { useAuth } from '@/composables/auth';
 
 const { openLogin }  = useAuth()
 </script>

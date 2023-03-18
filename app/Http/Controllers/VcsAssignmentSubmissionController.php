@@ -13,16 +13,23 @@ use Illuminate\Http\Request;
 use App\Enums\SubmissionSource;
 use App\Dto\TesterInputScenario;
 use App\Actions\ProcessAssignmentWithTester;
+use App\Actions\StoreSubmission;
+use App\Dto\StoreSubmissionDto;
 
 class VcsAssignmentSubmissionController extends Controller
 {
-    public function __invoke(Request $request, Assignment $assignment, ProcessAssignmentWithTester $processAssignmentWithTester)
-    {
-        $submission = auth()->user()->submissions()->create([
-            'assignment_id' => $assignment->id,
-            'ip' => $request->ip(),
-            'source' => SubmissionSource::VCS,
-        ]);
+    public function __invoke(
+        Request $request,
+        Assignment $assignment,
+        ProcessAssignmentWithTester $processAssignmentWithTester,
+        StoreSubmission $storeSubmission,
+    ) {
+        $submission = $storeSubmission->execute(new StoreSubmissionDto(
+            assignmentId: $assignment->id,
+            userId: auth()->id(),
+            ip: $request->ip(),
+            source: SubmissionSource::VCS,
+        ));
 
         // clone the code
 

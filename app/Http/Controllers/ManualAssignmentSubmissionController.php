@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ProcessAssignmentWithTester;
+use App\Actions\StoreSubmission;
 use App\Contracts\Tester;
 use App\Dto\TesterInput;
 use App\Dto\TesterInputCase;
@@ -17,17 +18,17 @@ use Illuminate\Http\Request;
 
 class ManualAssignmentSubmissionController extends Controller
 {
-    public function __invoke(ManualSubmissionRequest $request, Assignment $assignment, ProcessAssignmentWithTester $processAssignmentWithTester)
-    {
+    public function __invoke(
+        ManualSubmissionRequest $request, 
+        Assignment $assignment, 
+        ProcessAssignmentWithTester $processAssignmentWithTester,
+        StoreSubmission $storeSubmission,
+    ) {
         $user = auth()->user();
 
         $filePath = $request->file('file')->store("/assignments/{$assignment->id}/{$user->id}");
 
-        $submission = $user->submissions()->create([
-            'assignment_id' => $assignment->id,
-            'ip' => $request->ip(),
-            'source' => SubmissionSource::MANUAL,
-        ]);
+        $storeSubmission->execute($request->toDto());
 
         $inputScenarios = $assignment->testScenarios->map(function (TestScenario $scenario) {
             $inputCases = $scenario->cases->map(function (TestCase $case) {

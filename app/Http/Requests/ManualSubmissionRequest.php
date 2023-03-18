@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Dto\StoreSubmissionDto;
+use App\Enums\SubmissionSource;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManualSubmissionRequest extends FormRequest
@@ -11,5 +13,15 @@ class ManualSubmissionRequest extends FormRequest
         return [
             'file' => ['nullable']
         ];
+    }
+
+    public function toDto(): StoreSubmissionDto
+    {
+        return new StoreSubmissionDto(
+            assignmentId: $this->route('assignment')->id,
+            userId: auth()->id(),
+            ip: $this->ip(),
+            source: SubmissionSource::MANUAL,
+        );
     }
 }

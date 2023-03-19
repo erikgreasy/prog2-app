@@ -18,6 +18,8 @@ class StoreAssignmentRequest extends FormRequest
             'content' => ['nullable'],
             'status' => ['in:' . implode(',', array_column(AssignmentStatus::cases(), 'value'))],
             'materials' => ['nullable'],
+            'tries' => ['nullable', 'array'],
+            'tries.*.max_points' => ['required', 'numeric'],
             'published_at' => ['nullable', 'date'],
             'points' => ['required', 'numeric', 'min:0'],
             'submission_instructions' => ['nullable'],

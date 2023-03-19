@@ -20,6 +20,7 @@ class Assignment extends Model
         'content' => 'array',
         'submission_instructions' => 'array',
         'materials' => 'array',
+        'tries' => 'array',
         'deadline' => 'datetime:Y-m-d H:i',
         'published_at' => 'datetime:Y-m-d H:i',
     ];

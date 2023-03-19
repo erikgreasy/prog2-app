@@ -20,6 +20,7 @@ class Assignment extends Model
         'content' => 'array',
         'submission_instructions' => 'array',
         'materials' => 'array',
+        'tries' => 'array',
         'deadline' => 'datetime:Y-m-d H:i',
         'published_at' => 'datetime:Y-m-d H:i',
     ];
@@ -27,6 +28,15 @@ class Assignment extends Model
     public function isPublished()
     {
         return $this->published_at && $this->published_at <= now();
+    }
+    
+    public function maxTries(): int
+    {
+        if (!$this->tries) {
+            return 0;
+        }
+
+        return count($this->tries);
     }
 
     public function submissions(): HasMany

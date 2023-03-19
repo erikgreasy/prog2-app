@@ -70,6 +70,23 @@
                 />
             </AdminCard>
         </div>
+
+        <div class="mt-5">
+            <h2>Max. body podľa pokusu</h2>
+            <AdminCard>
+                <div v-for="(assignmentTry, index) in assignment.tries" :key="index">
+                    <InputWithError :label="`Pokus ${index + 1}`" :errors="errors?.[`tries.${index}.max_points`]">
+                        <div class="flex items-center gap-x-5">
+                            <AppInput type="number" step="0.5" min="0" v-model="assignmentTry.max_points" :errors="errors?.[`tries.${index}.max_points`]" />
+                            <button @click="removeTry(index)">&times;</button>
+                        </div>
+                    </InputWithError>
+
+                </div>
+
+                <AppButton @click="addTry" size="small">Pridať</AppButton>
+            </AdminCard>
+        </div>
     </div>
 </template>
 
@@ -128,4 +145,15 @@ const transformSlug = () => {
     assignment.value.slug = slugify(assignment.value.slug).toLowerCase()
 }
 
+const removeTry = index => {
+    assignment.value.tries.splice(index, 1)
+}
+
+const addTry = () => {
+    if (!assignment.value.tries) {
+        assignment.value.tries = []
+    }
+
+    assignment.value.tries.push({})
+}
 </script>

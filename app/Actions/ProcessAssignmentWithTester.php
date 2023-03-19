@@ -18,7 +18,10 @@ class ProcessAssignmentWithTester
 {
     use QueueableAction;
 
-    public function __construct(private Tester $tester)
+    public function __construct(
+        private Tester $tester,
+        private ResolvePointsForSubmission $resolvePointsForSubmission,
+    )
     {
     }
 
@@ -50,30 +53,9 @@ class ProcessAssignmentWithTester
 
         $submission->update([
             'report' => $result,
-            'points' => $this->resolvePoints($submission),
+            'points' => $this->resolvePointsForSubmission->execute($submission),
         ]);
 
         $submission->user->notify(new SubmissionProcessed($submission));
-    }
-
-    private function resolvePoints(Submission $submission): float
-    {
-        $actualPoints = $submission->resultScenarios()->sum('points');
-        
-        $maxPoints =  match($submission->try) {
-            1 => 10,
-            2 => 9,
-            3 => 7,
-            4 => 5,
-            5 => 3,
-            6 => 1,
-            default => 0
-        };
-
-        if ($actualPoints > $maxPoints) {
-            return $maxPoints;
-        }
-
-        return $actualPoints;
     }
 }

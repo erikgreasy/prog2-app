@@ -8,8 +8,8 @@ on:
     branches: [ master ]
 
 jobs:
-  laravel:
-    name: Laravel
+  phpunit:
+    name: Run tests
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: testing

@@ -16,6 +16,12 @@ export const useUserNotificationsStore = defineStore('userNotifications', {
                 // userNotificationsStore.notifications = res.data
             } catch(err) {
                 console.error(err)
+                const res = err.response
+
+                if (res?.status === 401) {
+                    return
+                }
+                
                 alert('Pri získavaní notifikacii nastala chyba')
             }
         },

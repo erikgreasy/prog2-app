@@ -24,7 +24,7 @@ onMounted(() => {
                     <div class="container">
                         <div class="bg-red-200 relative p-5">
                             <span v-if="notification.type == 'App\\Notifications\\SubmissionProcessed'">
-                                Vaše odovzdanie z {{ notification.data.submission.created_at }} bolo vyhodnotené.
+                                Vaše odovzdanie zadania "{{ notification.data.assignment. title }}" z {{ notification.data.submission.created_at }} bolo vyhodnotené.
                             </span>
     
                                 <RouterLink

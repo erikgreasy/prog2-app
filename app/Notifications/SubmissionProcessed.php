@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Assignment;
 use App\Models\Submission;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -56,7 +57,8 @@ class SubmissionProcessed extends Notification
     public function toArray($notifiable)
     {
         return [
-            'submission' => $this->submission->load('assignment')
+            'submission' => $this->submission,
+            'assignment' => $this->submission->assignment,
             // 'message' => "Vaše odovzdanie z {$this->submission->created_at->format('d.m.Y H:i')} bolo vyhodnotené."
         ];
     }

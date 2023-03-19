@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Assignment;
 use Illuminate\Http\Request;
 
 class PreventExceedingSubmissions
@@ -12,9 +13,10 @@ class PreventExceedingSubmissions
      */
     public function handle(Request $request, Closure $next)
     {
+        /** @var Assignment */
         $assignment = $request->route()->parameter('assignment');
 
-        if ($assignment->submissions()->where('user_id', auth()->id())->count() >= 6 ) {
+        if ($assignment->submissions()->where('user_id', auth()->id())->count() >= $assignment->maxTries() ) {
             return response()->json([
                 'message' => 'Vyčerpali ste počet možností pre odovzdanie'
             ], 400);

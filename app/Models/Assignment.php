@@ -29,6 +29,15 @@ class Assignment extends Model
     {
         return $this->published_at && $this->published_at <= now();
     }
+    
+    public function maxTries(): int
+    {
+        if (!$this->tries) {
+            return 0;
+        }
+
+        return count($this->tries);
+    }
 
     public function submissions(): HasMany
     {

@@ -1,5 +1,9 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+
+import useEventsBus from "@/eventBus";
+
+const { bus } = useEventsBus()
 
 const props = defineProps({
     assignmentId: Number,
@@ -9,7 +13,7 @@ const loading = ref(false)
 
 const submissions = ref([])
 
-onMounted(async () => {
+const getSubmissions = async () => {
     try {
         loading.value = true
         const res = await axios.get(`/api/assignments/${props.assignmentId}/submissions`)
@@ -19,7 +23,17 @@ onMounted(async () => {
     } finally {
         loading.value = false
     }
+}
+
+onMounted(() => {
+    getSubmissions()
 })
+
+
+watch(() => bus.value.get('assignmentProcessed'), async () => {
+    getSubmissions()
+})
+
 </script>
 
 <template>

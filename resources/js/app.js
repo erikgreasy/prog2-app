@@ -27,6 +27,10 @@ const userNotificationsStore = useUserNotificationsStore()
 
 const globalMiddlewares = [log]
 
+import useEventsBus from '@/eventBus'
+
+const { emit } = useEventsBus()
+
 axios.get('/api/user')
 .then(res => {
     store.user = res.data
@@ -35,6 +39,7 @@ axios.get('/api/user')
 
     window.Echo.private('App.Models.User.' + store.user?.id)
         .notification((notification) => {
+            emit('assignmentProcessed')
             userNotificationsStore.getNotifications()
         });
 })

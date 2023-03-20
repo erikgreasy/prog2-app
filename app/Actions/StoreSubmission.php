@@ -16,6 +16,7 @@ class StoreSubmission
             'source' => $storeSubmissionDto->source,
             'ip' => $storeSubmissionDto->ip,
             'report' => $storeSubmissionDto->report,
+            'file_path' => $storeSubmissionDto->filePath,
         ]);
     }
 

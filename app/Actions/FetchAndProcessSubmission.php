@@ -24,6 +24,10 @@ class FetchAndProcessSubmission
     public function execute(Submission $submission): void
     {
         $filePath = $this->fetchCodeFromVcs->execute($submission->user, $submission);
+
+        $submission->update([
+            'file_path' => $filePath,
+        ]);
         
         $this->processAssignmentWithTester->onQueue()->execute(
             $submission,

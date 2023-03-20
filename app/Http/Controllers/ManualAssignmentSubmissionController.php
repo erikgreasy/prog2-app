@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ProcessAssignmentWithTester;
-use App\Actions\StoreSubmission;
-use App\Contracts\Tester;
 use App\Dto\TesterInput;
-use App\Dto\TesterInputCase;
-use App\Dto\TesterInputScenario;
-use App\Enums\SubmissionSource;
-use App\Http\Requests\ManualSubmissionRequest;
-use App\Jobs\ProcessManualSubmission;
-use App\Models\Assignment;
 use App\Models\TestCase;
+use App\Contracts\Tester;
+use App\Models\Assignment;
+use App\Dto\TesterInputCase;
 use App\Models\TestScenario;
 use Illuminate\Http\Request;
+use App\Enums\SubmissionSource;
+use App\Actions\StoreSubmission;
+use App\Dto\TesterInputScenario;
+use App\Jobs\ProcessManualSubmission;
+use Illuminate\Support\Facades\Storage;
+use App\Actions\ProcessAssignmentWithTester;
+use App\Http\Requests\ManualSubmissionRequest;
 
 class ManualAssignmentSubmissionController extends Controller
 {
@@ -26,9 +27,9 @@ class ManualAssignmentSubmissionController extends Controller
     ) {
         $user = auth()->user();
 
-        $filePath = $request->file('file')->store("/assignments/{$assignment->id}/{$user->id}");
+        $filePath = Storage::path($request->file('file')->store("/assignments/{$assignment->id}/{$user->id}"));
 
-        $submission = $storeSubmission->execute($request->toDto());
+        $submission = $storeSubmission->execute($request->toDto($filePath));
 
         $inputScenarios = $assignment->testScenarios->map(function (TestScenario $scenario) {
             $inputCases = $scenario->cases->map(function (TestCase $case) {

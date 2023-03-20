@@ -15,13 +15,14 @@ class ManualSubmissionRequest extends FormRequest
         ];
     }
 
-    public function toDto(): StoreSubmissionDto
+    public function toDto(string $filePath): StoreSubmissionDto
     {
         return new StoreSubmissionDto(
             assignmentId: $this->route('assignment')->id,
             userId: auth()->id(),
             ip: $this->ip(),
             source: SubmissionSource::MANUAL,
+            filePath: $filePath,
         );
     }
 }

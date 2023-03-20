@@ -21,11 +21,19 @@
             </div>
     
             <div class="col-span-3">
-                <AdminCard>
+                <AdminCard class="mb-5">
                     <h3 class="mb-4 font-semibold">Publikovanie</h3>
     
                     <InputWithError label="Dátum publikovania:">
                         <AppInput type="datetime-local" v-model="assignment.published_at" />
+                    </InputWithError>
+                </AdminCard>
+
+                <AdminCard>
+                    <h3 class="mb-4 font-semibold">Tester</h3>
+    
+                    <InputWithError label="Cesta k testeru:" :errors="errors.tester_path">
+                        <AppInput v-model="assignment.tester_path" :errors="errors.tester_path" />
                     </InputWithError>
                 </AdminCard>
             </div>

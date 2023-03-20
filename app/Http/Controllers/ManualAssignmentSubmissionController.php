@@ -51,7 +51,8 @@ class ManualAssignmentSubmissionController extends Controller
                 $submission,
                 new TesterInput(
                     $filePath,
-                    $inputScenarios->toArray()
+                    $inputScenarios->toArray(),
+                    $assignment->tester_path,
                 )
             );
         die;

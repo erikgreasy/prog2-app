@@ -48,7 +48,8 @@ class VcsAssignmentSubmissionController extends Controller
                             );
                         })->toArray()
                     );
-                })->toArray()
+                })->toArray(),
+                $assignment->tester_path,
             )
         );
     }

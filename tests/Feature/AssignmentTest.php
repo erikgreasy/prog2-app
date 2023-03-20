@@ -61,6 +61,7 @@ class AssignmentTest extends TestCase
             'deadline' => now()->nextWeekday()->toDateTimeLocalString(),
             'excerpt' => 'Lorem ipsum dolor sit',
             'points' => 10,
+            'tester_path' => '/path/to/tester',
         ];
 
         $this->postJson(route('assignments.store'), $assignmentData)->assertCreated();

@@ -23,6 +23,7 @@ class StoreAssignmentRequest extends FormRequest
             'published_at' => ['nullable', 'date'],
             'points' => ['required', 'numeric', 'min:0'],
             'submission_instructions' => ['nullable'],
+            'tester_path' => ['required', 'string'],
         ];
     }
 }

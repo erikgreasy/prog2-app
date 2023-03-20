@@ -12,6 +12,7 @@ class TesterInput
     public function __construct(
         public readonly string $src,
         public readonly array $scenarios,
+        public readonly ?string $testerPath = null,
     )
     {
     }

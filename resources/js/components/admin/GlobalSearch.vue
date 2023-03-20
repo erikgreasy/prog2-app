@@ -49,7 +49,7 @@ watch(searchKey, debounce(async (e) => {
 </script>
 
 <template>
-    <div class="relative">
+    <div class="hidden relative lg:block">
         <div class="relative">
             <AppInput v-model="searchKey" type="text" placeholder="Hľadať..." class="w-[400px] outline-none focus:ring-0 focus:shadown-none" />
             <span v-if="searchKey" @click="clearSearch" class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-2.5 z-10">&times;</span>

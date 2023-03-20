@@ -8,19 +8,19 @@
                 type="outline"
             >Zobraziť</AppButton>
 
-            <AppButton :to="{name: 'admin.assignment-tests.index', id: assignment.id}" size="small" type="outline">
+            <AppButton :to="{name: 'admin.assignment-tests.index', id: assignment.id}" size="small" type="outline" class="hidden">
                 Testy
             </AppButton>
 
             <AppButton @click="submitForm" size="small" button>Aktualizovať</AppButton>
         </PageHeader>
 
-        <div class="grid grid-cols-12 gap-8 items-start">
-            <div class="col-span-9">
+        <div class="grid lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-9">
                 <AssignmentForm @processed="updateAssignment" :errors="errors" />
             </div>
     
-            <div class="col-span-3">
+            <div class="lg:col-span-3">
                 <AdminCard class="mb-5">
                     <h3 class="mb-4 font-semibold">Publikovanie</h3>
     

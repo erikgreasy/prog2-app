@@ -28,7 +28,7 @@ class ManualAssignmentSubmissionController extends Controller
 
         $filePath = $request->file('file')->store("/assignments/{$assignment->id}/{$user->id}");
 
-        $storeSubmission->execute($request->toDto());
+        $submission = $storeSubmission->execute($request->toDto());
 
         $inputScenarios = $assignment->testScenarios->map(function (TestScenario $scenario) {
             $inputCases = $scenario->cases->map(function (TestCase $case) {

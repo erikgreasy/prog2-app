@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Github\Client;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class VcsAuthController extends Controller
 {
-
-    public function __construct(private Client $github)
-    {
-    }
-
     public function redirect()
     {
-        $ghClientId = config('github.client_id');
+        return Socialite::driver('github')
+            ->setScopes(['repo'])
+            ->redirect();
 
         return redirect("https://github.com/login/oauth/authorize?client_id={$ghClientId}");
     }
 
-    public function callback(Request $request)
+    public function callback()
     {
-        $this->github->initializeToken($request->code);
-        $accessToken = $this->github->getAccessToken();
+        $githubUser = Socialite::driver('github')->user();
 
         auth()->user()->update([
-            'github_access_token' => $accessToken
+            'github_access_token' => $githubUser->token,
+            'vcs_username' => $githubUser->getNickname()
         ]);
 
         return redirect('/my-profile');

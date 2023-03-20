@@ -23,6 +23,8 @@ class AssignmentFactory extends Factory
             'slug' => str()->slug($this->faker->words(4, asText: true)),
             'deadline' => Carbon::now()->addMonth(),
             'excerpt' => $this->faker->sentences(3, true),
+            'vcs_branch' => '01',
+            'vcs_filename' => 'file01.c',
         ];
     }
 }

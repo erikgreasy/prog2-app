@@ -31,6 +31,23 @@ class User extends Authenticatable
         return $this->hasMany(Submission::class);
     }
 
+    public function hasVcsSetup(): bool
+    {
+        if (!$this->vcs_username) {
+            return false;
+        }
+
+        if (!$this->github_access_token) {
+            return false;
+        }
+
+        if (!$this->github_repo) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function toSearchableArray(): array
     {
         return [

@@ -19,7 +19,7 @@ class TestScenarioFactory extends Factory
     {
         return [
             'title' => 'Scenar ' . $this->faker->word(),
-            'points' => 10,
+            'points' => 2,
         ];
     }
 }

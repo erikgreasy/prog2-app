@@ -62,6 +62,8 @@ class AssignmentTest extends TestCase
             'excerpt' => 'Lorem ipsum dolor sit',
             'points' => 10,
             'tester_path' => '/path/to/tester',
+            'vcs_branch' => '01',
+            'vcs_filename' => 'subor.c',
         ];
 
         $this->postJson(route('assignments.store'), $assignmentData)->assertCreated();

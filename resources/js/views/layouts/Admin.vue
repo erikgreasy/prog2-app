@@ -4,8 +4,8 @@
 
         <TheSidebar />
 
-        <div class="relative pl-64 pt-16 min-h-[calc(100vh)] bg-[#FAFAFA]">
-            <div class="p-10">
+        <div class="relative lg:pl-64 pt-16 min-h-[calc(100vh)] bg-[#FAFAFA]">
+            <div class="p-4 lg:p-10">
                 <slot></slot>
             </div>
         </div>

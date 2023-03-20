@@ -12,12 +12,13 @@ use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Controllers\TestScenarioController;
 use App\Http\Controllers\FulltextSearchController;
+use App\Http\Middleware\OnlyCompleteVcsSubmission;
 use App\Http\Controllers\CurrentAssignmentController;
+use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\MarkNotificationAsReadController;
 use App\Http\Controllers\VcsAssignmentSubmissionController;
 use App\Http\Controllers\ManualAssignmentSubmissionController;
-use App\Http\Controllers\MarkNotificationAsReadController;
-use App\Http\Controllers\UserNotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         \App\Http\Middleware\PreventDuplicitSubmission::class
     ]], function () {
         Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
-        Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class);
+        Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)
+            ->middleware(OnlyCompleteVcsSubmission::class);
     });
 
     // Notifications

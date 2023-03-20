@@ -29,11 +29,23 @@
                     </InputWithError>
                 </AdminCard>
 
-                <AdminCard>
+                <AdminCard class="mb-5">
                     <h3 class="mb-4 font-semibold">Tester</h3>
     
                     <InputWithError label="Cesta k testeru:" :errors="errors.tester_path">
                         <AppInput v-model="assignment.tester_path" :errors="errors.tester_path" />
+                    </InputWithError>
+                </AdminCard>
+
+                <AdminCard>
+                    <h3 class="mb-4 font-semibold">Odovzdanie cez GitHub</h3>
+    
+                    <InputWithError label="Názov branch-ky:" :errors="errors.vcs_branch">
+                        <AppInput v-model="assignment.vcs_branch" :errors="errors.vcs_branch" />
+                    </InputWithError>
+
+                    <InputWithError label="Názov súboru:" :errors="errors.vcs_filename">
+                        <AppInput v-model="assignment.vcs_filename" :errors="errors.vcs_filename" />
                     </InputWithError>
                 </AdminCard>
             </div>

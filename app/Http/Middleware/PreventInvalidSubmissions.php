@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Assignment;
 use Illuminate\Http\Request;
 
 class PreventInvalidSubmissions

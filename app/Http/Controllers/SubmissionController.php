@@ -3,29 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Models\User;
 use App\Models\Assignment;
 use App\Models\Submission;
-use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
 class SubmissionController extends Controller
 {
-    public function index(User $user)
+    public function index(Request $request)
     {
-        // get submissions grouped by assignment
-        $assignments = Assignment::whereHas('submissions', function(Builder $query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->with('submissions')->get();
+        $query = Submission::query();
 
-        return $assignments;
-    }
-
-    public function show(User $user, Submission $submission)
-    {
-        if(auth()->user()->role === Role::STUDENT) {
-            abort(403);
+        if ($request->user) {
+            $query->where('user_id', $request->user);
         }
 
+        if ($request->assignment) {
+            $query->where('assignment_id', $request->assignment);
+        }
+
+        return $query->get();
+    }
+
+    public function show(Submission $submission)
+    {
         return $submission;
     }
 }

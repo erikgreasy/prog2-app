@@ -44,7 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     Route::group(['middleware' => [
         \App\Http\Middleware\PreventExceedingSubmissions::class, 
-        \App\Http\Middleware\PreventDuplicitSubmission::class
+        \App\Http\Middleware\PreventDuplicitSubmission::class,
+        \App\Http\Middleware\PreventAfterDeadlineSubmission::class,
     ]], function () {
         Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
         Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)

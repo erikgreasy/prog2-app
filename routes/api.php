@@ -43,9 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', LogoutController::class)->name('logout');
     
     Route::group(['middleware' => [
-        \App\Http\Middleware\PreventExceedingSubmissions::class, 
-        \App\Http\Middleware\PreventDuplicitSubmission::class,
-        \App\Http\Middleware\PreventAfterDeadlineSubmission::class,
+        \App\Http\Middleware\PreventInvalidSubmissions::class,
     ]], function () {
         Route::post('/assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
         Route::post('/assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)

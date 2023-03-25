@@ -23,6 +23,7 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
+        "@chenfengyuan/vue-countdown": "^2.1.1",
         "@editorjs/attaches": "^1.3.0",
         "@editorjs/editorjs": "^2.26.1",
         "@editorjs/header": "^2.7.0",

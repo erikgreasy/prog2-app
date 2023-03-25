@@ -4,8 +4,11 @@ import ManualSubmissionModal from '@/components/public/assignments/ManualSubmiss
 import { computed, ref } from 'vue'
 import SubmissionHistory from './SubmissionHistory.vue';
 import { useAuthStore } from '@/stores/auth';
+import VueCountdown from '@chenfengyuan/vue-countdown';
 
 const authStore = useAuthStore()
+
+const timeRemaining = new Date(props.assignment.deadline.raw) - new Date()
 
 const isManualModalOpen = ref(false)
 
@@ -32,13 +35,56 @@ const submitAssignment = async () => {
         alert('Pri odovzdávaní nastala chyba')
     }
 }
+
+const daysString = days => {
+    if (days === 1) {
+        return 'deň'
+    } else if (days <= 4) {
+        return 'dni'
+    } else {
+        return 'dní'
+    }
+}
+
+const hoursString = hours => {
+    if (hours === 1) {
+        return 'hodina'
+    } else if (hours > 1 && hours <= 4) {
+        return 'hodiny'
+    } else {
+        return 'hodín'
+    }
+}
+
+const minutesString = minutes => {
+    if (minutes === 1) {
+        return 'minúta'
+    } else {
+        return 'minút'
+    }
+}
+
+const secondsString = seconds => {
+    if (seconds === 1) {
+        return 'sekunda'
+    } else if (seconds > 1 && seconds <= 4) {
+        return 'sekundy'
+    } else {
+        return 'sekúnd'
+    }
+}
 </script>
 
 <template>
     <div>
         <section class="text-center mb-20">
             <div class="text-xl text-sliver">Na odovzdanie zostáva:</div>
-            <div class="font-extrabold text-2xl">12 hodín 38 minút 10 sekúnd</div>
+
+            <vue-countdown :time="timeRemaining" v-slot="{ days, hours, minutes, seconds }">
+                <div class="font-extrabold text-2xl">
+                    {{ days }} {{ daysString(days) }} {{ hours }} {{ hoursString(hours) }} {{ minutes }} {{ minutesString(minutes) }} {{ seconds }} {{ secondsString(seconds) }}
+                </div>
+            </vue-countdown>
         </section>
     
         <div v-if="authStore.loggedIn">

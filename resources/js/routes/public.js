@@ -60,6 +60,9 @@ export default [
         path: '/zadania/:slug/odovzdania/:index',
         name: 'assignments.submissions.show',
         component: AssignmentsSubmissionsShow,
+        meta: {
+            layout: AssignmentLayout,
+        }
     },
     {
         path: '/my-profile',

@@ -30,9 +30,10 @@ provide('assignment', assignment)
         <div>
             <div class="container">
                 <AssignmentHeader :assignment="assignment" />
-
-                <nav class="my-20">
-                    <ul class="flex justify-center gap-x-8">
+            </div>
+            <div class="lg:container">
+                <nav class="my-10 lg:my-20">
+                    <ul class="flex px-4 md:justify-center gap-x-8 max-w-full overflow-scroll">
                         <li>
                             <router-link :to="{name: 'assignments.show'}" 
                                 :class="route.name === 'assignments.show' ? 'text-primary' : 'text-sliver'" 
@@ -95,7 +96,8 @@ provide('assignment', assignment)
                         </li>
                     </ul>
                 </nav>
-        
+            </div>
+            <div class="container">
                 <main class="pb-20">
                     <Transition name="fade" mode="out-in">
                         <slot></slot>

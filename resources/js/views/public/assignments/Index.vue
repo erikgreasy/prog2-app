@@ -5,7 +5,7 @@
             Zadania
         </PageHeader>
         <div class="container">
-            <div class="w-2/3 mx-auto">
+            <div class="lg:only:w-2/3 mx-auto">
                 <div class="relative my-10">
                     <input ref="searchInput" type="text" class="w-full bg-[#D7D7D7] !ring-0 !ring-offset-0 !shadow-none !border-none font-semibold !outline-none rounded" v-model="search" placeholder="Vyhľadávať v zadaniach">
                     <span class="absolute top-1/2 -translate-y-1/2 right-5 text-[#8A8A8A] font-semibold">/</span>

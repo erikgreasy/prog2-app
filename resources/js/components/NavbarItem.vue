@@ -1,6 +1,11 @@
 <template>
     <li>
-        <router-link :to="{name: routeName}" class="font-semibold text-sm text-sliver" :class="[additionalClass]">
+        <router-link
+            @click="$emit('clicked')"
+            :to="{name: routeName}"
+            class="py-5 block font-semibold text-sm text-sliver"
+            :class="[additionalClass]"
+        >
             <slot></slot>
         </router-link>
     </li>
@@ -13,4 +18,6 @@ defineProps({
     },
     additionalClass: String,
 })
+
+defineEmits(['clicked'])
 </script>

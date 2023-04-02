@@ -1,16 +1,24 @@
 <template>
     <div>
         <div class="container py-5">
-            <nav class="flex">
-                <!-- Logo -->
-                <AppLogo />
+            <nav class="lg:flex">
+                <div class="flex justify-between">
+                    <!-- Logo -->
+                    <AppLogo />
+
+                    <button @click="navbarVisible = !navbarVisible" class="lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 8H13.75M5 12H19M10.25 16L19 16" stroke="#464455" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
                 
-                <ul class="flex items-center ml-auto gap-x-10">
-                    <NavbarItem route-name="home">
+                <ul v-if="isDesktop || navbarVisible" class="lg:flex lg:items-center lg:ml-auto lg:gap-x-10">
+                    <NavbarItem @clicked="navbarVisible = false" route-name="home">
                         Domov
                     </NavbarItem>
 
-                    <NavbarItem route-name="assignments.index">
+                    <NavbarItem @clicked="navbarVisible = false" route-name="assignments.index">
                         Zadania
                     </NavbarItem>
                     
@@ -59,10 +67,17 @@ import NavbarItem from '@/components/NavbarItem.vue';
 import UserNotifications from '@/components/public/UserNotifications.vue';
 import { useAuthStore } from '@/stores/auth.js'
 import { useAuth } from '@/composables/auth';
+import { ref, computed } from 'vue';
 
 const authStore = useAuthStore()
 
 const { logout, openLogin } = useAuth()
+
+const navbarVisible = ref(false)
+
+const isDesktop = computed(() => {
+    return window.innerWidth >= 1024
+})
 
 const togglDarkMode = () => {
     alert('toggl dark mode')

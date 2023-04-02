@@ -4,11 +4,11 @@
         :class="{
             'bg-white text-primary hover:bg-primaryDark hover:text-white' : type == 'outline',
             'bg-primary text-white hover:bg-primaryDark' : type == 'primary',
-            'py-3 px-14 min-w-[200px]' : size == 'regular',
+            'py-3 px-10 min-w-[160px] lg:px-14 lg:min-w-[200px]' : size == 'regular',
             'py-2 px-8 text-sm min-w-[130px]' : size == 'small',
         }"
         :to="to ? to : ''"
-        class=" inline-block border border-primary rounded-lg  transition text-center"
+        class=" text-sm inline-block border border-primary rounded-lg  transition text-center lg:text-base"
         :type="button ? role : ''"
     >
         <slot></slot>

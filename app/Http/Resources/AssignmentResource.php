@@ -24,6 +24,7 @@ class AssignmentResource extends JsonResource
                 'raw' => $this->published_at?->toString(),
                 'readable' => $this->published_at?->format('d.m.Y H:i')
             ],
+            'is_after_deadline' => $this->deadline < now(),
         ])->toArray();
     }
 }

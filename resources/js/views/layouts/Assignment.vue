@@ -13,7 +13,6 @@ const error = ref(null)
 onMounted(() => {
     axios.get(`/api/assignments/slug/${route.params.slug}`)
         .then(res => {
-            console.log(res)
             assignment.value = res.data
         })
         .catch(err => {

@@ -52,7 +52,12 @@
 
         <footer>
             <div class="container text-center text-sliver py-5 text-sm">
-                © 2022 ÚIM FEI STU
+                <div>
+                    Copyright © 2022 Pavol Marák a <a href="https://greasy.dev" target="_blank" rel="noopener noreferrer">Erik Masný</a>, ÚIM FEI STU
+                </div>
+                <div>
+                    Powered by Laravel, Vue.js and Tailwind CSS
+                </div>
             </div>
         </footer>
 

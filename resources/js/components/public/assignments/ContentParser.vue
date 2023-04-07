@@ -49,9 +49,9 @@ const imgIndex = id => {
                     <strong>Obrázok {{ imgIndex(block.id) }}<span v-if="block.data.caption">:</span></strong> {{ block.data.caption }}</figcaption>
             </figure>
 
-            <ul v-else-if="block.type === 'list'">
+            <component v-else-if="block.type === 'list'" :is="block.data.style === 'ordered' ? 'ol' : 'ul'">
                 <ContentParserList v-for="(item, index) in block.data.items" :key="index" :items="item.items" :content="item.content" />
-            </ul>
+            </component>
 
             <div v-else-if="block.type === 'code'">
                 <PrismCode>
@@ -96,10 +96,19 @@ const imgIndex = id => {
     margin-bottom: .5rem;
 }
 
-.editorjs-parser ul {
+.editorjs-parser ul,
+.editorjs-parser ol {
     list-style: initial;
     padding-left: 20px;
     margin-bottom: 2rem;
+}
+
+.editorjs-parser ul {
+    list-style: initial;
+}
+
+.editorjs-parser ol {
+    list-style: decimal;
 }
 
 </style>

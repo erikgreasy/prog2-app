@@ -18,7 +18,9 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        return Assignment::latest()->get();
+        return AssignmentResource::collection(
+            Assignment::latest()->get()
+        );
     }
 
     public function published()
@@ -68,7 +70,7 @@ class AssignmentController extends Controller
             abort(404);
         }
 
-        return new AssignmentResource($assignment);
+        return new AssignmentResource($assignment->load('processingUserSubmission'));
     }
 
     /**

@@ -1,16 +1,23 @@
 <script setup>
 import Public from './Public.vue';
 import AssignmentHeader from '@/components/public/assignments/AssignmentHeader.vue';
-import { onMounted, provide, ref } from 'vue';
+import { onMounted, provide, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import useEventsBus from '@/eventBus';
 
+const { bus } = useEventsBus()
 
 const assignment = ref({})
 
 const route = useRoute()
 const error = ref(null)
 
-onMounted(() => {
+watch(() => bus.value.get('assignmentProcessed'), async () => {
+    getAssignemntBySlug()
+    // processingAssignmentsStore.removeAssignment(props.assignment.id)
+})
+
+const getAssignemntBySlug = () => {
     axios.get(`/api/assignments/slug/${route.params.slug}`)
         .then(res => {
             assignment.value = res.data
@@ -18,7 +25,10 @@ onMounted(() => {
         .catch(err => {
             error.value = err
         })
+}
 
+onMounted(() => {
+    getAssignemntBySlug()
 })
 
 provide('assignment', assignment)
@@ -32,11 +42,11 @@ provide('assignment', assignment)
             </div>
             <div class="lg:container">
                 <nav class="my-10 lg:my-20">
-                    <ul class="flex px-4 md:justify-center gap-x-8 max-w-full overflow-scroll">
+                    <ul class="flex px-4 md:justify-center gap-x-8 max-w-full overflow-scroll lg:overflow-auto">
                         <li>
                             <router-link :to="{name: 'assignments.show'}" 
-                                :class="route.name === 'assignments.show' ? 'text-primary' : 'text-sliver'" 
-                                class="font-semibold text-lg inline-flex items-center gap-x-2"
+                                :class="route.name === 'assignments.show' ? 'text-primary dark:text-primary' : 'text-sliver'" 
+                                class="font-semibold text-lg inline-flex items-center gap-x-2 dark:text-darkText"
                             >
                                 <svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.03564 13.784H15.0668M8.03564 18.264H12.4351M10.0445 6.84H14.0623C16.0712 6.84 16.0712 5.72 16.0712 4.6C16.0712 2.36 15.0668 2.36 14.0623 2.36H10.0445C9.04009 2.36 8.03564 2.36 8.03564 4.6C8.03564 6.84 9.04009 6.84 10.0445 6.84Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -48,8 +58,8 @@ provide('assignment', assignment)
                         </li>
                         <li>
                             <router-link :to="{name: 'assignments.show.submission'}"
-                                :class="route.name === 'assignments.show.submission' ? 'text-primary' : 'text-sliver'" 
-                                class="font-semibold text-lg inline-flex items-center gap-x-2"
+                                :class="route.name === 'assignments.show.submission' ? 'text-primary dark:text-primary' : 'text-sliver'" 
+                                class="font-semibold text-lg inline-flex items-center gap-x-2 dark:text-darkText"
                             >
                                 <svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M2.6665 9.64H15.2221M6.68428 18.6H8.69317M11.2043 18.6H15.2221" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -61,8 +71,8 @@ provide('assignment', assignment)
                         </li>
                         <li>
                             <router-link :to="{name: 'assignments.show.instructions'}"
-                                :class="route.name === 'assignments.show.instructions' ? 'text-primary' : 'text-sliver'" 
-                                class="font-semibold text-lg inline-flex items-center gap-x-2"
+                                :class="route.name === 'assignments.show.instructions' ? 'text-primary dark:text-primary' : 'text-sliver'" 
+                                class="font-semibold text-lg inline-flex items-center gap-x-2 dark:text-darkText"
                             >
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.57489 20.8027C3.82412 20.8027 3.12258 20.5662 2.61797 20.1273C1.97797 19.5758 1.67028 18.7429 1.78104 17.8425L2.23643 14.1959C2.32258 13.5093 2.77797 12.5977 3.3072 12.1024L13.4118 2.32184C15.9349 -0.120511 18.5687 -0.188042 21.2395 2.11925C23.9103 4.42654 23.9841 6.83512 21.4611 9.27747L11.3564 19.0581C10.8395 19.5645 9.87951 20.0373 9.12874 20.1499L5.16566 20.7688C4.95643 20.7801 4.77181 20.8027 4.57489 20.8027ZM17.3626 2.10799C16.4149 2.10799 15.5903 2.64824 14.7534 3.4586L4.64874 13.2506C4.40258 13.4869 4.11951 14.0497 4.07028 14.3761L3.61489 18.0226C3.56566 18.394 3.66412 18.6979 3.88566 18.8892C4.1072 19.0806 4.43951 19.1481 4.84566 19.0918L8.80874 18.4729C9.16566 18.4166 9.75643 18.1239 10.0026 17.8875L20.1072 8.10694C21.6334 6.62127 22.1872 5.24816 19.9595 3.3348C18.9749 2.46816 18.1257 2.10799 17.3626 2.10799Z" fill="currentColor"/>
@@ -75,8 +85,8 @@ provide('assignment', assignment)
                         </li>
                         <li>
                             <router-link :to="{name: 'assignments.show.materials'}"
-                                :class="route.name === 'assignments.show.materials' ? 'text-primary' : 'text-sliver'" 
-                                class="font-semibold text-lg inline-flex items-center gap-x-2"
+                                :class="route.name === 'assignments.show.materials' ? 'text-primary dark:text-primary' : 'text-sliver'" 
+                                class="font-semibold text-lg inline-flex items-center gap-x-2 dark:text-darkText"
                             >
                                 <svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_114_206)">

@@ -13,6 +13,7 @@ import middlewarePipeline from '@/middlewarePipeline';
 import { useAuthStore } from '@/stores/auth';
 import log from '@/middleware/log';
 import { useUserNotificationsStore } from '@/stores/userNotifications';
+import { useProcessingAssignmentsStore } from '@/stores/processingAssignments'
 
 const app = createApp(App)
 
@@ -29,6 +30,7 @@ const globalMiddlewares = [log]
 
 import useEventsBus from '@/eventBus'
 
+const processingAssignmentsStore = useProcessingAssignmentsStore()
 const { emit } = useEventsBus()
 
 axios.get('/api/user')
@@ -41,6 +43,7 @@ axios.get('/api/user')
         .notification((notification) => {
             emit('assignmentProcessed')
             userNotificationsStore.getNotifications()
+            processingAssignmentsStore.removeAssignment(notification.assignment.id)
         });
 })
 .catch(err => {

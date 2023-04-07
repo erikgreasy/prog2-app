@@ -1,5 +1,6 @@
 <script setup>
 import AppButton from '@/components/AppButton.vue';
+import { useProcessingAssignmentsStore } from '@/stores/processingAssignments';
 import { ref } from 'vue'
 
 const file = ref(null)
@@ -19,6 +20,8 @@ const props = defineProps({
 
 const errors = ref({})
 
+const processingAssignmentsStore = useProcessingAssignmentsStore()
+
 const onFileChange = (e) => {
     // console.log(e.target.files)
     file.value = e.target.files[0]
@@ -37,9 +40,14 @@ const submitManually = async () => {
             }
         })
         console.log(res)
+
+        processingAssignmentsStore.addAssignment(props.assignmentId)
+
         emit('submit')
 
     } catch(err) {
+        processingAssignmentsStore.removeAssignment(props.assignmentId)
+
         const res = err.response
 
         if (!res) {

@@ -38,8 +38,8 @@ class TestScenarioController extends Controller
         $assignment->testScenarios()->update($request->safe()->except('cases'));
     }
 
-    public function destroy(Assignment $assignment, TestScenario $scenario)
+    public function destroy(Assignment $assignment, TestScenario $test)
     {
-        return $scenario->delete();
+        return $test->delete();
     }
 }

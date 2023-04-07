@@ -175,5 +175,12 @@ const togglAccordion = index => {
                 </div>
             </div>
         </div>
+
+        <div>
+            <a :href="submission.file_path" target="_blank">Odovzdany subor</a>
+            <PrismCode lang="cpp" :showInvisibles="false" :useLineNumbers="true">
+                {{ submission.file_content }}
+            </PrismCode>
+        </div>
     </div>
 </template>

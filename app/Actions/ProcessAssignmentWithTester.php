@@ -5,12 +5,13 @@ namespace App\Actions;
 use App\Models\User;
 use App\Dto\TesterInput;
 use App\Contracts\Tester;
-use App\Dto\TestResultCase;
-use App\Dto\TestResultScenario;
 use App\Models\Assignment;
 use App\Models\Submission;
-use App\Models\SubmissionTestScenario;
+use App\Dto\TestResultCase;
 use App\Models\TestScenario;
+use App\Dto\TestResultScenario;
+use Illuminate\Support\Facades\File;
+use App\Models\SubmissionTestScenario;
 use App\Notifications\SubmissionProcessed;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -54,6 +55,7 @@ class ProcessAssignmentWithTester
         $submission->update([
             'report' => $result,
             'points' => $this->resolvePointsForSubmission->execute($submission),
+            'file_content' => File::get($submission->file_path),
         ]);
 
         $submission->user->notify(new SubmissionProcessed($submission));

@@ -10,9 +10,9 @@ class TesterResult
      * @param TestResultScenario[] $scenarios
      */
     public function __construct(
-        public readonly string $buildStatus,
-        public readonly string $gccError,
-        public readonly string $gccWarning,
+        public readonly bool $buildStatus,
+        public readonly array $gccError,
+        public readonly array $gccWarning,
         public readonly array $scenarios,
     )
     {

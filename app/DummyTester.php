@@ -38,9 +38,9 @@ class DummyTester implements Tester
         });
 
         return new TesterResult(
-            "OK",
-            "",
-            "",
+            true,
+            [],
+            ["This is some random warning. Be aware!"],
             $resultScenarios->toArray()
         );
     }

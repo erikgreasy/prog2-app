@@ -159,8 +159,8 @@ const togglAccordion = index => {
                             STDOUT:
                         </div>
                         <div class="col-span-3">
-                            <p class="mb-2 text-sm">Počet zobrazených riadkov je obmedzený na počet riadkov správneho výpisu. Maximálna dĺžka vypísaného riadku je 500 znakov.</p>
                             <PrismCode :useLineNumbers="true">{{ resultCase.actual_stdout }}</PrismCode>
+                            <p class="mb-2 text-xs">Počet zobrazených riadkov je obmedzený na počet riadkov správneho výpisu. Maximálna dĺžka vypísaného riadku je 500 znakov.</p>
                         </div>
                     </div>
 

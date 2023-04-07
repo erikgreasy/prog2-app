@@ -15,7 +15,8 @@ class FetchCodeFromVcs
      */
     public function execute(User $user, Submission $submission): string
     {
-        $relativeDiskPath = "assignments/{$submission->assignment->id}/user_{$user->id}/try_{$submission->try}/";
+        $now = now();
+        $relativeDiskPath = "students/assignment_{$submission->assignment->id}/user_{$user->id}/try_{$submission->try}__{$now->format('Y-m-d_H-i-s')}/";
         $absTargetPath = Storage::path($relativeDiskPath);
 
         $this

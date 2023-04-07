@@ -10,20 +10,25 @@ use Illuminate\Support\Facades\Storage;
 
 class FetchCodeFromVcs
 {
+    public function __construct(
+        private ResolveSubmissionFolder $resolveSubmissionFolder,
+    )
+    {
+    }
+
     /**
      * @return string path to cloned file
      */
     public function execute(User $user, Submission $submission): string
     {
-        $now = now();
-        $relativeDiskPath = "students/assignment_{$submission->assignment->id}/user_{$user->id}/try_{$submission->try}__{$now->format('Y-m-d_H-i-s')}/";
+        $relativeDiskPath = $this->resolveSubmissionFolder->handle($submission);
         $absTargetPath = Storage::path($relativeDiskPath);
 
         $this
             ->cloneRepo($user, $absTargetPath, $submission->assignment->vcs_branch)
             ->cleanUpFiles($relativeDiskPath, $submission->assignment->vcs_filename);
 
-        return Storage::path($relativeDiskPath . $submission->assignment->vcs_filename);
+        return Storage::path("{$relativeDiskPath}/{$submission->assignment->vcs_filename}");
     }
 
     private function cloneRepo(User $user, string $targetPath, string $branchName): self

@@ -12,8 +12,10 @@ use Illuminate\Http\Request;
 use App\Enums\SubmissionSource;
 use App\Actions\StoreSubmission;
 use App\Dto\TesterInputScenario;
+use Illuminate\Support\Facades\File;
 use App\Jobs\ProcessManualSubmission;
 use Illuminate\Support\Facades\Storage;
+use App\Actions\ResolveSubmissionFolder;
 use App\Actions\ProcessAssignmentWithTester;
 use App\Http\Requests\ManualSubmissionRequest;
 
@@ -24,12 +26,20 @@ class ManualAssignmentSubmissionController extends Controller
         Assignment $assignment, 
         ProcessAssignmentWithTester $processAssignmentWithTester,
         StoreSubmission $storeSubmission,
+        ResolveSubmissionFolder $resolveSubmissionFolder,
     ) {
-        $user = auth()->user();
+        $submission = $storeSubmission->execute($request->toDto());
 
-        $filePath = Storage::path($request->file('file')->store("/assignments/{$assignment->id}/{$user->id}"));
+        $relativeDiskPath = $resolveSubmissionFolder->handle($submission);
 
-        $submission = $storeSubmission->execute($request->toDto($filePath));
+        $filePath = Storage::path(
+            $request->file('file')->storeAs($relativeDiskPath, $request->file('file')->getClientOriginalName())
+        );
+        
+        $submission->update([
+            'file_path' => $filePath,
+            'file_content' => File::get($filePath),
+        ]);
 
         $inputScenarios = $assignment->testScenarios->map(function (TestScenario $scenario) {
             $inputCases = $scenario->cases->map(function (TestCase $case) {
@@ -56,7 +66,6 @@ class ManualAssignmentSubmissionController extends Controller
                     $assignment->tester_path,
                 )
             );
-        die;
 
         return response()->json([
             'message' => 'Success'

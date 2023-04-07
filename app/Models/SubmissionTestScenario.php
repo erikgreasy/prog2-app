@@ -14,6 +14,10 @@ class SubmissionTestScenario extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'points' => 'float',
+    ];
+
     protected $appends = [
         'is_success'
     ];

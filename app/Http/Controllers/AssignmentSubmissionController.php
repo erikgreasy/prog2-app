@@ -23,7 +23,8 @@ class AssignmentSubmissionController extends Controller
         return $assignment
             ->submissions()
             ->where('user_id', auth()->id())
-            ->skip($submissionIndex - 1)
+            ->where('try', $submissionIndex)
+            // ->skip($submissionIndex - 1)
             ->firstOrFail();
     }
 }

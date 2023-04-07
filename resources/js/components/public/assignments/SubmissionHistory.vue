@@ -45,7 +45,7 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
         </div>
 
         <ul v-else-if="submissions.length" class="ml-3 pl-8 border-l relative border-gray-[#D9D9D9]">
-            <li v-for="(submission, index) in submissions" :key="submission.id" class="pt-4 mb-6">
+            <li v-for="submission in submissions" :key="submission.id" class="pt-4 mb-6">
                 <div class="text-sliver mb-2">
                     <span class="h-4 w-4 rounded-full bg-[#D9D9D9] inline-block absolute left-0 -translate-x-1/2 translate-y-1"></span>
                     {{ submission.created_at }}
@@ -63,7 +63,7 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
                     </div>
                 </div>
                 
-                <router-link :to="{name: 'assignments.submissions.show', params: {id: 1, index: index}}" class="inline-flex items-center text-sm gap-x-3">
+                <router-link :to="{name: 'assignments.submissions.show', params: {id: 1, index: submission.try}}" class="inline-flex items-center text-sm gap-x-3">
                     Zobraziť pokus
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.0253 4.94168L17.0837 10L12.0253 15.0583M2.91699 10H16.942" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>

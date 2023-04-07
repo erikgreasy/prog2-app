@@ -1,6 +1,7 @@
 <script setup>
 import slugify from 'slugify'
 import ContentParserList from '@/components/public/assignments/ContentParserList.vue'
+import PrismCode from '@/components/PrismCode.vue';
 
 const makeSlug = text => {
     return slugify(text.toLowerCase())
@@ -53,7 +54,10 @@ const imgIndex = id => {
             </ul>
 
             <div v-else-if="block.type === 'code'">
-                <pre><code v-html="block.data.code"></code></pre>
+                <PrismCode>
+                    {{ block.data.code }}
+                </PrismCode>
+                <!-- <pre><code v-html="block.data.code"></code></pre> -->
             </div>
 
             <div v-else-if="block.type === 'raw'">

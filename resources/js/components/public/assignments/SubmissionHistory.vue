@@ -53,7 +53,11 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
 
                 <div class="mb-3">
                     <div class="flex items-center">
-                        <span class="text-xl font-bold">Pokus č.{{ submission.try }}</span>
+                        <span class="text-xl font-bold">
+                            <router-link :to="{name: 'assignments.submissions.show', params: {id: 1, index: submission.try}}">
+                                Pokus č.{{ submission.try }}
+                            </router-link>
+                        </span>
                         <div class="py-0.5 px-2 font-bold ml-4 inline-block bg-primary text-white rounded-lg">{{ submission.points }}/10</div>
                     </div>
     

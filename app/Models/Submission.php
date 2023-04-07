@@ -19,6 +19,7 @@ class Submission extends Model
         'report' => 'object',
         'source' => SubmissionSource::class,
         'fail_messages' => 'array',
+        'points' => 'float',
     ];
 
     protected $with = [

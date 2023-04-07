@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Dto\StoreSubmissionDto;
+use App\Enums\SubmissionStatus;
 use App\Models\Submission;
 
 class StoreSubmission
@@ -17,6 +18,7 @@ class StoreSubmission
             'ip' => $storeSubmissionDto->ip,
             'report' => $storeSubmissionDto->report,
             'file_path' => $storeSubmissionDto->filePath,
+            'status' => SubmissionStatus::Created,
         ]);
     }
 

@@ -18,7 +18,8 @@ class SubmissionResource extends JsonResource
             'created_at' => [
                 'raw' => $this->created_at,
                 'readable' => $this->created_at->format('d.m. H:i')
-            ]
+            ],
+            'points_before_penalisation' => $this->pointsBeforePenalisation(),
         ])->toArray();
     }
 }

@@ -23,6 +23,12 @@ class PreventInvalidSubmissions
             ], 400);
         }
 
+        if ($assignment->submissions()->max('try') >= $assignment->maxTries() ) {
+            return response()->json([
+                'message' => 'Vyčerpali ste počet možností pre odovzdanie'
+            ], 400);
+        }
+
         if ($assignment->submissions()->where('user_id', auth()->id())->whereNull('points')->exists()) {
             return response()->json([
                 'message' => 'Nemôžete odovzdať pokým sa spracúva vaše predošlé odovzdanie'

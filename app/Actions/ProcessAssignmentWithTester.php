@@ -10,6 +10,7 @@ use App\Models\Submission;
 use App\Dto\TestResultCase;
 use App\Models\TestScenario;
 use App\Dto\TestResultScenario;
+use App\Enums\SubmissionStatus;
 use Illuminate\Support\Facades\File;
 use App\Models\SubmissionTestScenario;
 use App\Notifications\SubmissionProcessed;
@@ -26,8 +27,10 @@ class ProcessAssignmentWithTester
     {
     }
 
-    public function execute(Submission $submission, TesterInput $input)
+    public function execute(Submission $submission, TesterInput $input): void
     {
+        $submission->update(['status' => SubmissionStatus::Processing]);
+
         $result = $this->tester->run($input);
 
         collect($result->scenarios)->each(function (TestResultScenario $scenario) use ($submission) {
@@ -52,10 +55,25 @@ class ProcessAssignmentWithTester
             });
         });
 
-        $submission->update([
-            'report' => $result,
-            'points' => $this->resolvePointsForSubmission->execute($submission),
-        ]);
+        try {
+            $submission->update([
+                'report' => $result,
+                'points' => $this->resolvePointsForSubmission->execute($submission),
+                'status' => SubmissionStatus::Completed,
+            ]);
+        } catch (\Exception $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => \Exception::class,
+                    'public_output' => 'Nepodarilo sa ohodnotiť zadanie.',
+                    'actual_output' => $e->getMessage(),
+                ]
+            ]);
+
+            return;
+        }
 
         $submission->user->notify(new SubmissionProcessed($submission));
     }

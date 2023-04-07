@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Models\Submission;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubmissionResource;
 
 class AssignmentSubmissionController extends Controller
 {
@@ -20,11 +21,11 @@ class AssignmentSubmissionController extends Controller
 
     public function show(Assignment $assignment, int $submissionIndex)
     {
-        return $assignment
+        return new SubmissionResource($assignment
             ->submissions()
             ->where('user_id', auth()->id())
             ->where('try', $submissionIndex)
             // ->skip($submissionIndex - 1)
-            ->firstOrFail();
+            ->firstOrFail());
     }
 }

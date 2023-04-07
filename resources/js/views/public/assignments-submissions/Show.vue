@@ -98,15 +98,23 @@ const togglAccordion = index => {
     
                     <tfoot>
                         <tr>
-                            <td class="px-10 py-3" colspan="2">Počet bodov pred penalizáciou:</td>
+                            <td class="px-10 py-3" colspan="2">Získané body pred penalizáciou:</td>
                             <td class="px-10 py-3 text-center font-bold">
                                 {{ submission.points_before_penalisation }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-10 py-3" colspan="2">Získaný počet bodov:</td>
+                            <td class="px-10 py-3" colspan="2">Získané body po penalizácii:</td>
                             <td class="px-10 py-3" align="center">
-                                {{ submission.points }} <span class="bg-primary text-white">Zápis do AIS</span>
+                                {{ submission.points }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-10 py-3 font-bold" colspan="2">Body zapísané do AIS-u:</td>
+                            <td class="px-10 py-3" align="center">
+                                <span class="py-1 px-2 bg-primary text-white rounded font-bold">
+                                    {{ submission.points }}
+                                </span>
                             </td>
                         </tr>
                     </tfoot>

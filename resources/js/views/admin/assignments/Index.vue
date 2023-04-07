@@ -1,12 +1,9 @@
 <template>
     <div>
         <PageHeader title="Zadania">
-            <AppButton 
-                    :to="{name: 'admin.assignments.create'}"
-                    size="small"
-                >
-                    Nové zadanie
-                </AppButton>
+            <AppButton :to="{ name: 'admin.assignments.create' }" size="small">
+                Nové zadanie
+            </AppButton>
         </PageHeader>
 
         <AdminTable>
@@ -14,19 +11,20 @@
 
             <TableRow v-for="item in assignments" :key="item.id">
                 <TableCell>
-                    <router-link :to="{name: 'admin.assignments.edit', params: {id: item.id}}" class="font-semibold text-primary">
+                    <router-link :to="{ name: 'admin.assignments.edit', params: { id: item.id } }"
+                        class="font-semibold text-primary">
                         {{ item.title }}
                     </router-link>
-                    <span v-if="item.is_current" class="font-normal">
-                        AKtualne
+                    <span v-if="item.is_current" class="py-1 px-3 bg-green-300 rounded-lg inline-block ml-3">
+                        Aktuálne
                     </span>
                 </TableCell>
 
                 <TableCell>
-                    <span v-if="item.status === 'publish'" class="py-1 px-3 bg-green-300 rounded-lg">
-                        Publikovane
+                    <span v-if="item.is_published" class="py-1 px-3 bg-green-300 rounded-lg">
+                        Publikované
                     </span>
-                    <span v-else-if="item.status === 'draft'" class="py-1 px-3 bg-red-300 rounded-lg">
+                    <span v-else class="py-1 px-3 bg-red-300 rounded-lg">
                         Koncept
                     </span>
                 </TableCell>
@@ -106,11 +104,18 @@ const getAssignments = async () => {
     console.log(res)
 }
 
+const deleteAssignment = async id => {
+    if (!confirm('Naozaj chcete odstrániť zadanie?')) {
+        return
+    }
+
+    const res = await axios.delete(`/api/assignments/${id}`)
+    getAssignments()
+}
+
 onMounted(() => {
     getAssignments()
 })
 </script>
 
-<style>
-
-</style>
+<style></style>

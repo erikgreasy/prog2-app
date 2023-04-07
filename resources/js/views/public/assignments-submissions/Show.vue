@@ -135,7 +135,7 @@ const togglAccordion = index => {
                         <span v-else class="bg-red-400 py-0.5 px-1 rounded-sm font-semibold text-white">FAIL</span>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10">
+                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                         <div class="justify-self-end">
                             CMD IN:
                         </div>
@@ -144,7 +144,7 @@ const togglAccordion = index => {
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10">
+                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                         <div class="justify-self-end">
                             STDIN:
                         </div>
@@ -154,7 +154,7 @@ const togglAccordion = index => {
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10">
+                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                         <div class="justify-self-end">
                             STDOUT:
                         </div>
@@ -164,7 +164,7 @@ const togglAccordion = index => {
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10">
+                    <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                         <div class="justify-self-end">
                             SPRAVNY STDOUT:
                         </div>

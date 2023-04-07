@@ -43,6 +43,16 @@ const authStore = useAuthStore()
                     Používatelia
                 </AdminNavItem>
             </ul>
+
+            <div class="uppercase text-sm font-semibold text-sliver mt-8 mb-3 px-2">
+                System
+            </div>
+
+            <ul>
+                <AdminNavItem route-name="admin.failed-jobs.index">
+                    Failed jobs
+                </AdminNavItem>
+            </ul>
         </div>
     </aside>
 </template>

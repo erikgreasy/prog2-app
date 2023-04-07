@@ -7,6 +7,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestCaseController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\FailedJobsController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Controllers\TestScenarioController;
@@ -99,4 +100,5 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 Route::group(['middleware' => ['auth:sanctum', 'teacher']], function () {
     Route::get('fulltext-search', FulltextSearchController::class);
     Route::post('upload-file', UploadFileController::class);
+    Route::get('failed-jobs', [FailedJobsController::class, 'index']);
 });

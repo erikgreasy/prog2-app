@@ -79,7 +79,7 @@ provide('assignment', assignment)
             <AppButton @click="store" size="small" button>Uložiť</AppButton>
         </PageHeader>
 
-        <div class="grid grid-cols-12 gap-8 items-start">
+        <!-- <div class="grid grid-cols-12 gap-8 items-start">
             <div class="col-span-9">
                 <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
             </div>
@@ -120,6 +120,7 @@ provide('assignment', assignment)
                     </InputWithError>
                 </AdminCard>
             </div>
-        </div>
+        </div> -->
+        <AssignmentForm :errors="errors" @store-assignment="storeAssignment" />
     </div>
 </template>

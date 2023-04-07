@@ -1,90 +1,137 @@
 <template>
-    <div>
-        <form v-if="assignment">
-            <InputGroup>
-                <AppInput 
-                    v-model="assignment.title"
-                    :errors="errors.title"
-                    @change="slugifyTitle"
-                    placeholder="Názov zadania"
-                    additional-classes="!bg-white !text-xl"
-                />
-            </InputGroup>
-    
-            <AdminCard>
-                <div class="mb-5">
-                    <InputWithError label="Slug:" :errors="errors?.slug">
-                        <AppInput @change="transformSlug" v-model="assignment.slug" :errors="errors?.slug" placeholder="Slug" />
-                    </InputWithError>
-                </div>
-        
-                <div class="mb-5">
-                    <InputWithError label="Deadline:" :errors="errors?.deadline">
-                        <AppInput type="datetime-local" v-model="assignment.deadline" :errors="errors?.deadline" />
-                    </InputWithError>
-                </div>
-        
-                <div class="mb-5">
-                    <InputWithError label="Krátky popis:" :errors="errors?.excerpt">
-                        <AppTextarea v-model="assignment.excerpt" placeholder="Krátky popis" :errors="errors?.excerpt" />
-                    </InputWithError>
-                </div>
-        
-                <div>
-                    <InputLabel>Obsah:</InputLabel>
-                    <ContentEditor
-                        ref="contentEditor"
-                        name="content"
-                        :content="assignment.content"
-                        @processed="data => assignment.content = data"
-                    />
-                </div>
-            </AdminCard>
-        </form>
-
-        <div class="mt-5">
-            <h2>Odovzdanie</h2>
-    
-            <AdminCard>
-                <ContentEditor 
-                    ref="instructionsEditor" 
-                    name="submission_instructions" 
-                    :content="assignment.submission_instructions"
-                    @processed="data => assignment.submission_instructions = data" 
-                />
-
-                <!-- <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea> -->
-                <!-- <ContentEditor name="submission_instructions" /> -->
-            </AdminCard>
-        </div>
-
-        <div class="mt-5">
-            <h2>Materiály</h2>
-
-            <AdminCard>
-                <ContentEditor 
-                    ref="materialsEditor"
-                    name="materials"
-                    :content="assignment.materials"
-                    @processed="data => assignment.materials = data"
-                />
-            </AdminCard>
-        </div>
-
-        <div class="mt-5">
-            <h2>Max. body podľa pokusu</h2>
-            <AdminCard>
-                <div v-for="(assignmentTry, index) in assignment.tries" :key="index">
-                    <InputWithError :label="`Pokus ${index + 1}`" :errors="errors?.[`tries.${index}.max_points`]">
-                        <div class="flex items-center gap-x-5">
-                            <AppInput type="number" step="0.5" min="0" v-model="assignmentTry.max_points" :errors="errors?.[`tries.${index}.max_points`]" />
-                            <button @click="removeTry(index)">&times;</button>
+    <div class="grid grid-cols-12 gap-8 items-start">
+        <div class="col-span-9">
+            <div>
+                <form v-if="assignment">
+                    <InputGroup>
+                        <AppInput 
+                            v-model="assignment.title"
+                            :errors="errors.title"
+                            @change="slugifyTitle"
+                            placeholder="Názov zadania"
+                            additional-classes="!bg-white !text-xl"
+                        />
+                    </InputGroup>
+            
+                    <AdminCard>
+                        <div class="mb-5">
+                            <InputWithError label="Slug:" :errors="errors?.slug">
+                                <AppInput @change="transformSlug" v-model="assignment.slug" :errors="errors?.slug" placeholder="Slug" />
+                            </InputWithError>
                         </div>
-                    </InputWithError>
+                
+                        <div class="mb-5">
+                            <InputWithError label="Deadline:" :errors="errors?.deadline">
+                                <AppInput type="datetime-local" v-model="assignment.deadline" :errors="errors?.deadline" />
+                            </InputWithError>
+                        </div>
+                
+                        <div class="mb-5">
+                            <InputWithError label="Krátky popis:" :errors="errors?.excerpt">
+                                <AppTextarea v-model="assignment.excerpt" placeholder="Krátky popis" :errors="errors?.excerpt" />
+                            </InputWithError>
+                        </div>
+                
+                        <div>
+                            <InputLabel>Obsah:</InputLabel>
+                            <ContentEditor
+                                ref="contentEditor"
+                                name="content"
+                                :content="assignment.content"
+                                @processed="data => assignment.content = data"
+                            />
+                        </div>
+                    </AdminCard>
+                </form>
 
+                <div class="mt-5">
+                    <h2>Odovzdanie</h2>
+            
+                    <AdminCard>
+                        <ContentEditor 
+                            ref="instructionsEditor" 
+                            name="submission_instructions" 
+                            :content="assignment.submission_instructions"
+                            @processed="data => assignment.submission_instructions = data" 
+                        />
+
+                        <!-- <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea> -->
+                        <!-- <ContentEditor name="submission_instructions" /> -->
+                    </AdminCard>
                 </div>
 
-                <AppButton @click="addTry" size="small">Pridať</AppButton>
+                <div class="mt-5">
+                    <h2>Materiály</h2>
+
+                    <AdminCard>
+                        <ContentEditor 
+                            ref="materialsEditor"
+                            name="materials"
+                            :content="assignment.materials"
+                            @processed="data => assignment.materials = data"
+                        />
+                    </AdminCard>
+                </div>
+
+                <div class="mt-5">
+                    <h2>Max. body podľa pokusu</h2>
+                    <AdminCard>
+                        <div v-for="(assignmentTry, index) in assignment.tries" :key="index">
+                            <InputWithError :label="`Pokus ${index + 1}`" :errors="errors?.[`tries.${index}.max_points`]">
+                                <div class="flex items-center gap-x-5">
+                                    <AppInput type="number" step="0.5" min="0" v-model="assignmentTry.max_points" :errors="errors?.[`tries.${index}.max_points`]" />
+                                    <button @click="removeTry(index)">&times;</button>
+                                </div>
+                            </InputWithError>
+
+                        </div>
+
+                        <AppButton @click="addTry" size="small">Pridať</AppButton>
+                    </AdminCard>
+                </div>
+            </div>
+            <!-- <AssignmentForm @processed="updateAssignment" :errors="errors" /> -->
+        </div>
+
+        <div class="col-span-3">
+            <AdminCard class="mb-5">
+                <InputWithError label="Body:" :errors="errors?.points">
+                    <AppInput type="number" :errors="errors?.points" v-model="assignment.points" />
+                </InputWithError>
+            </AdminCard>
+
+            <AdminCard class="mb-5">
+                <h3 class="mb-4 font-semibold">Publikovanie</h3>
+
+                <InputWithError label="Dátum publikovania:">
+                    <AppInput type="datetime-local" v-model="assignment.published_at" />
+                </InputWithError>
+
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" v-model="assignment.is_current" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Aktuálne zadanie</span>
+                </label>
+            </AdminCard>
+
+            <AdminCard class="mb-5">
+                <h3 class="mb-4 font-semibold">Tester</h3>
+
+                <InputWithError label="Cesta k testeru:" :errors="errors.tester_path">
+                    <AppInput v-model="assignment.tester_path" :errors="errors.tester_path" />
+                </InputWithError>
+            </AdminCard>
+
+            <AdminCard>
+                <h3 class="mb-4 font-semibold">Odovzdanie cez GitHub</h3>
+
+                <InputWithError label="Názov branch-ky:" :errors="errors.vcs_branch">
+                    <AppInput v-model="assignment.vcs_branch" :errors="errors.vcs_branch" />
+                </InputWithError>
+
+                <InputWithError label="Názov súboru:" :errors="errors.vcs_filename">
+                    <AppInput v-model="assignment.vcs_filename" :errors="errors.vcs_filename" />
+                </InputWithError>
             </AdminCard>
         </div>
     </div>

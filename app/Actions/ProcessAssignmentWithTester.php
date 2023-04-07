@@ -55,7 +55,6 @@ class ProcessAssignmentWithTester
         $submission->update([
             'report' => $result,
             'points' => $this->resolvePointsForSubmission->execute($submission),
-            'file_content' => File::get($submission->file_path),
         ]);
 
         $submission->user->notify(new SubmissionProcessed($submission));

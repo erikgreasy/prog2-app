@@ -8,6 +8,7 @@ use App\Models\Submission;
 use App\Dto\TesterInputCase;
 use App\Models\TestScenario;
 use App\Dto\TesterInputScenario;
+use Illuminate\Support\Facades\File;
 use Spatie\QueueableAction\QueueableAction;
 
 class FetchAndProcessSubmission
@@ -27,6 +28,7 @@ class FetchAndProcessSubmission
 
         $submission->update([
             'file_path' => $filePath,
+            'file_content' => File::get($filePath),
         ]);
         
         $this->processAssignmentWithTester->onQueue()->execute(

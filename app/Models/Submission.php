@@ -20,6 +20,9 @@ class Submission extends Model
         'source' => SubmissionSource::class,
         'fail_messages' => 'array',
         'points' => 'float',
+        'build_status' => 'boolean',
+        'gcc_error' => 'array',
+        'gcc_warning' => 'array',
     ];
 
     protected $with = [

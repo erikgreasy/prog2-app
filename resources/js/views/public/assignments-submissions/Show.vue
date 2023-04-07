@@ -51,14 +51,34 @@ const togglAccordion = index => {
 
         <div v-else>
             <div class="flex justify-center gap-x-5 text-sm mt-10 mb-20">
-                <div class="rounded-lg bg-green-200 py-1.5 px-5">
-                    Build status: 
+                <div 
+                    :class="{
+                        'bg-green-200': submission.build_status,
+                        'bg-red-300': !submission.build_status
+                    }"
+                    class="rounded-lg  py-1.5 px-5"
+                >
+                    Build status: {{ submission.build_status ? 'OK' : 'FAIL' }}
                 </div>
-                <div class="rounded-lg bg-green-200 py-1.5 px-5">
-                    GCC warnings: 1
+
+                <div
+                    :class="{
+                        'bg-green-200': !submission.gcc_warning?.length,
+                        'bg-orange-300': submission.gcc_warning?.length
+                    }"
+                    class="rounded-lg py-1.5 px-5"
+                >
+                    GCC warnings: {{ submission.gcc_warning?.length || '0' }}
                 </div>
-                <div class="rounded-lg bg-green-200 py-1.5 px-5">
-                    GCC errors: 0
+
+                <div
+                    :class="{
+                        'bg-green-200': !submission.gcc_error?.length,
+                        'bg-red-300': submission.gcc_error?.length
+                    }"
+                    class="rounded-lg py-1.5 px-5"
+                >
+                    GCC errors: {{ submission.gcc_error?.length || '0' }}
                 </div>
             </div>
     
@@ -120,8 +140,38 @@ const togglAccordion = index => {
                     </tfoot>
                 </table>
             </div>
+
+            <div class="mt-10 grid gap-y-10">
+                <div v-if="!submission.build_status" class="bg-red-600 text-white py-5 px-10 text-center font-bold text-xl">
+                    Vaše zadanie nie je kompilovateľné kompilátorom GCC.
+                </div>
+        
+                <div v-if="submission.gcc_error?.length">
+                    <h3>
+                        GCC errors (počet chýb: {{ submission.gcc_error?.length }})
+                    </h3>
+                    <ul>
+                        <li v-for="(error, index) in submission.gcc_error" :key="index">
+                            <code>{{ error }}</code>
+                        </li>
+                    </ul>
+                </div>
     
-            <div class="mt-32">
+                <div v-if="submission.gcc_warning?.length">
+                    <h3>
+                        GCC warnings (počet upozornení: {{ submission.gcc_warning?.length }})
+                    </h3>
+                    <ul>
+                        <li v-for="(warning, index) in submission.gcc_warning" :key="index">
+                            <code>{{ warning }}</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="my-20">
+        
+            <div>
                 <div v-for="(resultScenario, index) in submission?.result_scenarios" 
                     :key="resultScenario.id" 
                     class="mb-10"
@@ -138,6 +188,13 @@ const togglAccordion = index => {
                         {{ resultScenario.scenario.title }} 
                         {{ resultScenario.is_success ? 'OK' : 'FAIL' }}
                         {{ resultScenario.points }} / {{ resultScenario.scenario.points }}
+
+                        <svg 
+                            :class="{'rotate-180': index === accordionIndex}"
+                            class="h-6 w-6 transition"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                     <div 
                         v-show="index === accordionIndex"
@@ -192,6 +249,8 @@ const togglAccordion = index => {
                 </div>
             </div>
     
+            <hr class="my-20">
+
             <div>
                 <a :href="submission.file_path" target="_blank">Odovzdany subor</a>
                 <PrismCode lang="cpp" :showInvisibles="false" :useLineNumbers="true">

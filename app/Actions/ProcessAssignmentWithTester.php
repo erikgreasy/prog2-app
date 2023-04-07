@@ -60,6 +60,9 @@ class ProcessAssignmentWithTester
                 'report' => $result,
                 'points' => $this->resolvePointsForSubmission->execute($submission),
                 'status' => SubmissionStatus::Completed,
+                'build_status' => $result->buildStatus,
+                'gcc_error' => $result->gccError,
+                'gcc_warning' => $result->gccWarning,
             ]);
         } catch (\Exception $e) {
             $submission->update([

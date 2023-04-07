@@ -18,6 +18,7 @@ class Assignment extends Model
 
     protected $casts = [
         'content' => 'array',
+        'is_current' => 'bool',
         'submission_instructions' => 'array',
         'materials' => 'array',
         'tries' => 'array',
@@ -57,6 +58,15 @@ class Assignment extends Model
             'excerpt' => $this->title,
             'slug' => $this->title,
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Assignment $assignment) {
+            if ($assignment->is_current && Assignment::where('is_current', true)->exists()) {
+                Assignment::query()->update(['is_current' => false]);
+            }
+        });
     }
 
     public function scopePublished(Builder $query): void

@@ -26,6 +26,7 @@ class StoreAssignmentRequest extends FormRequest
             'tester_path' => ['required', 'string'],
             'vcs_branch' => ['required', 'string'],
             'vcs_filename' => ['required', 'string'],
+            'is_current' => ['required', 'boolean'],
         ];
     }
 }

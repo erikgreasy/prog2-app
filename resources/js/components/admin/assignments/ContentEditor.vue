@@ -51,6 +51,7 @@ onMounted(() => {
                 class: Header,
                 config: {
                     levels: [2, 3],
+                    defaultLevel: 2,
                 },
                 tunes: ['alignTool'],
             },

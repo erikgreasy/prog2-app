@@ -36,8 +36,9 @@ const imgIndex = id => {
                         'text-center': block.tunes?.alignTool?.alignment === 'center',
                         'text-right': block.tunes?.alignTool?.alignment === 'right',
                     }"
+
+                    v-html="block.data.text.replace(`[fa`, `<i class='`).replace(']', `'></i>`)"
                 >
-                    {{ block.data.text }}
                 </component>
             </div>
 

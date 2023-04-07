@@ -11,7 +11,7 @@ class ManualSubmissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['nullable']
+            'file' => ['required', 'file', 'mimes:c', 'max:1024']
         ];
     }
 

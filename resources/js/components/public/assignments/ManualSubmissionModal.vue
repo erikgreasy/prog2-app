@@ -17,6 +17,8 @@ const props = defineProps({
     }
 })
 
+const errors = ref({})
+
 const onFileChange = (e) => {
     // console.log(e.target.files)
     file.value = e.target.files[0]
@@ -50,6 +52,13 @@ const submitManually = async () => {
             return
         }
 
+        if (res.status === 422) {
+            errors.value = res.data.errors
+            alert('Niektoré z polí nie je správne vyplnené. Skontrolujte odovzdávací formulár')
+
+            return
+        }
+
         alert('Pri odvzdávaní nastala chyba')
     }
 }
@@ -71,6 +80,7 @@ const closeModal = event => {
                 <form @submit.prevent="submitManually" enctype="multipart/form-data">
                     <div class="mb-5">
                         <input @change="onFileChange" type="file">
+                        <div v-if="errors.file?.length" class="text-sm text-red-600 mt-2">{{ errors.file[0] }}</div>
                     </div>
 
                     <AppButton button>Odovzdať</AppButton>

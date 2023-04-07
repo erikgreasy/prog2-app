@@ -13,6 +13,7 @@ import AdminAssignmentTestsCreate from '@/views/admin/assignment-tests/Create.vu
 import AdminAssignmentTestsEdit from '@/views/admin/assignment-tests/Edit.vue'
 import AdminAssignmentTestsShow from '@/views/admin/assignment-tests/Show.vue'
 import AdminFailedJobs from '@/views/admin/failed-jobs/Index.vue'
+import AdminErrorLog from '@/views/admin/error-log/Index.vue'
 
 import auth from '@/middleware/auth.js';
 import admin from '@/middleware/admin';
@@ -151,6 +152,15 @@ export default [
         path: '/admin/failed-jobs',
         name: 'admin.failed-jobs.index',
         component: AdminFailedJobs,
+        meta: {
+            layout: Admin,
+            middleware: [auth, teacher]
+        }
+    },
+    {
+        path: '/admin/error-log',
+        name: 'admin.error-log.index',
+        component: AdminErrorLog,
         meta: {
             layout: Admin,
             middleware: [auth, teacher]

@@ -38,13 +38,16 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
 
 <template>
     <div>
-        <h3 class="font-semibold text-primary text-2xl mb-10">História odovzdávania</h3>
+        <h3 class="font-semibold text-primary text-2xl mb-10 text-center">História odovzdávania</h3>
 
         <div v-if="loading">
             Loading...
         </div>
 
-        <ul v-else-if="submissions.length" class="ml-3 pl-8 border-l relative border-gray-[#D9D9D9]">
+        <ul 
+            v-else-if="submissions.length"
+            class="pl-8 border-l relative border-gray-[#D9D9D9] md:w-fit md:mx-auto"
+        >
             <li v-for="submission in submissions" :key="submission.id" class="pt-4 mb-6">
                 <div class="text-sliver mb-2">
                     <span class="h-4 w-4 rounded-full bg-[#D9D9D9] inline-block absolute left-0 -translate-x-1/2 translate-y-1"></span>

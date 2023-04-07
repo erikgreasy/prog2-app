@@ -7,6 +7,9 @@ use App\Models\Assignment;
 use App\Models\Submission;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
+use App\Github\Exceptions\FailedCloneException;
+use App\Github\Exceptions\BranchNotFoundException;
+use App\Github\Exceptions\RepositoryNotFoundException;
 
 class FetchCodeFromVcs
 {
@@ -49,7 +52,15 @@ class FetchCodeFromVcs
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \Exception('Could not clone the code from VCS. Error: ' . $process->getErrorOutput());
+            if (preg_match('/Remote branch ([a-zA-Z0-9]*) not found in upstream origin/', $process->getErrorOutput())) {
+                throw new BranchNotFoundException($process->getErrorOutput());
+            }
+
+            if (preg_match('/Repository not found./', $process->getErrorOutput())) {
+                throw new RepositoryNotFoundException($process->getErrorOutput());
+            }
+
+            throw new FailedCloneException($process->getErrorOutput());
         }
 
         return $this;

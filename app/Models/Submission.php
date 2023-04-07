@@ -18,6 +18,7 @@ class Submission extends Model
     protected $casts = [
         'report' => 'object',
         'source' => SubmissionSource::class,
+        'fail_messages' => 'array',
     ];
 
     protected $with = [
@@ -32,6 +33,11 @@ class Submission extends Model
     public function fileContent(): ?string
     {
         return File::get($this->file_path);
+    }
+
+    public function pointsBeforePenalisation(): float
+    {
+        return floatval($this->resultScenarios()->sum('points'));
     }
 
     public function assignment(): BelongsTo

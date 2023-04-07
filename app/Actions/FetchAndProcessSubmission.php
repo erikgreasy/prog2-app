@@ -8,6 +8,10 @@ use App\Models\Submission;
 use App\Dto\TesterInputCase;
 use App\Models\TestScenario;
 use App\Dto\TesterInputScenario;
+use App\Enums\SubmissionStatus;
+use App\Github\Exceptions\BranchNotFoundException;
+use App\Github\Exceptions\FailedCloneException;
+use App\Github\Exceptions\RepositoryNotFoundException;
 use Illuminate\Support\Facades\File;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -24,7 +28,45 @@ class FetchAndProcessSubmission
     
     public function execute(Submission $submission): void
     {
-        $filePath = $this->fetchCodeFromVcs->execute($submission->user, $submission);
+        try {
+            $filePath = $this->fetchCodeFromVcs->execute($submission->user, $submission);
+        } catch (BranchNotFoundException $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => BranchNotFoundException::class,
+                    'actual_output' => $e->getMessage(),
+                    'public_output' => 'Branchka nebola najdena',
+                ],
+            ]);
+
+            return;
+        } catch (RepositoryNotFoundException $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => RepositoryNotFoundException::class,
+                    'actual_output' => $e->getMessage(),
+                    'public_output' => 'Repo nebolo najdene',
+                ],
+            ]);
+
+            return;
+        } catch (FailedCloneException $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => FailedCloneException::class,
+                    'actual_output' => $e->getMessage(),
+                    'public_output' => 'Nepodarilo sa clonovat repo.',
+                ],
+            ]);
+
+            return;
+        }
 
         $submission->update([
             'file_path' => $filePath,

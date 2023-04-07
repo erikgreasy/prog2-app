@@ -33,6 +33,11 @@ class ProcessAssignmentWithTester
 
         $result = $this->tester->run($input);
 
+        // first of all, save the raw report! We can play with other stuff later
+        $submission->update([
+            'report' => $result,
+        ]);
+
         collect($result->scenarios)->each(function (TestResultScenario $scenario) use ($submission) {
             $hasFailedCases = collect($scenario->cases)->filter(fn (TestResultCase $case) => !$case->success)->isNotEmpty();
 
@@ -57,7 +62,6 @@ class ProcessAssignmentWithTester
 
         try {
             $submission->update([
-                'report' => $result,
                 'points' => $this->resolvePointsForSubmission->execute($submission),
                 'status' => SubmissionStatus::Completed,
                 'build_status' => $result->buildStatus,

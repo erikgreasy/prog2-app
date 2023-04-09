@@ -7,6 +7,8 @@ import InputGroup from '@/components/admin/forms/InputGroup.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue'
 import InputLabel from '@/components/admin/forms/InputLabel.vue';
+import AdminCard from '@/components/AdminCard.vue';
+import InputWithError from '@/components/admin/forms/InputWithError.vue';
 
 const route = useRoute()
 const router = useRouter()
@@ -48,19 +50,61 @@ onMounted(async () => {
 </script>
 
 <template>
-    <form @submit.prevent="updateTest">
-        <PageHeader :title="`Edit test`">
+    <form v-if="test.id" @submit.prevent="updateTest">
+        <PageHeader :title="`Upraviť testovací scenár`">
+            <AppButton :to="{name: 'admin.assignment-tests.index', params: {id: test.assignment_id}}" type="outline" size="small">Späť</AppButton>
             <AppButton size="small" button>Uložiť</AppButton>
         </PageHeader>
 
-        <InputGroup>
-            <InputLabel class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Názov:</InputLabel>
-            <AppInput v-model="test.title" :errors="errors?.title" />
-        </InputGroup>
+        <div class="grid gap-y-5">
+            <AdminCard>
+                <div class="grid grid-cols-2 gap-x-10">
+                    <InputGroup>
+                        <InputLabel class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Názov:</InputLabel>
+                        <AppInput v-model="test.title" :errors="errors?.title" />
+                    </InputGroup>
+            
+                    <InputGroup>
+                        <InputWithError label="Počet bodov:" :errors="errors.points">
+                            <AppInput v-model="test.points" type="number" :errors="errors?.points" />
+                        </InputWithError>
+                    </InputGroup>
+                </div>
+            </AdminCard>
+    
+            <h3 class="text-center text-xl mb-5 mt-10">Testovacie prípady</h3>
 
-        <InputGroup>
-            <InputLabel class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max. počet bodov:</InputLabel>
-            <AppInput v-model="test.points" type="number" :errors="errors?.points" />
-        </InputGroup>
+            <AdminCard v-for="(testCase, index) in test.cases" :key="testCase.id" class="relative">
+                <h4 class="mb-5">Case {{ index + 1 }}</h4>
+
+                <AppButton @click="test.cases.splice(index, 1)" size="xs" type="danger" class="absolute top-5 right-5">
+                    Odstrániť prípad
+                </AppButton>
+
+                <div class="grid grid-cols-4 gap-x-3">
+                    <InputWithError label="cmd in:" :errors="errors[`cases.${index}.cmd_in`]">
+                        <AppTextarea v-model="testCase.cmd_in" :errors="errors[`cases.${index}.cmd_in`]" />
+                    </InputWithError>
+
+                    <InputWithError label="Std in:" :errors="errors[`cases.${index}.std_in`]">
+                        <AppTextarea v-model="testCase.std_in" :errors="errors[`cases.${index}.std_in`]" />
+                    </InputWithError>
+
+                    <InputWithError label="std out:" :errors="errors[`cases.${index}.std_out`]">
+                        <AppTextarea v-model="testCase.std_out" :errors="errors[`cases.${index}.std_out`]" />
+                    </InputWithError>
+
+                    <InputWithError label="err out:" :errors="errors[`cases.${index}.err_out`]">
+                        <AppTextarea v-model="testCase.err_out" :errors="errors[`cases.${index}.err_out`]" />
+                    </InputWithError>
+                </div>
+            </AdminCard>
+
+            <div class="text-center">
+                <AppButton @click="test.cases.push({})" size="small">
+                    Pridať prípad
+                </AppButton>
+            </div>
+        </div>
     </form>
 </template>

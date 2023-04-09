@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import PageHeader from '@/components/admin/PageHeader.vue';
 import AppButton from '@/components/AppButton.vue';
@@ -30,6 +30,10 @@ onMounted(async () => {
 const scenarioCreated = async () => {
     getScenarios()
 }
+
+const scenariosPointsSum = computed(() => {
+    return tests.value?.reduce((partialSum, a) => partialSum + a.points, 0)
+})
 </script>
 
 <template>
@@ -38,9 +42,21 @@ const scenarioCreated = async () => {
             <AppButton :to="{name: 'admin.assignments.edit', params: {id: assignment.id}}" size="small" type="outline">Späť na zadanie</AppButton>
         </PageHeader>
 
+        <div class="mb-10">
+            <span class="text-xl pr-3">
+                {{ scenariosPointsSum }}/{{ assignment?.points }}
+            </span>
+            <span>Aktuálny body pre scenáre (súčet scenárov/body pre zadanie)</span>
+        </div>
+
         <div>
             <TransitionGroup name="list">
-                <TestScenario v-for="test in tests" :key="test.id" :scenario="test" @deleted="getScenarios()" />
+                <TestScenario 
+                    v-for="test in tests" :key="test.id" 
+                    :scenario="test" 
+                    @deleted="getScenarios()" 
+                    @updated="getScenarios()" 
+                />
             </TransitionGroup>
 
             <NewScenario @created="scenarioCreated" />

@@ -1,14 +1,18 @@
 <script setup>
 import { ref } from "vue";
 import AdminCard from '@/components/AdminCard.vue'
-import AppTextarea from '@/components/admin/forms/AppTextarea.vue'
 import { useRoute } from "vue-router";
 import NewCase from "./NewCase.vue";
+import AppButton from "@/components/AppButton.vue";
+import InputWithError from "@/components/admin/forms/InputWithError.vue";
+import AppInput from "@/components/admin/forms/AppInput.vue";
+import TestScenarioCases from '@/components/admin/assignments/TestScenarioCases.vue'
 
 const route = useRoute()
 
 const emit = defineEmits([
-    'deleted'
+    'deleted',
+    'updated',
 ])
 
 const props = defineProps({
@@ -27,15 +31,37 @@ const deleteScenario = async () => {
         alert('nastala chyba')
     }
 }
+
+const casesVisible = ref(false)
+const editing = ref(false)
+
+const errors = ref({})
+
+const updateScenario = async () => {
+    try {
+        const res = await axios.put(`/api/assignments/${route.params.id}/tests/${props.scenario.id}`, props.scenario)
+        emit('updated')
+        editing.value = false
+        console.log(res)
+    } catch (err) {
+        const res = err.response
+
+        if (res.status === 422) {
+            errors.value = res.data.errors
+
+            return
+        }
+
+        alert('Nastala chyba')
+    }
+}
 </script>
 
 <template>
-    <AdminCard class="mb-5">
+    <AdminCard class="mb-5 relative">
         <div class="mb-5">
             <h3 class="font-semibold">
-                <RouterLink :to="{name: 'admin.assignment-tests.show', params: {assignment_id: route.params.id, test_id: scenario.id}}">
-                    {{ scenario.title }} ({{ scenario.cases.length }} casov)
-                </RouterLink>
+                {{ scenario.title }} ({{ scenario.cases.length }} casov)
             </h3>
             <p>{{ scenario.points }} body</p>
         </div>
@@ -63,6 +89,14 @@ const deleteScenario = async () => {
             </div>
         </div> -->
 
-        <button @click="deleteScenario">Delete</button>
+        <div class="absolute top-5 right-5 flex gap-x-3">
+            <AppButton :to="{name: 'admin.assignment-tests.edit', params: {assignment_id: scenario.assignment_id, test_id: scenario.id}}" type="primary" size="xs">
+                Upraviť scénár
+            </AppButton>
+    
+            <AppButton v-if="!editing" @click="deleteScenario" type="danger" size="xs" button>
+                Odstrániť scénár
+            </AppButton>
+        </div>
     </AdminCard>
 </template>

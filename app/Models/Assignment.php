@@ -25,6 +25,7 @@ class Assignment extends Model
         'tries' => 'array',
         'deadline' => 'datetime:Y-m-d H:i',
         'published_at' => 'datetime:Y-m-d H:i',
+        'points' => 'float',
     ];
 
     public function isPublished()

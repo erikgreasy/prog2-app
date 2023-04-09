@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'teacher']], function() {
     Route::apiResource('assignments/{assignment}/tests', TestScenarioController::class);
-    Route::apiResource('assignments/{assignment}/tests/{test}/cases', TestCaseController::class);
     Route::apiResource('assignments', AssignmentController::class);
 });
 

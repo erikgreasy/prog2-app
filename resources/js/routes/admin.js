@@ -11,7 +11,6 @@ import AdminStudentsShow from '@/views/admin/students/Show.vue'
 import AdminAssignmentTestsIndex from '@/views/admin/assignment-tests/Index.vue'
 import AdminAssignmentTestsCreate from '@/views/admin/assignment-tests/Create.vue'
 import AdminAssignmentTestsEdit from '@/views/admin/assignment-tests/Edit.vue'
-import AdminAssignmentTestsShow from '@/views/admin/assignment-tests/Show.vue'
 import AdminFailedJobs from '@/views/admin/failed-jobs/Index.vue'
 import AdminErrorLog from '@/views/admin/error-log/Index.vue'
 
@@ -71,15 +70,6 @@ export default [
         path: "/admin/assignments/:id/tests/create",
         name: 'admin.assignment-tests.create',
         component: AdminAssignmentTestsCreate,
-        meta: {
-            layout: Admin,
-            middleware: [auth, teacher]
-        }
-    },
-    {
-        path: "/admin/assignments/:assignment_id/tests/:test_id",
-        name: 'admin.assignment-tests.show',
-        component: AdminAssignmentTestsShow,
         meta: {
             layout: Admin,
             middleware: [auth, teacher]

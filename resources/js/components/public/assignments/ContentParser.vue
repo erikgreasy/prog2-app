@@ -1,5 +1,6 @@
 <script setup>
 import slugify from 'slugify'
+import { onMounted } from 'vue'
 import ContentParserList from '@/components/public/assignments/ContentParserList.vue'
 import PrismCode from '@/components/PrismCode.vue';
 
@@ -16,6 +17,12 @@ const imgIndex = id => {
 
     return images.findIndex(el => el.id === id) + 1
 }
+
+onMounted(() => {
+    setTimeout(function () {
+        window.MathJax.typeset()
+    }, 300) // this for some reason make things work
+})
 </script>
 
 <template>

@@ -23,7 +23,7 @@ class PreventInvalidSubmissions
             ], 400);
         }
 
-        if ($assignment->submissions()->max('try') >= $assignment->maxTries() ) {
+        if ($assignment->submissions()->where('user_id', auth()->id())->max('try') >= $assignment->maxTries() ) {
             return response()->json([
                 'message' => 'Vyčerpali ste počet možností pre odovzdanie'
             ], 400);

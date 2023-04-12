@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum', 'teacher']], function() {
 /**
  * SUBMISSIONS
  */
+Route::get('my-submissions', [SubmissionController::class, 'currentUserSubmissions'])->middleware(['auth:sanctum']);
 Route::get('submissions', [SubmissionController::class, 'index'])->middleware(['auth:sanctum', 'teacher']);
 Route::get('submissions/{submission}', [SubmissionController::class, 'show'])->middleware(['auth:sanctum', 'teacher']);
 

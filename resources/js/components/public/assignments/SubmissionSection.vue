@@ -115,7 +115,7 @@ const secondsString = seconds => {
             Spracúva sa odovzdanie...
         </div>
 
-        <div v-else-if="submissionsCount >= assignment.tries.length" class="text-center text-xl text-silver">
+        <div v-else-if="submissionsCount >= assignment.tries?.length" class="text-center text-xl text-silver">
             Vyčerpali ste počet možností pre odovzdanie
         </div>
 

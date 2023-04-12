@@ -26,6 +26,14 @@ class SubmissionController extends Controller
         return $query->get();
     }
 
+    public function currentUserSubmissions()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        return $user->submissions;
+    }
+
     public function show(Submission $submission)
     {
         return $submission;

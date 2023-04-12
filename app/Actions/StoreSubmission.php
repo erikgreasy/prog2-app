@@ -10,6 +10,10 @@ class StoreSubmission
 {
     public function execute(StoreSubmissionDto $storeSubmissionDto): Submission
     {
+        Submission::where('assignment_id', $storeSubmissionDto->assignmentId)
+            ->where('user_id', $storeSubmissionDto->userId)
+            ->update(['is_final' => false]);
+
         return Submission::create([
             'user_id' => $storeSubmissionDto->userId,
             'assignment_id' => $storeSubmissionDto->assignmentId,
@@ -19,6 +23,7 @@ class StoreSubmission
             'report' => $storeSubmissionDto->report,
             'file_path' => $storeSubmissionDto->filePath,
             'status' => SubmissionStatus::Created,
+            'is_final' => true,
         ]);
     }
 

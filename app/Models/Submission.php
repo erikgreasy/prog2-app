@@ -23,6 +23,7 @@ class Submission extends Model
         'build_status' => 'boolean',
         'gcc_error' => 'array',
         'gcc_warning' => 'array',
+        'is_final' => 'bool',
     ];
 
     protected $with = [

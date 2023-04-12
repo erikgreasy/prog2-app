@@ -10,7 +10,7 @@
         </div>
         <div class="container py-5">
             <nav class="lg:flex">
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center">
                     <!-- Logo -->
                     <AppLogo />
 

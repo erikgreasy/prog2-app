@@ -9,6 +9,8 @@ class VcsAuthController extends Controller
 {
     public function redirect()
     {
+        $ghClientId = config('services.github.client_id');
+
         return Socialite::driver('github')
             ->setScopes(['repo'])
             ->redirect();

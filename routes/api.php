@@ -24,73 +24,40 @@ use App\Http\Controllers\VcsAssignmentSubmissionController;
 use App\Http\Controllers\ManualAssignmentSubmissionController;
 
 /**
- * ASSIGNMENTS
+ * Public routes
  */
 Route::get('assignments/published', [AssignmentController::class, 'published'])->name('assignments.published');
 Route::get('assignments/slug/{assignment:slug}', [AssignmentController::class, 'showBySlug'])->name('assignments.showBySlug');
 Route::get('assignments/current', CurrentAssignmentController::class)->name('assignments.current');
 
+
+/**
+ * Students / logged in users
+ */
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // assignments
     Route::get('assignments/{assignment}/submissions', [AssignmentSubmissionController::class, 'index']);
     Route::get('assignments/{assignment}/submissions-count', [AssignmentSubmissionController::class, 'count']);
     Route::get('assignments/{assignment}/submissions/{submissionIndex}', [AssignmentSubmissionController::class, 'show']);
-});
 
-Route::group(['middleware' => ['auth:sanctum', 'teacher']], function() {
-    Route::apiResource('assignments/{assignment}/tests', TestScenarioController::class);
-    Route::apiResource('assignments', AssignmentController::class);
-});
+    // listing submissions
+    Route::get('my-submissions', [SubmissionController::class, 'currentUserSubmissions']);
 
+    // submitting
+    Route::group(['middleware' => [\App\Http\Middleware\PreventInvalidSubmissions::class]], function () {
+        Route::post('assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
+        Route::post('assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)->middleware(OnlyCompleteVcsSubmission::class);
+    });
 
-/**
- * SUBMISSIONS
- */
-Route::get('my-submissions', [SubmissionController::class, 'currentUserSubmissions'])->middleware(['auth:sanctum']);
-Route::get('submissions', [SubmissionController::class, 'index'])->middleware(['auth:sanctum', 'teacher']);
-Route::get('submissions/{submission}', [SubmissionController::class, 'show'])->middleware(['auth:sanctum', 'teacher']);
+    // general auth
+    Route::get('user', CurrentUserController::class)->middleware(['auth:sanctum']);
+    Route::post('logout', LogoutController::class)->middleware('auth:sanctum')->name('logout');
 
-Route::group(['middleware' => [
-    \App\Http\Middleware\PreventInvalidSubmissions::class,
-]], function () {
-    Route::post('assignments/{assignment}/manual-submit', ManualAssignmentSubmissionController::class);
-    Route::post('assignments/{assignment}/submit', VcsAssignmentSubmissionController::class)
-        ->middleware(OnlyCompleteVcsSubmission::class);
-});
-
-
-/**
- * AUTH
- */
-Route::get('user', CurrentUserController::class)->middleware(['auth:sanctum']);
-Route::post('logout', LogoutController::class)->middleware('auth:sanctum')->name('logout');
-
-
-/**
- * STUDENTS
- */
-Route::get('students', [StudentController::class, 'index'])->middleware(['auth:sanctum', 'teacher']);
-Route::get('students/{student}', [StudentController::class, 'show'])->middleware(['auth:sanctum', 'teacher']);
-
-
-/**
- * USERS
- */
-Route::apiResource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
-
-
-/**
- * NOTIFICATIONS
- */
-Route::group(['middleware' => 'auth:sanctum'], function () {
+    // notifications
     Route::get('notifications', UserNotificationsController::class);
     Route::post('notifications/{notification}/mark-as-read', MarkNotificationAsReadController::class);
-});
 
-
-/**
- * VCS
- */
-Route::group(['middleware' => ['auth:sanctum']], function() {
+    // vcs
     Route::post('/vcs/repos/store', [VcsController::class, 'store']);
     Route::get('/vcs/repos/show', [VcsController::class, 'show']);
     Route::get('/vcs/repos', [VcsController::class, 'index']);
@@ -98,12 +65,37 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
 
 /**
- * OTHER
+ * Teachers
  */
-Route::group(['middleware' => ['auth:sanctum', 'teacher']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'teacher']], function() {
+    // assignments
+    Route::apiResource('assignments/{assignment}/tests', TestScenarioController::class);
+    Route::apiResource('assignments', AssignmentController::class);
+
+    Route::get('submissions', [SubmissionController::class, 'index']);
+    Route::get('submissions/{submission}', [SubmissionController::class, 'show']);
+
+    // students
+    Route::get('students', [StudentController::class, 'index']);
+    Route::get('students/{student}', [StudentController::class, 'show']);
+
+    // other
     Route::get('fulltext-search', FulltextSearchController::class);
     Route::post('upload-file', UploadFileController::class);
+});
+
+
+/**
+ * Admins
+ */
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function() {
+    // users
+    Route::apiResource('users', UserController::class);
+
+    // failed jobs
     Route::get('failed-jobs', [FailedJobsController::class, 'index']);
+
+    // error logs
     Route::get('error-log', ErrorLogController::class);
     Route::delete('error-log', ClearErrorLogController::class);
 });

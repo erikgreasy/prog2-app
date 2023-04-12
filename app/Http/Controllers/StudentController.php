@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return User::where('role', Role::STUDENT->value)->get();
+        if ($request->search) {
+            $query = User::search($request->search);
+        } else {
+            $query = User::query();
+        }
+
+        return $query
+            ->where('role', Role::STUDENT->value)
+            ->get()
+            ->load('finalAssignmentSubmissions');
     }
 
     public function show(User $student)

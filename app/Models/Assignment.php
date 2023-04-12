@@ -52,6 +52,15 @@ class Assignment extends Model
         return $this->hasOne(Submission::class)->ofMany()->where('user_id', auth()->id())->whereNull('points');
     }
 
+    public function finalSubmissions(): HasMany
+    {
+        return $this->hasMany(Submission::class)
+            ->groupBy('user_id')
+            ->where(function ($query) {
+                $query->orderByDesc('try')->take(1);
+            });
+    }
+
     public function testScenarios(): HasMany
     {
         return $this->hasMany(TestScenario::class);

@@ -55,4 +55,15 @@ class User extends Authenticatable
             'email' => $this->email,
         ];
     }
+
+    public function finalAssignmentSubmissions()
+    {
+        return $this
+            ->hasMany(Submission::class)
+            ->whereRaw('(assignment_id, try) in (
+                select assignment_id, MAX(try)
+                from submissions
+                group by assignment_id
+            )');
+    }
 }

@@ -79,7 +79,7 @@ class Assignment extends Model
     protected static function booted(): void
     {
         static::saving(function (Assignment $assignment) {
-            if ($assignment->is_current && Assignment::where('is_current', true)->exists()) {
+            if ($assignment->is_current && Assignment::where('is_current', true)->where('id', '!=', $assignment->id)->exists()) {
                 Assignment::query()->update(['is_current' => false]);
             }
         });

@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div 
+            v-if="authStore.loggedIn && (!authStore.user.vcs_username || !authStore.user.github_repo || !authStore.user.github_access_token)" 
+            class="bg-red-600 text-white py-2"
+        >
+            <div class="container">
+                Pre dokončenie registrácie prosím <router-link :to="{name: 'myprofile.github'}" class="underline">prepojte svoj GitHub účet.</router-link>
+            </div>
+        </div>
         <div class="container py-5">
             <nav class="lg:flex">
                 <div class="flex justify-between">
@@ -26,12 +34,38 @@
                         Prihlásiť sa
                     </AppButton>
 
-                    <NavbarItem v-else-if="authStore.user.role === 'admin' || authStore.user.role === 'teacher'" route-name="admin.dashboard" additionalClass="!text-primary">
+                    <!-- <NavbarItem v-else-if="authStore.user.role === 'admin' || authStore.user.role === 'teacher'" route-name="admin.dashboard" additionalClass="!text-primary">
                         {{ authStore.user.name }}
-                    </NavbarItem>
+                    </NavbarItem> -->
 
-                    <NavbarItem v-else route-name="myprofile" class="text-primary">
-                        {{ authStore.user.name }}
+                    <NavbarItem v-else class="relative" ref="myprofileDropdown">
+                        <span @click="myprofileDropdownOpen = !myprofileDropdownOpen" class="flex items-center text-primary gap-x-2 h-full">
+                            {{ authStore.user.name }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+
+                        <div v-if="myprofileDropdownOpen" class="absolute bg-white px-8 py-4 rounded-lg bottom-2 translate-y-full right-0 shadow-lg z-10">
+                            <ul class="whitespace-nowrap">
+                                <li class="py-1">
+                                    <router-link @click="myprofileDropdownOpen = false" :to="{name: 'myprofile'}" class="block py-1">
+                                        Dashboard
+                                    </router-link>
+                                </li>
+                                <li class="py-1">
+                                    <router-link @click="myprofileDropdownOpen = false" :to="{name: 'myprofile.github'}" class="block py-1">
+                                        GitHub prepojenie
+                                    </router-link>
+                                </li>
+                                <li class="py-1 flex items-center gap-x-2 text-red-600" @click="logout">
+                                    Logout
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                </li>
+                            </ul>
+                        </div>
                     </NavbarItem>
 
                     <button @click="togglDarkMode" type="button">
@@ -73,12 +107,20 @@ import UserNotifications from '@/components/public/UserNotifications.vue';
 import { useAuthStore } from '@/stores/auth.js'
 import { useAuth } from '@/composables/auth';
 import { ref, computed } from 'vue';
+import { onClickOutside } from '@vueuse/core'
 
 const authStore = useAuthStore()
 
 const { logout, openLogin } = useAuth()
 
 const navbarVisible = ref(false)
+const myprofileDropdown = ref(null)
+
+onClickOutside(myprofileDropdown, (event) => {
+    myprofileDropdownOpen.value = false
+})
+
+const myprofileDropdownOpen = ref(false)
 
 const isDesktop = computed(() => {
     return window.innerWidth >= 1024

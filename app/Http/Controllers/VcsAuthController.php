@@ -25,6 +25,6 @@ class VcsAuthController extends Controller
             'vcs_username' => $githubUser->getNickname()
         ]);
 
-        return redirect('/my-profile');
+        return redirect('/my-profile/github');
     }
 }

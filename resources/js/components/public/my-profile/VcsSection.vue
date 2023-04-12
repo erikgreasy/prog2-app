@@ -31,9 +31,17 @@ onMounted(async () => {
 
 <template>
     <section>
-        <h2 class="font-extrabold text-2xl">
-            github
-        </h2>
+        <div class="flex">
+            <img src="/github.png" alt="" width="100">
+            <div>
+                <h2 class="font-extrabold text-2xl">
+                    Prepojenie GitHubu
+                </h2>
+
+                <div>Vaše prepojenie s GitHub účtom nie je kompletné.</div>
+            </div>
+        </div>
+        
 
         <div v-if="!loading">
             <a v-if="!authStore.user.github_access_token" href="/connect-github">Connect</a>

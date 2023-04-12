@@ -54,14 +54,12 @@ onMounted(async () => {
             </section>
     
             <hr>
-    
+
             <section>
                 <h2 class="font-extrabold text-2xl">Hodnotenie</h2>
             </section>
 
             <hr>
-
-            <VcsSection />
         </div>
     </div>
 </template>

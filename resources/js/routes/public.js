@@ -10,8 +10,10 @@ import AssignmentsShowSubmission from '@/views/public/assignments/Submission.vue
 import AssignmentsShowMaterials from '@/views/public/assignments/Materials.vue'
 import AssignmentsShowInstructions from '@/views/public/assignments/Instructions.vue'
 import Login from '@/views/Login.vue'
+import MyProfileGithub from '@/views/public/MyProfileGithub.vue'
 
 import auth from '@/middleware/auth.js';
+import guest from '@/middleware/guest.js';
 
 export default [
     {
@@ -73,9 +75,20 @@ export default [
         }
     },
     {
+        path: '/my-profile/github',
+        name: 'myprofile.github',
+        component: MyProfileGithub,
+        meta: {
+            middleware: [auth]
+        }
+    },
+    {
         path: '/login',
         name: 'login',
         component: Login,
+        meta: {
+            middleware: [guest]
+        }
     },
     {
         path: '/websocket',

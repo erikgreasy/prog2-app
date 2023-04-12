@@ -11,6 +11,7 @@ import AttachesTool from '@editorjs/attaches'
 import VideoTool from '@vietlongn/editorjs-video';
 import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
 import Paragraph from '@editorjs/paragraph'
+import HR from '@/editorjs/hr'
 
 const emit = defineEmits(['processed'])
 
@@ -120,8 +121,9 @@ onMounted(() => {
             },
             alignTool: {
                 class:AlignmentTuneTool,
-            }
-            
+            },
+
+            hr: HR,
         },
         data: props.content
     });

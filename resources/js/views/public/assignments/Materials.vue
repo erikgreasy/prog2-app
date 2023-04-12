@@ -6,7 +6,7 @@ const assignment = inject('assignment')
 </script>
 
 <template>
-    <section class="lg:w-1/2 lg:mx-auto">
+    <section class="lg:w-fit lg:mx-auto">
         <ContentParser :content="assignment.materials" />
     </section>
 </template>

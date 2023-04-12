@@ -79,7 +79,7 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
             </li>
         </ul>
 
-        <div v-else>
+        <div v-else class="text-center">
             Zatiaľ žiadne odovzdania
         </div>
     </div>

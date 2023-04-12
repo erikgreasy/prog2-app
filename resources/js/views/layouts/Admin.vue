@@ -1,3 +1,10 @@
+<script setup>
+import AppNotification from '@/components/admin/AppNotification.vue';
+import AppNotifications from '@/components/admin/AppNotifications.vue';
+import TheHeader from '@/components/admin/TheHeader.vue';
+import TheSidebar from '@/components/admin/TheSidebar.vue';
+</script>
+
 <template>
     <div>
         <TheHeader />
@@ -13,10 +20,3 @@
         <AppNotifications />
     </div>
 </template>
-
-<script setup>
-import AppNotification from '@/components/admin/AppNotification.vue';
-import AppNotifications from '@/components/admin/AppNotifications.vue';
-import TheHeader from '@/components/admin/TheHeader.vue';
-import TheSidebar from '@/components/admin/TheSidebar.vue';
-</script>

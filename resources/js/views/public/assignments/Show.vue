@@ -1,9 +1,3 @@
-<template>
-    <div>
-        <ContentSection :assignment="assignment" />
-    </div>
-</template>
-
 <script setup>
 import { inject, ref } from 'vue'
 import ContentSection from '@/components/public/assignments/ContentSection.vue';
@@ -19,6 +13,13 @@ const assignment = inject('assignment')
 //     currentSection.value = sectionId
 // }
 </script>
+
+<template>
+    <div>
+        <ContentSection :assignment="assignment" />
+    </div>
+</template>
+
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {

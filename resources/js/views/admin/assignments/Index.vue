@@ -1,3 +1,35 @@
+<script setup>
+import AdminTable from '@/components/admin/AdminTable.vue';
+import PageHeader from '@/components/admin/PageHeader.vue';
+import axios from 'axios'
+import { onMounted, ref } from 'vue';
+import AppButton from '../../../components/AppButton.vue';
+import TableCell from '@/components/admin/TableCell.vue'
+import TableHead from '@/components/admin/TableHead.vue'
+import TableRow from '../TableRow.vue';
+
+const assignments = ref([])
+
+const getAssignments = async () => {
+    const res = await axios.get('/api/assignments')
+    assignments.value = res.data
+    console.log(res)
+}
+
+const deleteAssignment = async id => {
+    if (!confirm('Naozaj chcete odstrániť zadanie?')) {
+        return
+    }
+
+    const res = await axios.delete(`/api/assignments/${id}`)
+    getAssignments()
+}
+
+onMounted(() => {
+    getAssignments()
+})
+</script>
+
 <template>
     <div>
         <PageHeader title="Zadania">
@@ -85,37 +117,3 @@
         </div> -->
     </div>
 </template>
-
-<script setup>
-import AdminTable from '@/components/admin/AdminTable.vue';
-import PageHeader from '@/components/admin/PageHeader.vue';
-import axios from 'axios'
-import { onMounted, ref } from 'vue';
-import AppButton from '../../../components/AppButton.vue';
-import TableCell from '@/components/admin/TableCell.vue'
-import TableHead from '@/components/admin/TableHead.vue'
-import TableRow from '../TableRow.vue';
-
-const assignments = ref([])
-
-const getAssignments = async () => {
-    const res = await axios.get('/api/assignments')
-    assignments.value = res.data
-    console.log(res)
-}
-
-const deleteAssignment = async id => {
-    if (!confirm('Naozaj chcete odstrániť zadanie?')) {
-        return
-    }
-
-    const res = await axios.delete(`/api/assignments/${id}`)
-    getAssignments()
-}
-
-onMounted(() => {
-    getAssignments()
-})
-</script>
-
-<style></style>

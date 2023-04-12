@@ -1,3 +1,7 @@
+<script setup>
+import Public from '@/views/layouts/Public.vue';
+</script>
+
 <template>
     <component :is="$route.meta.layout || Public">
         <router-view v-slot="{Component}">
@@ -8,10 +12,6 @@
 
     </component>
 </template>
-
-<script setup>
-import Public from './views/layouts/Public.vue';
-</script>
 
 <style>
 .fade-enter-active,

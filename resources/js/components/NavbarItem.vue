@@ -1,3 +1,14 @@
+<script setup>
+defineProps({
+    routeName: {
+        type: String
+    },
+    additionalClass: String,
+})
+
+defineEmits(['clicked'])
+</script>
+
 <template>
     <li>
         <router-link
@@ -10,14 +21,3 @@
         </router-link>
     </li>
 </template>
-
-<script setup>
-defineProps({
-    routeName: {
-        type: String
-    },
-    additionalClass: String,
-})
-
-defineEmits(['clicked'])
-</script>

@@ -1,3 +1,35 @@
+<script setup>
+import AppButton from '@/components/AppButton.vue';
+import AppLogo from '@/components/AppLogo.vue';
+import NavbarItem from '@/components/NavbarItem.vue';
+import UserNotifications from '@/components/public/UserNotifications.vue';
+import { useAuthStore } from '@/stores/auth.js'
+import { useAuth } from '@/composables/auth';
+import { ref, computed } from 'vue';
+import { onClickOutside } from '@vueuse/core'
+
+const authStore = useAuthStore()
+
+const { logout, openLogin } = useAuth()
+
+const navbarVisible = ref(false)
+const myprofileDropdown = ref(null)
+
+onClickOutside(myprofileDropdown, (event) => {
+    myprofileDropdownOpen.value = false
+})
+
+const myprofileDropdownOpen = ref(false)
+
+const isDesktop = computed(() => {
+    return window.innerWidth >= 1024
+})
+
+const togglDarkMode = () => {
+    alert('toggl dark mode')
+}
+</script>
+
 <template>
     <div>
         <div 
@@ -98,35 +130,3 @@
         <UserNotifications />
     </div>
 </template>
-
-<script setup>
-import AppButton from '@/components/AppButton.vue';
-import AppLogo from '@/components/AppLogo.vue';
-import NavbarItem from '@/components/NavbarItem.vue';
-import UserNotifications from '@/components/public/UserNotifications.vue';
-import { useAuthStore } from '@/stores/auth.js'
-import { useAuth } from '@/composables/auth';
-import { ref, computed } from 'vue';
-import { onClickOutside } from '@vueuse/core'
-
-const authStore = useAuthStore()
-
-const { logout, openLogin } = useAuth()
-
-const navbarVisible = ref(false)
-const myprofileDropdown = ref(null)
-
-onClickOutside(myprofileDropdown, (event) => {
-    myprofileDropdownOpen.value = false
-})
-
-const myprofileDropdownOpen = ref(false)
-
-const isDesktop = computed(() => {
-    return window.innerWidth >= 1024
-})
-
-const togglDarkMode = () => {
-    alert('toggl dark mode')
-}
-</script>

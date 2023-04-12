@@ -1,3 +1,9 @@
+<script setup>
+const props = defineProps({
+    class: String
+})
+</script>
+
 <template>
     <div
         :class="class" 
@@ -5,9 +11,3 @@
         <slot></slot>
     </div>
 </template>
-
-<script setup>
-const props = defineProps({
-    class: String
-})
-</script>

@@ -1,3 +1,71 @@
+<script setup>
+import ContentEditor from './admin/assignments/ContentEditor.vue'
+import { inject, ref, watch } from 'vue';
+import AdminCard from './AdminCard.vue';
+import InputGroup from './admin/forms/InputGroup.vue';
+import AppInput from '@/components/admin/forms/AppInput.vue'
+import AppTextarea from './admin/forms/AppTextarea.vue';
+import InputLabel from './admin/forms/InputLabel.vue';
+import InputWithError from './admin/forms/InputWithError.vue';
+import AppButton from '@/components/AppButton.vue';
+import slugify from 'slugify'
+import useEventsBus from '@/eventBus';
+
+const assignment = inject('assignment')
+
+const props = defineProps({
+    errors: Object
+})
+
+const emit = defineEmits(['processed'])
+
+const { bus } = useEventsBus()
+
+const contentEditor = ref()
+const instructionsEditor = ref()
+const materialsEditor = ref()
+
+watch(() => bus.value.get('storingAssignment'), async () => {
+    assignment.value.content = await contentEditor.value.save()
+    assignment.value.submission_instructions = await instructionsEditor.value.save()
+    assignment.value.materials = await materialsEditor.value.save()
+
+    emit('processed')
+})
+
+const addMaterial = () => {
+    assignment.value.materials.push({})
+}
+
+const removeMaterial = index => {
+    assignment.value.materials.splice(index, 1)
+}
+
+const slugifyTitle = () => {
+    if (assignment.value.slug?.length) {
+        return
+    }
+    
+    assignment.value.slug = slugify(assignment.value.title).toLowerCase()
+}
+
+const transformSlug = () => {
+    assignment.value.slug = slugify(assignment.value.slug).toLowerCase()
+}
+
+const removeTry = index => {
+    assignment.value.tries.splice(index, 1)
+}
+
+const addTry = () => {
+    if (!assignment.value.tries) {
+        assignment.value.tries = []
+    }
+
+    assignment.value.tries.push({})
+}
+</script>
+
 <template>
     <div class="grid grid-cols-12 gap-8 items-start">
         <div class="col-span-9">
@@ -136,71 +204,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import ContentEditor from './admin/assignments/ContentEditor.vue'
-import { inject, ref, watch } from 'vue';
-import AdminCard from './AdminCard.vue';
-import InputGroup from './admin/forms/InputGroup.vue';
-import AppInput from '@/components/admin/forms/AppInput.vue'
-import AppTextarea from './admin/forms/AppTextarea.vue';
-import InputLabel from './admin/forms/InputLabel.vue';
-import InputWithError from './admin/forms/InputWithError.vue';
-import AppButton from '@/components/AppButton.vue';
-import slugify from 'slugify'
-import useEventsBus from '@/eventBus';
-
-const assignment = inject('assignment')
-
-const props = defineProps({
-    errors: Object
-})
-
-const emit = defineEmits(['processed'])
-
-const { bus } = useEventsBus()
-
-const contentEditor = ref()
-const instructionsEditor = ref()
-const materialsEditor = ref()
-
-watch(() => bus.value.get('storingAssignment'), async () => {
-    assignment.value.content = await contentEditor.value.save()
-    assignment.value.submission_instructions = await instructionsEditor.value.save()
-    assignment.value.materials = await materialsEditor.value.save()
-
-    emit('processed')
-})
-
-const addMaterial = () => {
-    assignment.value.materials.push({})
-}
-
-const removeMaterial = index => {
-    assignment.value.materials.splice(index, 1)
-}
-
-const slugifyTitle = () => {
-    if (assignment.value.slug?.length) {
-        return
-    }
-    
-    assignment.value.slug = slugify(assignment.value.title).toLowerCase()
-}
-
-const transformSlug = () => {
-    assignment.value.slug = slugify(assignment.value.slug).toLowerCase()
-}
-
-const removeTry = index => {
-    assignment.value.tries.splice(index, 1)
-}
-
-const addTry = () => {
-    if (!assignment.value.tries) {
-        assignment.value.tries = []
-    }
-
-    assignment.value.tries.push({})
-}
-</script>

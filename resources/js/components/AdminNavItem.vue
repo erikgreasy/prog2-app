@@ -1,3 +1,18 @@
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const props = defineProps({
+    routeName: String
+})
+
+const isActive = computed(() => {
+    return route.matched.some(({ name }) => name === props.routeName)
+})
+</script>
+
 <template>
     <li>
         <router-link :to="{ name: routeName }"
@@ -20,18 +35,3 @@
         </router-link>
     </li>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
-
-const props = defineProps({
-    routeName: String
-})
-
-const isActive = computed(() => {
-    return route.matched.some(({ name }) => name === props.routeName)
-})
-</script>

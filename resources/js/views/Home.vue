@@ -1,3 +1,10 @@
+<script setup>
+import AppButton from '@/components/AppButton.vue';
+import { useAuth } from '@/composables/auth';
+
+const { openLogin }  = useAuth()
+</script>
+
 <template>
     <div class="container">
         <div class="h-[calc(100vh-68px)] flex items-center justify-center">
@@ -15,10 +22,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import AppButton from '@/components/AppButton.vue';
-import { useAuth } from '@/composables/auth';
-
-const { openLogin }  = useAuth()
-</script>

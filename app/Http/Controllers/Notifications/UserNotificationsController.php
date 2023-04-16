@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notifications;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SubmissionResource;
 use App\Models\Assignment;
 use App\Models\Submission;
-use App\Notifications\UnsuccessfulSubmission;
-use Illuminate\Http\Request;
-use App\Http\Resources\SubmissionResource;
+use App\Models\User;
 use App\Notifications\SubmissionProcessed;
+use App\Notifications\UnsuccessfulSubmission;
 use Illuminate\Notifications\DatabaseNotification;
 
 class UserNotificationsController extends Controller

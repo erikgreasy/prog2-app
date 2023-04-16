@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Assignments;
 
-use App\Enums\AssignmentStatus;
 use App\Enums\Role;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Resources\AssignmentResource;
 use App\Models\Assignment;
-use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Assignments;
 
-use App\Models\Assignment;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\AssignmentResource;
+use App\Models\Assignment;
 
 class CurrentAssignmentController extends Controller
 {

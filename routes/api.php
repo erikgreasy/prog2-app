@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\Assignments\AssignmentController;
+use App\Http\Controllers\Assignments\CurrentAssignmentController;
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ClearErrorLogController;
-use App\Http\Controllers\CurrentAssignmentController;
 use App\Http\Controllers\CurrentUserController;
 use App\Http\Controllers\ErrorLogController;
 use App\Http\Controllers\FailedJobsController;
 use App\Http\Controllers\FulltextSearchController;
-use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\MarkNotificationAsReadController;
+use App\Http\Controllers\Notifications\MarkNotificationAsReadController;
+use App\Http\Controllers\Notifications\UserNotificationsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\Submit\ManualAssignmentSubmissionController;
@@ -17,7 +18,6 @@ use App\Http\Controllers\Submit\VcsAssignmentSubmissionController;
 use App\Http\Controllers\TestScenarioController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\VcsController;
 use App\Http\Middleware\OnlyCompleteVcsSubmission;
 use Illuminate\Support\Facades\Route;

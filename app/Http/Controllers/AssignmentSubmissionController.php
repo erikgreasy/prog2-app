@@ -25,6 +25,10 @@ class AssignmentSubmissionController extends Controller
 
     public function show(Assignment $assignment, Submission $submission)
     {
+        if ($submission->user_id !== auth()->id()) {
+            abort(404);
+        }
+
         return new SubmissionResource($submission);
     }
 }

@@ -11,6 +11,7 @@ use App\Dto\TestResultCase;
 use App\Models\TestScenario;
 use App\Dto\TestResultScenario;
 use App\Enums\SubmissionStatus;
+use App\Notifications\UnsuccessfulSubmission;
 use Illuminate\Support\Facades\File;
 use App\Models\SubmissionTestScenario;
 use App\Notifications\SubmissionProcessed;
@@ -78,6 +79,8 @@ class ProcessAssignmentWithTester
                     'actual_output' => $e->getMessage(),
                 ]
             ]);
+
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
 
             return;
         }

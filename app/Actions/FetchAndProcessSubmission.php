@@ -12,6 +12,7 @@ use App\Enums\SubmissionStatus;
 use App\Github\Exceptions\BranchNotFoundException;
 use App\Github\Exceptions\FailedCloneException;
 use App\Github\Exceptions\RepositoryNotFoundException;
+use App\Notifications\UnsuccessfulSubmission;
 use Illuminate\Support\Facades\File;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -25,7 +26,7 @@ class FetchAndProcessSubmission
     )
     {
     }
-    
+
     public function execute(Submission $submission): void
     {
         try {
@@ -41,6 +42,8 @@ class FetchAndProcessSubmission
                 ],
             ]);
 
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
+
             return;
         } catch (RepositoryNotFoundException $e) {
             $submission->update([
@@ -52,6 +55,8 @@ class FetchAndProcessSubmission
                     'public_output' => 'Repo nebolo najdene',
                 ],
             ]);
+
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
 
             return;
         } catch (FailedCloneException $e) {
@@ -65,6 +70,8 @@ class FetchAndProcessSubmission
                 ],
             ]);
 
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
+
             return;
         }
 
@@ -72,7 +79,7 @@ class FetchAndProcessSubmission
             'file_path' => $filePath,
             'file_content' => File::get($filePath),
         ]);
-        
+
         $this->processAssignmentWithTester->onQueue()->execute(
             $submission,
             new TesterInput(

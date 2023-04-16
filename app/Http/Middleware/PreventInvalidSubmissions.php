@@ -14,16 +14,16 @@ class PreventInvalidSubmissions
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var Assignment */
+        /** @var Assignment $assignment */
         $assignment = $request->route()->parameter('assignment');
 
-        if ($assignment->submissions()->where('user_id', auth()->id())->count() >= $assignment->maxTries() ) {
-            return response()->json([
-                'message' => 'Vyčerpali ste počet možností pre odovzdanie'
-            ], 400);
-        }
+        $usersCompletedSubmissionsTries = $assignment
+            ->submissions()
+            ->completed()
+            ->where('user_id', auth()->id())
+            ->max('try');
 
-        if ($assignment->submissions()->where('user_id', auth()->id())->max('try') >= $assignment->maxTries() ) {
+        if ($usersCompletedSubmissionsTries >= $assignment->maxTries() ) {
             return response()->json([
                 'message' => 'Vyčerpali ste počet možností pre odovzdanie'
             ], 400);

@@ -11,7 +11,7 @@ const accordionIndex = ref(null)
 
 const assignment = ref({})
 const currentSection = ref('content')
-  
+
 const getAssignment = async () => {
     const res = await axios.get(`/api/assignments/slug/${route.params.slug}`)
     assignment.value = res.data
@@ -21,8 +21,8 @@ const submission = ref(null)
 
 onMounted(async () => {
     await getAssignment()
-    
-    const res = await axios.get(`/api/assignments/${assignment.value.id}/submissions/${route.params.index}`)
+
+    const res = await axios.get(`/api/assignments/${assignment.value.id}/submissions/${route.params.submission_id}`)
     submission.value = res.data
     console.log(res)
 })
@@ -51,7 +51,7 @@ const togglAccordion = index => {
 
         <div v-else>
             <div class="flex justify-center gap-x-5 text-sm mt-10 mb-20">
-                <div 
+                <div
                     :class="{
                         'bg-green-200': submission.build_status,
                         'bg-red-300': !submission.build_status
@@ -81,7 +81,7 @@ const togglAccordion = index => {
                     GCC errors: {{ submission.gcc_error?.length || '0' }}
                 </div>
             </div>
-    
+
             <div class="border border-primaryDark rounded-lg px-10">
                 <table class="w-full">
                     <thead>
@@ -92,9 +92,9 @@ const togglAccordion = index => {
                             <th class="px-10 py-3">Max. počet bodov</th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
-                        <tr 
+                        <tr
                             v-for="(resultScenario, index) in submission?.result_scenarios"
                             :key="resultScenario.id"
                             :class="{'bg-red-200': !resultScenario.is_success}"
@@ -115,7 +115,7 @@ const togglAccordion = index => {
                             </td>
                         </tr>
                     </tbody>
-    
+
                     <tfoot>
                         <tr>
                             <td class="px-10 py-3" colspan="2">Získané body pred penalizáciou:</td>
@@ -145,7 +145,7 @@ const togglAccordion = index => {
                 <div v-if="!submission.build_status" class="bg-red-600 text-white py-5 px-10 text-center font-bold text-xl">
                     Vaše zadanie nie je kompilovateľné kompilátorom GCC.
                 </div>
-        
+
                 <div v-if="submission.gcc_error?.length">
                     <h3>
                         GCC errors (počet chýb: {{ submission.gcc_error?.length }})
@@ -156,7 +156,7 @@ const togglAccordion = index => {
                         </li>
                     </ul>
                 </div>
-    
+
                 <div v-if="submission.gcc_warning?.length">
                     <h3>
                         GCC warnings (počet upozornení: {{ submission.gcc_warning?.length }})
@@ -170,10 +170,10 @@ const togglAccordion = index => {
             </div>
 
             <hr class="my-20">
-        
+
             <div>
-                <div v-for="(resultScenario, index) in submission?.result_scenarios" 
-                    :key="resultScenario.id" 
+                <div v-for="(resultScenario, index) in submission?.result_scenarios"
+                    :key="resultScenario.id"
                     class="mb-10"
                     :id="`scenario_${index}`"
                 >
@@ -185,29 +185,29 @@ const togglAccordion = index => {
                         <span class="text-xl font-bold">
                             {{ ++index }}. Testovací scenár
                         </span>
-                        {{ resultScenario.scenario.title }} 
+                        {{ resultScenario.scenario.title }}
                         {{ resultScenario.is_success ? 'OK' : 'FAIL' }}
                         {{ resultScenario.points }} / {{ resultScenario.scenario.points }}
 
-                        <svg 
+                        <svg
                             :class="{'rotate-180': index === accordionIndex}"
                             class="h-6 w-6 transition"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
-                    <div 
+                    <div
                         v-show="index === accordionIndex"
                         v-for="resultCase in resultScenario.result_cases"
                         :key="resultCase.id"
                         class="mb-4 mt-10 border border-[#9a9a9a]"
                     >
                         <div class="p-5 bg-[#f7f7f7]">
-                            Pripad: 
+                            Pripad:
                             <span v-if="resultCase.is_success" class="bg-green-400 py-0.5 px-1 rounded-sm font-semibold text-white">OK</span>
                             <span v-else class="bg-red-400 py-0.5 px-1 rounded-sm font-semibold text-white">FAIL</span>
                         </div>
-    
+
                         <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                             <div class="justify-self-end">
                                 CMD IN:
@@ -216,17 +216,17 @@ const togglAccordion = index => {
                                 <PrismCode>1 2 3</PrismCode>
                             </div>
                         </div>
-    
+
                         <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                             <div class="justify-self-end">
                                 STDIN:
                             </div>
-    
+
                             <div class="col-span-3">
                                 <PrismCode>{{ resultCase.stdin }}</PrismCode>
                             </div>
                         </div>
-    
+
                         <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                             <div class="justify-self-end">
                                 STDOUT:
@@ -236,7 +236,7 @@ const togglAccordion = index => {
                                 <p class="mb-2 text-xs">Počet zobrazených riadkov je obmedzený na počet riadkov správneho výpisu. Maximálna dĺžka vypísaného riadku je 500 znakov.</p>
                             </div>
                         </div>
-    
+
                         <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                             <div class="justify-self-end">
                                 SPRAVNY STDOUT:
@@ -248,7 +248,7 @@ const togglAccordion = index => {
                     </div>
                 </div>
             </div>
-    
+
             <hr class="my-20">
 
             <div>

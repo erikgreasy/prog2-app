@@ -59,7 +59,7 @@ export default [
         }
     },
     {
-        path: '/zadania/:slug/odovzdania/:index',
+        path: '/zadania/:slug/odovzdania/:submission_id',
         name: 'assignments.submissions.show',
         component: AssignmentsSubmissionsShow,
         meta: {

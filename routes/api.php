@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // assignments
     Route::get('assignments/{assignment}/submissions', [AssignmentSubmissionController::class, 'index']);
     Route::get('assignments/{assignment}/submissions-count', [AssignmentSubmissionController::class, 'count']);
-    Route::get('assignments/{assignment}/submissions/{submissionIndex}', [AssignmentSubmissionController::class, 'show']);
+    Route::get('assignments/{assignment}/submissions/{submission}', [AssignmentSubmissionController::class, 'show']);
 
     // listing submissions
     Route::get('my-submissions', [SubmissionController::class, 'currentUserSubmissions']);

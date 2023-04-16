@@ -16,16 +16,15 @@ class AssignmentSubmissionController extends Controller
 
     public function count(Assignment $assignment)
     {
-        return $assignment->submissions()->where('user_id', auth()->id())->count();
+        return $assignment
+            ->submissions()
+            ->completed()
+            ->where('user_id', auth()->id())
+            ->count();
     }
 
-    public function show(Assignment $assignment, int $submissionIndex)
+    public function show(Assignment $assignment, Submission $submission)
     {
-        return new SubmissionResource($assignment
-            ->submissions()
-            ->where('user_id', auth()->id())
-            ->where('try', $submissionIndex)
-            // ->skip($submissionIndex - 1)
-            ->firstOrFail());
+        return new SubmissionResource($submission);
     }
 }

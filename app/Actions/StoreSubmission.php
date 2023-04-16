@@ -33,10 +33,11 @@ class StoreSubmission
     private function resolveTry(StoreSubmissionDto $storeSubmissionDto): int
     {
         $try = Submission::query()
+            ->completed()
             ->where('assignment_id', $storeSubmissionDto->assignmentId)
             ->where('user_id', $storeSubmissionDto->userId)
             ->max('try') ?? 0;
-        
+
         return $try + 1;
     }
 }

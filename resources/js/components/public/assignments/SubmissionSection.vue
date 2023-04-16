@@ -44,14 +44,14 @@ onMounted(() => {
 const submitAssignment = async () => {
     try {
         processingAssignmentsStore.addAssignment(props.assignment.id)
-        
+
         const res = await axios.post(`/api/assignments/${props.assignment.id}/submit`)
     } catch (err) {
         processingAssignmentsStore.removeAssignment(props.assignment.id)
 
         console.error(err)
         const res = err.response
-        
+
         if (!res) {
             alert('Pri odovzdávaní nastala chyba')
             return
@@ -122,41 +122,41 @@ const secondsString = seconds => {
         <div v-else>
             <section class="text-center mb-20">
                 <div class="text-xl text-sliver">Na odovzdanie zostáva:</div>
-    
+
                 <vue-countdown :time="timeRemaining" v-slot="{ days, hours, minutes, seconds }">
                     <div class="font-extrabold text-2xl">
                         {{ days }} {{ daysString(days) }} {{ hours }} {{ hoursString(hours) }} {{ minutes }} {{ minutesString(minutes) }} {{ seconds }} {{ secondsString(seconds) }}
                     </div>
                 </vue-countdown>
             </section>
-        
+
             <div v-if="authStore.loggedIn">
                 <section class="text-center">
                     <div class="grid justify-center">
                         <AppButton @click="submitAssignment">Odovzdať cez GitHub</AppButton>
                         <button @click="isManualModalOpen = true" class="mt-4">Manuálne odovzdanie</button>
                     </div>
-            
-                    <ManualSubmissionModal 
-                        :isOpen="isManualModalOpen" 
-                        :assignmentId="assignment.id" 
+
+                    <ManualSubmissionModal
+                        :isOpen="isManualModalOpen"
+                        :assignmentId="assignment.id"
                         @submit="isManualModalOpen = false"
                         @closeModal="isManualModalOpen = false"
                     />
                 </section>
             </div>
-    
+
             <div v-else class="text-center">
                 <div class="mb-5 text-sliver">
                     Pre odovzdanie je potrebné sa prihlásiť
                 </div>
-    
+
                 <AppButton :to="{name: 'login'}" size="small">Prihlásiť</AppButton>
             </div>
         </div>
 
         <section v-if="authStore.loggedIn" class="mt-20">
-            <SubmissionHistory :assignmentId="assignment.id" />
+            <SubmissionHistory :assignment="assignment" />
         </section>
     </div>
 </template>

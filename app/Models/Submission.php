@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\SubmissionSource;
+use App\Enums\SubmissionStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,6 +45,11 @@ class Submission extends Model
     public function pointsBeforePenalisation(): float
     {
         return floatval($this->resultScenarios()->sum('points'));
+    }
+
+    public function scopeCompleted(Builder $query)
+    {
+        $query->where('status', SubmissionStatus::Completed);
     }
 
     public function assignment(): BelongsTo

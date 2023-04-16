@@ -29,6 +29,10 @@ class AssignmentSubmissionController extends Controller
             abort(404);
         }
 
+        if ($submission->assignment_id !== $assignment->id) {
+            abort(404);
+        }
+
         return new SubmissionResource($submission);
     }
 }

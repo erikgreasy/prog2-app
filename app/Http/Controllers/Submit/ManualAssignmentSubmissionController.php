@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Submit;
 
-use App\Dto\TesterInput;
-use App\Models\TestCase;
-use App\Contracts\Tester;
-use App\Models\Assignment;
-use App\Dto\TesterInputCase;
-use App\Models\TestScenario;
-use Illuminate\Http\Request;
-use App\Enums\SubmissionSource;
-use App\Actions\StoreSubmission;
-use App\Dto\TesterInputScenario;
-use Illuminate\Support\Facades\File;
-use App\Jobs\ProcessManualSubmission;
-use Illuminate\Support\Facades\Storage;
-use App\Actions\ResolveSubmissionFolder;
 use App\Actions\ProcessAssignmentWithTester;
+use App\Actions\ResolveSubmissionFolder;
+use App\Actions\StoreSubmission;
+use App\Dto\TesterInput;
+use App\Dto\TesterInputCase;
+use App\Dto\TesterInputScenario;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualSubmissionRequest;
+use App\Models\Assignment;
+use App\Models\TestCase;
+use App\Models\TestScenario;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ManualAssignmentSubmissionController extends Controller
 {
     public function __invoke(
-        ManualSubmissionRequest $request, 
-        Assignment $assignment, 
+        ManualSubmissionRequest $request,
+        Assignment $assignment,
         ProcessAssignmentWithTester $processAssignmentWithTester,
         StoreSubmission $storeSubmission,
         ResolveSubmissionFolder $resolveSubmissionFolder,
@@ -35,7 +32,7 @@ class ManualAssignmentSubmissionController extends Controller
         $filePath = Storage::path(
             $request->file('file')->storeAs($relativeDiskPath, $request->file('file')->getClientOriginalName())
         );
-        
+
         $submission->update([
             'file_path' => $filePath,
             'file_content' => File::get($filePath),

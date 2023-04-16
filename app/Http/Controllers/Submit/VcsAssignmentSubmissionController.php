@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Submit;
 
 use App\Actions\FetchAndProcessSubmission;
-use App\Models\Assignment;
-use Illuminate\Http\Request;
-use App\Enums\SubmissionSource;
 use App\Actions\StoreSubmission;
 use App\Dto\StoreSubmissionDto;
+use App\Enums\SubmissionSource;
+use App\Http\Controllers\Controller;
+use App\Models\Assignment;
+use Illuminate\Http\Request;
 
 class VcsAssignmentSubmissionController extends Controller
 {

@@ -38,7 +38,7 @@ onMounted(() => {
                                         name: 'assignments.submissions.show',
                                         params: {
                                             slug: notification.data.assignment?.slug,
-                                            index: notification.data.submission.try
+                                            submission_id: notification.data.submission.id
                                         }
                                     }"
                                 >Zobrazit</AppButton>

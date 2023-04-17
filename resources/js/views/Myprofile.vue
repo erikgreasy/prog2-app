@@ -71,11 +71,11 @@ onMounted(async () => {
         <PageHeader>
             {{ authStore.user.name }}
         </PageHeader>
-        
+
         <div class="container my-20">
             <section class="lg:w-2/3 lg:mx-auto">
                 <h2 class=" font-extrabold text-center text-3xl mb-8">Aktuálne zadanie</h2>
-                
+
                 <AssignmentCard v-if="currentAssignment" :assignment="currentAssignment" :minimalLayout="true" />
 
                     <!-- {{ currentAssignment.deadline }}
@@ -88,7 +88,7 @@ onMounted(async () => {
                     Momentálne nie je aktívne žiadne zadanie
                 </div>
             </section>
-    
+
             <hr class="my-20">
 
             <section class="">
@@ -104,7 +104,7 @@ onMounted(async () => {
                         ></div>
                         <div
                             @mouseover="zapocetTooltipVisible = true"
-                            @mouseleave="zapocetTooltipVisible = false" 
+                            @mouseleave="zapocetTooltipVisible = false"
                             class="bg-[#FFBEBE] absolute top-0 left-0 h-full rounded-lg" :style="`width: ${30/60*100}%;`"
                         >
                             <div v-if="zapocetTooltipVisible" class="text-sm absolute right-0 -top-2 -translate-y-full bg-black bg-opacity-90 px-2 rounded text-white">
@@ -114,7 +114,7 @@ onMounted(async () => {
 
                         <div
                             @mouseover="pointsTooltipVisible = true"
-                            @mouseleave="pointsTooltipVisible = false"  
+                            @mouseleave="pointsTooltipVisible = false"
                             class="bg-[#D2FCD1] absolute top-0 left-0 h-full rounded-lg flex items-center pl-5" :style="`width: ${studentPoints / 60 * 100}%;`"
                         >
                             <span class="font-semibold">{{ studentPoints }}b</span>
@@ -142,17 +142,17 @@ onMounted(async () => {
                                     {{ assignment.title }}
                                 </RouterLink>
                             </h3>
-        
+
                             <div class="flex gap-x-10">
                                 <div>
                                     Finálny pokus: <span class="font-bold text-primary">{{ getFinalSubmission(assignment.id)?.try }}</span>
                                 </div>
-        
+
                                 <div>
                                     Hodnotenie: <span class="font-bold text-primary">{{ getFinalSubmission(assignment.id)?.points }}/{{ assignment.points.raw }}</span>
                                 </div>
 
-                                <ShowMoreLink :to="{name: 'assignments.submissions.show', params: {slug: assignment.slug, index: getFinalSubmission(assignment.id).try}}">
+                                <ShowMoreLink :to="{name: 'assignments.submissions.show', params: {slug: assignment.slug, submission_id: getFinalSubmission(assignment.id).id}}">
                                     Zobraziť pokus
                                 </ShowMoreLink>
                             </div>

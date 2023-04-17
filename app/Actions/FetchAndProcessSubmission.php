@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Dto\TesterInput;
+use App\Exceptions\WrongRepositoryStructureException;
 use App\Models\TestCase;
 use App\Models\Submission;
 use App\Dto\TesterInputCase;
@@ -67,6 +68,34 @@ class FetchAndProcessSubmission
                     'exception' => FailedCloneException::class,
                     'actual_output' => $e->getMessage(),
                     'public_output' => 'Nepodarilo sa clonovat repo.',
+                ],
+            ]);
+
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
+
+            return;
+        } catch (WrongRepositoryStructureException $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => WrongRepositoryStructureException::class,
+                    'actual_output' => $e->getMessage(),
+                    'public_output' => 'Repozitár na danej vetve obsahoval viacero súborov typu c.',
+                ],
+            ]);
+
+            $submission->user->notify(new UnsuccessfulSubmission($submission));
+
+            return;
+        } catch (\Exception $e) {
+            $submission->update([
+                'points' => 0,
+                'status' => SubmissionStatus::Failed,
+                'fail_messages' => [
+                    'exception' => \Exception::class,
+                    'actual_output' => $e->getMessage(),
+                    'public_output' => 'Pri vyhodnotení nastala iná chyba.',
                 ],
             ]);
 

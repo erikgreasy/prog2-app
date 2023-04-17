@@ -2,9 +2,11 @@
 
 namespace App\Actions;
 
+use App\Exceptions\WrongRepositoryStructureException;
 use App\Models\User;
 use App\Models\Assignment;
 use App\Models\Submission;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use App\Github\Exceptions\FailedCloneException;
@@ -29,9 +31,12 @@ class FetchCodeFromVcs
 
         $this
             ->cloneRepo($user, $absTargetPath, $submission->assignment->vcs_branch)
+            ->validateFiles($relativeDiskPath)
             ->cleanUpFiles($relativeDiskPath, $submission->assignment->vcs_filename);
 
-        return Storage::path("{$relativeDiskPath}/{$submission->assignment->vcs_filename}");
+        $filename = $this->getSubmitedFileName($relativeDiskPath);
+
+        return Storage::path($filename);
     }
 
     private function cloneRepo(User $user, string $targetPath, string $branchName): self
@@ -66,6 +71,24 @@ class FetchCodeFromVcs
         return $this;
     }
 
+    private function validateFiles(string $diskPath): self
+    {
+        $files = Storage::allFiles($diskPath);
+        $wantedTypeFilesNo = 0;
+
+        foreach ($files as $file) {
+            if (strtolower(File::extension($file)) == 'c') {
+                $wantedTypeFilesNo += 1;
+            }
+        }
+
+        if ($wantedTypeFilesNo !== 1) {
+            throw new WrongRepositoryStructureException('Multiple files of type .c found.');
+        }
+
+        return $this;
+    }
+
     /**
      * Delete all files and directories other than our wanted file
      */
@@ -80,9 +103,16 @@ class FetchCodeFromVcs
         $files = Storage::allFiles($diskPath);
 
         foreach ($files as $file) {
-            if ($file === $diskPath . $fileName) {
-                continue;
+            if (strtolower(File::extension($file)) != 'c') {
+                Storage::delete($file);
             }
         }
+    }
+
+    private function getSubmitedFileName(string $diskPath): string
+    {
+        $files = Storage::allFiles($diskPath);
+
+        return $files[0];
     }
 }

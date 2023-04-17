@@ -57,7 +57,7 @@ watch(() => bus.value.get('assignmentProcessed'), async () => {
                 <div class="mb-3">
                     <div class="flex items-center">
                         <span class="text-xl font-bold">
-                            <router-link :to="{name: 'assignments.submissions.show', params: {id: 1, submission_id: submission.id}}">
+                            <router-link :to="{name: 'assignments.submissions.show', params: {slug: assignment.slug, submission_id: submission.id}}">
                                 <span v-if="submission.status == 'failed'">Neúspešný pokus</span>
                                 <span v-else>Pokus č.{{ submission.try }}</span>
                             </router-link>

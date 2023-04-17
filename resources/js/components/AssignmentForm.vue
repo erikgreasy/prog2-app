@@ -45,7 +45,7 @@ const slugifyTitle = () => {
     if (assignment.value.slug?.length) {
         return
     }
-    
+
     assignment.value.slug = slugify(assignment.value.title).toLowerCase()
 }
 
@@ -72,7 +72,7 @@ const addTry = () => {
             <div>
                 <form v-if="assignment">
                     <InputGroup>
-                        <AppInput 
+                        <AppInput
                             v-model="assignment.title"
                             :errors="errors.title"
                             @change="slugifyTitle"
@@ -80,26 +80,26 @@ const addTry = () => {
                             additional-classes="!bg-white !text-xl"
                         />
                     </InputGroup>
-            
+
                     <AdminCard>
                         <div class="mb-5">
                             <InputWithError label="Slug:" :errors="errors?.slug">
                                 <AppInput @change="transformSlug" v-model="assignment.slug" :errors="errors?.slug" placeholder="Slug" />
                             </InputWithError>
                         </div>
-                
+
                         <div class="mb-5">
                             <InputWithError label="Deadline:" :errors="errors?.deadline">
                                 <AppInput type="datetime-local" v-model="assignment.deadline" :errors="errors?.deadline" />
                             </InputWithError>
                         </div>
-                
+
                         <div class="mb-5">
                             <InputWithError label="Krátky popis:" :errors="errors?.excerpt">
                                 <AppTextarea v-model="assignment.excerpt" placeholder="Krátky popis" :errors="errors?.excerpt" />
                             </InputWithError>
                         </div>
-                
+
                         <div>
                             <InputLabel>Obsah:</InputLabel>
                             <ContentEditor
@@ -114,13 +114,13 @@ const addTry = () => {
 
                 <div class="mt-5">
                     <h2>Odovzdanie</h2>
-            
+
                     <AdminCard>
-                        <ContentEditor 
-                            ref="instructionsEditor" 
-                            name="submission_instructions" 
+                        <ContentEditor
+                            ref="instructionsEditor"
+                            name="submission_instructions"
                             :content="assignment.submission_instructions"
-                            @processed="data => assignment.submission_instructions = data" 
+                            @processed="data => assignment.submission_instructions = data"
                         />
 
                         <!-- <AppTextarea v-model="assignment.submission_instructions" placeholder="Inštrukcie pre odovzdanie" :errors="errors?.submission_instructions"></AppTextarea> -->
@@ -132,7 +132,7 @@ const addTry = () => {
                     <h2>Materiály</h2>
 
                     <AdminCard>
-                        <ContentEditor 
+                        <ContentEditor
                             ref="materialsEditor"
                             name="materials"
                             :content="assignment.materials"
@@ -195,10 +195,6 @@ const addTry = () => {
 
                 <InputWithError label="Názov branch-ky:" :errors="errors.vcs_branch">
                     <AppInput v-model="assignment.vcs_branch" :errors="errors.vcs_branch" />
-                </InputWithError>
-
-                <InputWithError label="Názov súboru:" :errors="errors.vcs_filename">
-                    <AppInput v-model="assignment.vcs_filename" :errors="errors.vcs_filename" />
                 </InputWithError>
             </AdminCard>
         </div>

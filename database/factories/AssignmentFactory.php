@@ -24,7 +24,6 @@ class AssignmentFactory extends Factory
             'deadline' => Carbon::now()->addMonth(),
             'excerpt' => $this->faker->sentences(3, true),
             'vcs_branch' => '01',
-            'vcs_filename' => 'file01.c',
         ];
     }
 }

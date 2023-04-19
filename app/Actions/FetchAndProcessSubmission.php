@@ -39,7 +39,7 @@ class FetchAndProcessSubmission
                 'fail_messages' => [
                     'exception' => BranchNotFoundException::class,
                     'actual_output' => $e->getMessage(),
-                    'public_output' => 'Branchka nebola najdena',
+                    'public_output' => 'Požadovaná vetva nebola nájdená v repozitári.',
                 ],
             ]);
 
@@ -53,7 +53,7 @@ class FetchAndProcessSubmission
                 'fail_messages' => [
                     'exception' => RepositoryNotFoundException::class,
                     'actual_output' => $e->getMessage(),
-                    'public_output' => 'Repo nebolo najdene',
+                    'public_output' => 'Pripojený repozitár nebol nájdený. Nezmenili ste jeho názov?',
                 ],
             ]);
 
@@ -67,7 +67,7 @@ class FetchAndProcessSubmission
                 'fail_messages' => [
                     'exception' => FailedCloneException::class,
                     'actual_output' => $e->getMessage(),
-                    'public_output' => 'Nepodarilo sa clonovat repo.',
+                    'public_output' => 'Nebolo možné získať zdrojový kód z repozitára.',
                 ],
             ]);
 

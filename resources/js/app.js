@@ -52,16 +52,16 @@ axios.get('/api/user')
     }
 })
 .finally(() => {
-    
+
     const router = createRouter({
         history: createWebHistory(),
-        routes, 
+        routes,
     })
 
     router.beforeEach((to, from, next) => {
         const routeMiddlewares = to.meta.middleware;
         const context = { to, from, next, router };
-        
+
         var middlewares = globalMiddlewares
 
         if(routeMiddlewares) {
@@ -72,11 +72,11 @@ axios.get('/api/user')
         if (!middlewares) {
             return next();
         }
-        
-        middlewares[0]({ 
+
+        middlewares[0]({
             ...context,
             next: middlewarePipeline(context, middlewares, 1)
-        }); 
+        });
     })
 
 
@@ -84,4 +84,4 @@ axios.get('/api/user')
 
     app.mount('#app')
 })
-    
+

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Actions\CancelStaleSubmissions;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,6 +13,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->call(function () {
+            app(CancelStaleSubmissions::class)->execute();
+        })->everyFiveMinutes();
     }
 
     /**

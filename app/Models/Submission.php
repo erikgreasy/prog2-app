@@ -23,6 +23,7 @@ class Submission extends Model
         'fail_messages' => 'array',
         'points' => 'float',
         'is_final' => 'bool',
+        'status' => SubmissionStatus::class,
     ];
 
     protected $with = [

@@ -5,17 +5,10 @@ namespace App\Http\Controllers\Submit;
 use App\Actions\ProcessAssignmentWithTester;
 use App\Actions\ResolveSubmissionFolder;
 use App\Actions\StoreSubmission;
-use App\Dto\TesterCase;
 use App\Dto\TesterData;
-use App\Dto\TesterInput;
-use App\Dto\TesterInputCase;
-use App\Dto\TesterInputScenario;
-use App\Dto\TesterScenario;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualSubmissionRequest;
 use App\Models\Assignment;
-use App\Models\TestCase;
-use App\Models\TestScenario;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 

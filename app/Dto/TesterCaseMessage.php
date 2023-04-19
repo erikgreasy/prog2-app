@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-class TestResultCaseMessage
+class TesterCaseMessage
 {
     public function __construct(
         public readonly string $type,

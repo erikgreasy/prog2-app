@@ -24,12 +24,13 @@ class TestScenarioController extends Controller
     {
         $assignment->testScenarios()->create($request->validated());
     }
-    
+
     public function update(StoreTestScenarioRequest $request, Assignment $assignment, TestScenario $test)
     {
         foreach ($request->validated('cases') as $case) {
             if (isset($case['id'])) {
                 TestCase::find($case['id'])->update([
+                    'gcc_macro_defs' => $case['gcc_macro_defs'],
                     'std_in' => $case['std_in'],
                     'cmd_in' => $case['cmd_in'],
                     'std_out' => $case['std_out'],
@@ -37,6 +38,7 @@ class TestScenarioController extends Controller
                 ]);
             } else {
                 $test->cases()->create([
+                    'gcc_macro_defs' => $case['gcc_macro_defs'],
                     'std_in' => $case['std_in'],
                     'cmd_in' => $case['cmd_in'],
                     'std_out' => $case['std_out'],

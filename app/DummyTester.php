@@ -3,45 +3,23 @@
 namespace App;
 
 use App\Contracts\Tester;
+use App\Dto\TesterData;
 use App\Dto\TesterInput;
 use App\Dto\TesterInputCase;
 use App\Dto\TesterInputScenario;
 use App\Dto\TesterResult;
-use App\Dto\TestResultCase;
-use App\Dto\TestResultScenario;
+use App\Dto\TesterCase;
+use App\Dto\TesterScenario;
 use Illuminate\Support\Facades\Log;
 
 class DummyTester implements Tester
 {
-    public function run(TesterInput $input): TesterResult
+    public function run(TesterData $input): TesterData
     {
-        // Log::error("Running dummy tester, with input {$input} on file {$filePath}");
-
-        $resultScenarios = collect($input->scenarios)->map(function (TesterInputScenario $scenario) {
-            $cases = collect($scenario->cases)->map(function (TesterInputCase $case) {
-                return new TestResultCase(
-                    $case->id,
-                    true,
-                    'cmd in',
-                    'std in',
-                    'std out',
-                    'std err',
-                    'actual_stdout',
-                    'actual stderr'
-                );
-            });
-
-            return new TestResultScenario(
-                $scenario->id,
-                $cases->toArray()
-            );
-        });
-
-        return new TesterResult(
-            true,
-            [],
-            ["This is some random warning. Be aware!"],
-            $resultScenarios->toArray()
+        return new TesterData(
+            $input->id,
+            $input->src,
+            $input->scenarios
         );
     }
 }

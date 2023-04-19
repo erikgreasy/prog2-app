@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Submit;
 use App\Actions\ProcessAssignmentWithTester;
 use App\Actions\ResolveSubmissionFolder;
 use App\Actions\StoreSubmission;
+use App\Dto\TesterData;
 use App\Dto\TesterInput;
 use App\Dto\TesterInputCase;
 use App\Dto\TesterInputScenario;
@@ -57,11 +58,12 @@ class ManualAssignmentSubmissionController extends Controller
             ->onQueue()
             ->execute(
                 $submission,
-                new TesterInput(
+                new TesterData(
+                    $submission->id,
                     $filePath,
                     $inputScenarios->toArray(),
-                    $assignment->tester_path,
-                )
+                ),
+                $assignment->tester_path,
             );
 
         return response()->json([

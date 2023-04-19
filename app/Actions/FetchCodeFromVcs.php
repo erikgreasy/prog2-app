@@ -23,6 +23,7 @@ class FetchCodeFromVcs
 
     /**
      * @return string path to cloned file
+     * @throws \Exception
      */
     public function execute(User $user, Submission $submission): string
     {
@@ -32,7 +33,7 @@ class FetchCodeFromVcs
         $this
             ->cloneRepo($user, $absTargetPath, $submission->assignment->vcs_branch)
             ->validateFiles($relativeDiskPath)
-            ->cleanUpFiles($relativeDiskPath, $submission->assignment->vcs_filename);
+            ->cleanUpFiles($relativeDiskPath);
 
         $filename = $this->getSubmitedFileName($relativeDiskPath);
 
@@ -92,7 +93,7 @@ class FetchCodeFromVcs
     /**
      * Delete all files and directories other than our wanted file
      */
-    private function cleanUpFiles(string $diskPath, string $fileName): void
+    private function cleanUpFiles(string $diskPath): void
     {
         $directories = Storage::allDirectories($diskPath);
 

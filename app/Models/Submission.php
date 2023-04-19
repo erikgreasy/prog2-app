@@ -22,9 +22,6 @@ class Submission extends Model
         'source' => SubmissionSource::class,
         'fail_messages' => 'array',
         'points' => 'float',
-        'build_status' => 'boolean',
-        'gcc_error' => 'array',
-        'gcc_warning' => 'array',
         'is_final' => 'bool',
     ];
 

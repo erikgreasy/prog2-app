@@ -2,12 +2,12 @@
 
 namespace App\Dto;
 
-use App\Dto\TestResultCase;
+use App\Dto\TesterCase;
 
-class TestResultScenario
+class TesterScenario
 {
     /**
-     * @param TestResultCase[] $cases
+     * @param TesterCase[] $cases
      */
     public function __construct(
         public readonly int $id,

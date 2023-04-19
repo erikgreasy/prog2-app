@@ -2,13 +2,13 @@
 
 namespace App\Actions;
 
-use App\Dto\TesterInput;
+use App\Dto\TesterCase;
+use App\Dto\TesterData;
+use App\Dto\TesterScenario;
 use App\Exceptions\WrongRepositoryStructureException;
 use App\Models\TestCase;
 use App\Models\Submission;
-use App\Dto\TesterInputCase;
 use App\Models\TestScenario;
-use App\Dto\TesterInputScenario;
 use App\Enums\SubmissionStatus;
 use App\Github\Exceptions\BranchNotFoundException;
 use App\Github\Exceptions\FailedCloneException;
@@ -111,22 +111,26 @@ class FetchAndProcessSubmission
 
         $this->processAssignmentWithTester->onQueue()->execute(
             $submission,
-            new TesterInput(
+            new TesterData(
+                $submission->id,
                 $filePath,
                 $submission->assignment->testScenarios->map(function (TestScenario $scenario) {
-                    return new TesterInputScenario(
+                    return new TesterScenario(
                         $scenario->id,
                         $scenario->cases->map(function (TestCase $case) {
-                            return new TesterInputCase(
-                                $case->id,
-                                $case->cmd_in,
-                                $case->std_in
+                            return new TesterCase(
+                                id: $case->id,
+                                gccMacroDefs: $case->gcc_macro_defs,
+                                cmdIn: $case->cmd_in,
+                                stdIn: $case->std_in,
+                                stdOut: $case->std_out,
+                                stdErr: $case->std_err,
                             );
                         })->toArray()
                     );
                 })->toArray(),
-                $submission->assignment->tester_path,
-            )
+            ),
+            $submission->assignment->tester_path,
         );
     }
 }

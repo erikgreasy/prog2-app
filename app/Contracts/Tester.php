@@ -2,10 +2,11 @@
 
 namespace App\Contracts;
 
+use App\Dto\TesterData;
 use App\Dto\TesterInput;
 use App\Dto\TesterResult;
 
 interface Tester
 {
-    public function run(TesterInput $input): TesterResult;
+    public function run(TesterData $input): TesterData;
 }

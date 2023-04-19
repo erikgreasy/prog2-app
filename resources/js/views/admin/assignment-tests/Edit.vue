@@ -63,7 +63,7 @@ onMounted(async () => {
                         <InputLabel class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Názov:</InputLabel>
                         <AppInput v-model="test.title" :errors="errors?.title" />
                     </InputGroup>
-            
+
                     <InputGroup>
                         <InputWithError label="Počet bodov:" :errors="errors.points">
                             <AppInput v-model="test.points" type="number" :errors="errors?.points" />
@@ -71,7 +71,7 @@ onMounted(async () => {
                     </InputGroup>
                 </div>
             </AdminCard>
-    
+
             <h3 class="text-center text-xl mb-5 mt-10">Testovacie prípady</h3>
 
             <AdminCard v-for="(testCase, index) in test.cases" :key="testCase.id" class="relative">
@@ -81,7 +81,11 @@ onMounted(async () => {
                     Odstrániť prípad
                 </AppButton>
 
-                <div class="grid grid-cols-4 gap-x-3">
+                <div class="grid grid-cols-5 gap-x-3">
+                    <InputWithError label="Gcc macro defs:" :errors="errors[`cases.${index}.gcc_macro_defs`]">
+                        <AppTextarea v-model="testCase.gcc_macro_defs" :errors="errors[`cases.${index}.gcc_macro_defs`]" />
+                    </InputWithError>
+
                     <InputWithError label="cmd in:" :errors="errors[`cases.${index}.cmd_in`]">
                         <AppTextarea v-model="testCase.cmd_in" :errors="errors[`cases.${index}.cmd_in`]" />
                     </InputWithError>

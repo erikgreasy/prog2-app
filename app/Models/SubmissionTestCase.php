@@ -13,7 +13,10 @@ class SubmissionTestCase extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_success' => 'bool'
+        'is_success' => 'bool',
+        'build_status' => 'bool',
+        'gcc_errors' => 'array',
+        'gcc_warnings' => 'array',
     ];
 
     public function resultScenario(): BelongsTo

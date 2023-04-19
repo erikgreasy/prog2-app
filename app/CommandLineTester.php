@@ -3,13 +3,12 @@
 namespace App;
 
 use App\Contracts\Tester;
-use App\Dto\TesterInput;
-use App\Dto\TesterResult;
+use App\Dto\TesterData;
 use Symfony\Component\Process\Process;
 
 class CommandLineTester implements Tester
 {
-    public function run(TesterInput $input): TesterResult
+    public function run(TesterData $input): TesterData
     {
         if (!$input->testerPath) {
             throw new \Exception('Tester path not set when calling command line tester.');
@@ -22,7 +21,7 @@ class CommandLineTester implements Tester
         if (!$process->isSuccessful()) {
             throw new \Exception('Running command line tester was not successful. Error: ' . $process->getErrorOutput());
         }
- 
-        return TesterResult::fromJson($process->getOutput());
+
+        return TesterData::fromJson($process->getOutput());
     }
 }

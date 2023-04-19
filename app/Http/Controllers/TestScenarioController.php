@@ -31,18 +31,18 @@ class TestScenarioController extends Controller
             if (isset($case['id'])) {
                 TestCase::find($case['id'])->update([
                     'gcc_macro_defs' => $case['gcc_macro_defs'],
-                    'std_in' => $case['std_in'],
-                    'cmd_in' => $case['cmd_in'],
-                    'std_out' => $case['std_out'],
-                    'err_out' => $case['err_out']
+                    'stdin' => $case['stdin'],
+                    'cmdin' => $case['cmdin'],
+                    'stdout' => $case['stdout'],
+                    'errout' => $case['errout']
                 ]);
             } else {
                 $test->cases()->create([
                     'gcc_macro_defs' => $case['gcc_macro_defs'],
-                    'std_in' => $case['std_in'],
-                    'cmd_in' => $case['cmd_in'],
-                    'std_out' => $case['std_out'],
-                    'err_out' => $case['err_out']
+                    'stdin' => $case['stdin'],
+                    'cmdin' => $case['cmdin'],
+                    'stdout' => $case['stdout'],
+                    'errout' => $case['errout']
                 ]);
             }
         }

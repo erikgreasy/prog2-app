@@ -38,25 +38,25 @@ const storeCase = async () => {
         <AppButton v-if="!creating" size="small" @click="creating = true">
             Nový case
         </AppButton>
-                 
+
         <AdminCard v-if="creating">
             <form @submit.prevent="storeCase">
-                <InputWithError label="cmd in" :errors="errors.cmd_in">
-                    <AppInput v-model="testCase.cmd_in" />
+                <InputWithError label="cmd in" :errors="errors.cmdin">
+                    <AppInput v-model="testCase.cmdin" />
                 </InputWithError>
-    
-                <InputWithError label="std in" :errors="errors.std_in">
-                    <AppInput v-model="testCase.std_in" />
+
+                <InputWithError label="std in" :errors="errors.stdin">
+                    <AppInput v-model="testCase.stdin" />
                 </InputWithError>
-    
-                <InputWithError label="std out" :errors="errors.std_out">
-                    <AppInput v-model="testCase.std_out" />
+
+                <InputWithError label="std out" :errors="errors.stdout">
+                    <AppInput v-model="testCase.stdout" />
                 </InputWithError>
-    
-                <InputWithError label="err out" :errors="errors.err_out">
-                    <AppInput v-model="testCase.err_out" />
+
+                <InputWithError label="err out" :errors="errors.errout">
+                    <AppInput v-model="testCase.errout" />
                 </InputWithError>
-    
+
                 <AppButton button>Save</AppButton>
             </form>
         </AdminCard>

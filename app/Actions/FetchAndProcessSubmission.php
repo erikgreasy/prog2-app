@@ -114,21 +114,7 @@ class FetchAndProcessSubmission
             new TesterData(
                 $submission->id,
                 $filePath,
-                $submission->assignment->testScenarios->map(function (TestScenario $scenario) {
-                    return new TesterScenario(
-                        $scenario->id,
-                        $scenario->cases->map(function (TestCase $case) {
-                            return new TesterCase(
-                                id: $case->id,
-                                gccMacroDefs: $case->gcc_macro_defs,
-                                cmdIn: $case->cmd_in,
-                                stdIn: $case->std_in,
-                                stdOut: $case->std_out,
-                                stdErr: $case->std_err,
-                            );
-                        })->toArray()
-                    );
-                })->toArray(),
+                $submission->assignment->getTestScenariosArray()
             ),
             $submission->assignment->tester_path,
         );

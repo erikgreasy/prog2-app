@@ -9,10 +9,10 @@ class TestCaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'cmd_in' => ['required', 'string'],
-            'std_in' => ['required', 'string'],
-            'std_out' => ['required', 'string'],
-            'err_out' => ['required', 'string'],
+            'cmdin' => ['required', 'string'],
+            'stdin' => ['required', 'string'],
+            'stdout' => ['required', 'string'],
+            'errout' => ['required', 'string'],
         ];
     }
 }

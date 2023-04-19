@@ -14,10 +14,10 @@ class StoreTestScenarioRequest extends FormRequest
             'cases' => ['array'],
             'cases.*.id' => ['nullable', 'numeric', 'integer'],
             'cases.*.gcc_macro_defs' => ['nullable', 'string', 'max:255'],
-            'cases.*.cmd_in' => ['nullable', 'string', 'max:255'],
-            'cases.*.std_in' => ['nullable', 'string', 'max:255'],
-            'cases.*.std_out' => ['nullable', 'string', 'max:255'],
-            'cases.*.err_out' => ['nullable', 'string', 'max:255'],
+            'cases.*.cmdin' => ['nullable', 'string', 'max:255'],
+            'cases.*.stdin' => ['nullable', 'string', 'max:255'],
+            'cases.*.stdout' => ['nullable', 'string', 'max:255'],
+            'cases.*.errout' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

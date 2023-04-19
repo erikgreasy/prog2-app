@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Dto\TesterCase;
+use App\Dto\TesterScenario;
 use Laravel\Scout\Searchable;
 use App\Enums\AssignmentStatus;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +34,7 @@ class Assignment extends Model
     {
         return $this->published_at && $this->published_at <= now();
     }
-    
+
     public function maxTries(): int
     {
         if (!$this->tries) {
@@ -88,5 +90,24 @@ class Assignment extends Model
     public function scopePublished(Builder $query): void
     {
         $query->where('published_at', '<=', now());
+    }
+
+    public function getTesterScenariosArray(): array
+    {
+        return $this->testScenarios->map(function (TestScenario $scenario) {
+            return new TesterScenario(
+                $scenario->id,
+                $scenario->cases->map(function (TestCase $case) {
+                    return new TesterCase(
+                        id: $case->id,
+                        gccMacroDefs: $case->gcc_macro_defs,
+                        cmdin: $case->cmdin,
+                        stdin: $case->stdin,
+                        stdout: $case->stdout,
+                        stderr: $case->stderr,
+                    );
+                })->toArray()
+            );
+        })->toArray();
     }
 }

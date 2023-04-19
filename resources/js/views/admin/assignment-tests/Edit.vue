@@ -86,20 +86,20 @@ onMounted(async () => {
                         <AppTextarea v-model="testCase.gcc_macro_defs" :errors="errors[`cases.${index}.gcc_macro_defs`]" />
                     </InputWithError>
 
-                    <InputWithError label="cmd in:" :errors="errors[`cases.${index}.cmd_in`]">
-                        <AppTextarea v-model="testCase.cmd_in" :errors="errors[`cases.${index}.cmd_in`]" />
+                    <InputWithError label="cmd in:" :errors="errors[`cases.${index}.cmdin`]">
+                        <AppTextarea v-model="testCase.cmdin" :errors="errors[`cases.${index}.cmdin`]" />
                     </InputWithError>
 
-                    <InputWithError label="Std in:" :errors="errors[`cases.${index}.std_in`]">
-                        <AppTextarea v-model="testCase.std_in" :errors="errors[`cases.${index}.std_in`]" />
+                    <InputWithError label="Std in:" :errors="errors[`cases.${index}.stdin`]">
+                        <AppTextarea v-model="testCase.stdin" :errors="errors[`cases.${index}.stdin`]" />
                     </InputWithError>
 
-                    <InputWithError label="std out:" :errors="errors[`cases.${index}.std_out`]">
-                        <AppTextarea v-model="testCase.std_out" :errors="errors[`cases.${index}.std_out`]" />
+                    <InputWithError label="std out:" :errors="errors[`cases.${index}.stdout`]">
+                        <AppTextarea v-model="testCase.stdout" :errors="errors[`cases.${index}.stdout`]" />
                     </InputWithError>
 
-                    <InputWithError label="err out:" :errors="errors[`cases.${index}.err_out`]">
-                        <AppTextarea v-model="testCase.err_out" :errors="errors[`cases.${index}.err_out`]" />
+                    <InputWithError label="err out:" :errors="errors[`cases.${index}.errout`]">
+                        <AppTextarea v-model="testCase.errout" :errors="errors[`cases.${index}.errout`]" />
                     </InputWithError>
                 </div>
             </AdminCard>

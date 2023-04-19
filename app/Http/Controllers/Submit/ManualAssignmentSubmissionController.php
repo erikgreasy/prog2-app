@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Submit;
 use App\Actions\ProcessAssignmentWithTester;
 use App\Actions\ResolveSubmissionFolder;
 use App\Actions\StoreSubmission;
+use App\Dto\TesterCase;
 use App\Dto\TesterData;
 use App\Dto\TesterInput;
 use App\Dto\TesterInputCase;
 use App\Dto\TesterInputScenario;
+use App\Dto\TesterScenario;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualSubmissionRequest;
 use App\Models\Assignment;
@@ -39,21 +41,6 @@ class ManualAssignmentSubmissionController extends Controller
             'file_content' => File::get($filePath),
         ]);
 
-        $inputScenarios = $assignment->testScenarios->map(function (TestScenario $scenario) {
-            $inputCases = $scenario->cases->map(function (TestCase $case) {
-                return new TesterInputCase(
-                    $case->id,
-                    $case->cmd_in,
-                    $case->std_in
-                );
-            });
-
-            return new TesterInputScenario(
-                $scenario->id,
-                $inputCases->toArray()
-            );
-        });
-
         $processAssignmentWithTester
             ->onQueue()
             ->execute(
@@ -61,7 +48,7 @@ class ManualAssignmentSubmissionController extends Controller
                 new TesterData(
                     $submission->id,
                     $filePath,
-                    $inputScenarios->toArray(),
+                    $assignment->getTesterScenariosArray(),
                 ),
                 $assignment->tester_path,
             );

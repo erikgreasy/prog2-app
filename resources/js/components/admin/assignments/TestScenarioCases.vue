@@ -25,19 +25,19 @@ const errors = ref({})
             <h4 class="text-xl font-semibold mb-3">Case {{ ++index }}</h4>
             <div class="grid grid-cols-4 gap-x-2">
                 <InputWithError label="CMD IN:" :errors="errors?.title">
-                    <AppTextarea v-model="testCase.cmd_in" disabled/>
+                    <AppTextarea v-model="testCase.cmdin" disabled/>
                 </InputWithError>
-    
+
                 <InputWithError label="STD IN:" :errors="errors?.title">
-                    <AppTextarea v-model="testCase.std_in" disabled/>
+                    <AppTextarea v-model="testCase.stdin" disabled/>
                 </InputWithError>
-    
+
                 <InputWithError label="STD OUT:" :errors="errors?.title">
-                    <AppTextarea v-model="testCase.std_out" disabled/>
+                    <AppTextarea v-model="testCase.stdout" disabled/>
                 </InputWithError>
-    
+
                 <InputWithError label="ERR OUT:" :errors="errors?.title">
-                    <AppTextarea v-model="testCase.err_out" disabled/>
+                    <AppTextarea v-model="testCase.errout" disabled/>
                 </InputWithError>
             </div>
 
@@ -52,19 +52,19 @@ const errors = ref({})
             <h4 class="text-xl font-semibold mb-3">Case {{ cases.length + 1 }}</h4>
             <div class="grid grid-cols-4 gap-x-2">
                 <InputWithError label="CMD IN:" :errors="errors?.title">
-                    <AppTextarea v-model="newCase.cmd_in"/>
+                    <AppTextarea v-model="newCase.cmdin"/>
                 </InputWithError>
-    
+
                 <InputWithError label="STD IN:" :errors="errors?.title">
-                    <AppTextarea v-model="newCase.std_in"/>
+                    <AppTextarea v-model="newCase.stdin"/>
                 </InputWithError>
-    
+
                 <InputWithError label="STD OUT:" :errors="errors?.title">
-                    <AppTextarea v-model="newCase.std_out"/>
+                    <AppTextarea v-model="newCase.stdout"/>
                 </InputWithError>
-    
+
                 <InputWithError label="ERR OUT:" :errors="errors?.title">
-                    <AppTextarea v-model="newCase.err_out"/>
+                    <AppTextarea v-model="newCase.errout"/>
                 </InputWithError>
             </div>
             <div class="flex justify-end gap-x-3">
@@ -72,7 +72,7 @@ const errors = ref({})
             </div>
             <hr class="my-10">
         </div>
-    
+
         <div class="text-center pt-10">
             <AppButton @click="addNewCase = true" size="xs">
                 Pridať case

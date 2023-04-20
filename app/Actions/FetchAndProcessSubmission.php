@@ -79,7 +79,7 @@ class FetchAndProcessSubmission
             new TesterData(
                 $submission->id,
                 $filePath,
-                $submission->assignment->getTestScenariosArray()
+                $submission->assignment->getTesterScenariosArray()
             ),
             $submission->assignment->tester_path,
         );

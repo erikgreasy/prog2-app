@@ -8,7 +8,8 @@ defineProps({
 
 <template>
     <div>
-        <a :href="submission.file_path" target="_blank">Odovzdaný súbor</a>
+        <a :href="`/api/submissions/${submission.id}/file`" target="_blank">Odovzdaný súbor</a>
+
         <PrismCode lang="cpp" :showInvisibles="false" :useLineNumbers="true">
             {{ submission.file_content }}
         </PrismCode>

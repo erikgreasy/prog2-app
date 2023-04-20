@@ -13,6 +13,7 @@ use App\Http\Controllers\Notifications\MarkNotificationAsReadController;
 use App\Http\Controllers\Notifications\UserNotificationsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\SubmissionFileController;
 use App\Http\Controllers\Submit\ManualAssignmentSubmissionController;
 use App\Http\Controllers\Submit\VcsAssignmentSubmissionController;
 use App\Http\Controllers\TestScenarioController;
@@ -73,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum', 'teacher']], function() {
 
     Route::get('submissions', [SubmissionController::class, 'index']);
     Route::get('submissions/{submission}', [SubmissionController::class, 'show']);
+    Route::get('submissions/{submission}/file', SubmissionFileController::class);
 
     // students
     Route::get('students', [StudentController::class, 'index']);

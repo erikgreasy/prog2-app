@@ -7,7 +7,6 @@ import AdminUsersEdit from '@/views/admin/users/Edit.vue';
 import AdminUsersSubmissionsIndex from '@/views/admin/submissions/Index.vue';
 import AdminUsersSubmissionsShow from '@/views/admin/submissions/Show.vue';
 import AdminStudentsIndex from '@/views/admin/students/Index.vue'
-import AdminStudentsShow from '@/views/admin/students/Show.vue'
 import AdminAssignmentTestsIndex from '@/views/admin/assignment-tests/Index.vue'
 import AdminAssignmentTestsCreate from '@/views/admin/assignment-tests/Create.vue'
 import AdminAssignmentTestsEdit from '@/views/admin/assignment-tests/Edit.vue'
@@ -124,15 +123,6 @@ export default [
         path: '/admin/students',
         name: 'admin.students.index',
         component: AdminStudentsIndex,
-        meta: {
-            layout: Admin,
-            middleware: [auth, teacher]
-        }
-    },
-    {
-        path: '/admin/students/:id',
-        name: 'admin.students.show',
-        component: AdminStudentsShow,
         meta: {
             layout: Admin,
             middleware: [auth, teacher]

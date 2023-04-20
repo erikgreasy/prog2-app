@@ -20,7 +20,7 @@ class StoreTesterOutput
 
             $resultScenario = $submission->resultScenarios()->create([
                 'test_scenario_id' => $scenario->id,
-                'points' => $hasFailedCases ? 0 : TestScenario::find($scenario->id)->first()->points,
+                'points' => $hasFailedCases ? 0 : TestScenario::find($scenario->id)->points,
             ]);
 
             collect($scenario->cases)->each(function (TesterCase $case) use ($resultScenario) {

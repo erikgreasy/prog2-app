@@ -26,7 +26,7 @@ class FulltextSearchController extends Controller
                             'assignment',
                         );
                     }),
-            ], 
+            ],
             [
                 'name' => 'Studenti',
                 'results' => User::search($searchKey)
@@ -35,7 +35,7 @@ class FulltextSearchController extends Controller
                     ->map(function (User $user) {
                         return new SearchResult(
                             $user->id,
-                            $user->name,
+                            $user->full_name,
                             'student'
                         );
                     })

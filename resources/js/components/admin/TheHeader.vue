@@ -24,7 +24,7 @@ const { logout } = useAuth()
             <dropdown class="bg-none" placement="bottom" text="Bottom">
                 <template #trigger>
                     <button class="text-sm font-semibold text-primary flex gap-x-1 items-center">
-                        {{ authStore.user.name }}
+                        {{ authStore.user.full_name }}
                         <svg class="w-3.5" width="20" height="19" viewBox="0 0 20 19" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path

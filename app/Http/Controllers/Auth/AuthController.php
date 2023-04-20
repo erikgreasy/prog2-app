@@ -23,7 +23,10 @@ class AuthController extends Controller
         $user = User::updateOrCreate([
             'email' => $googleUser->getEmail()
         ], [
-            'name' => $googleUser->getName(),
+            'username' => str_replace("@{$googleUser['user']['hd']}", '', $googleUser->getEmail()),
+            'first_name' => $googleUser['user']['given_name'],
+            'last_name' => $googleUser['user']['family_name'],
+            'full_name' => $googleUser->getName(),
             'password' => Hash::make('examplePassword123')
         ]);
 

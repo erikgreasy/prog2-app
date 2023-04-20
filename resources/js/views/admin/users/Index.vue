@@ -23,14 +23,14 @@ onMounted(() => {
 <template>
     <div>
         <PageHeader title="Používatelia" />
-        
+
         <AdminTable>
             <TableHead :head="['Používateľ', 'Rola']"></TableHead>
 
             <TableRow v-for="item in users" :key="item.id">
                 <TableCell>
                     <router-link :to="{name: 'admin.users.edit', params: {id: item.id}}" class="font-semibold text-primary">
-                        {{ item.name }}
+                        {{ item.full_name }}
                     </router-link>
                 </TableCell>
                 <TableCell>

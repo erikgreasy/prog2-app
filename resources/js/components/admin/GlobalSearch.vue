@@ -13,11 +13,11 @@ const resultItems = computed(() => {
     return results.value.map(group => group.results).flat()
 })
 
-const resolveRoute = (type, id) => {
-    if (type === 'assignment') {
-        return {name: 'admin.assignments.edit', params: {id: id}}
-    } else if (type === 'student') {
-        return {name: 'admin.students.show', params: {id: id}}
+const resolveRoute = (result) => {
+    if (result.type === 'assignment') {
+        return {name: 'admin.assignments.edit', params: {id: result.id}}
+    } else if (result.type === 'student') {
+        return {name: 'admin.students.index', query: {search: result.title}}
     }
 }
 
@@ -69,7 +69,7 @@ watch(searchKey, debounce(async (e) => {
                     </strong>
 
                     <div v-for="(result, index) in group.results" :key="index">
-                        <router-link @click="clearSearch" :to="resolveRoute(result.type, result.id)" class="inline-block py-2">
+                        <router-link @click="clearSearch" :to="resolveRoute(result)" class="inline-block py-2">
                             {{ result.title }}
                         </router-link>
                     </div>

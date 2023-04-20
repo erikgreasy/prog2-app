@@ -48,9 +48,9 @@ onMounted(() => {
         <AdminCard>
             <InputGroup>
                 <InputLabel>Meno:</InputLabel>
-                <AppInput :value="user.name" disabled />
+                <AppInput :value="user.full_name" disabled />
             </InputGroup>
-            
+
             <InputGroup>
                 <InputLabel>Email:</InputLabel>
                 <AppInput :value="user.email" disabled />

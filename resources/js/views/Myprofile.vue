@@ -69,7 +69,7 @@ onMounted(async () => {
 <template>
     <div>
         <PageHeader>
-            {{ authStore.user.name }}
+            {{ authStore.user.full_name }}
         </PageHeader>
 
         <div class="container my-20">

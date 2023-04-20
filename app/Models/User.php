@@ -66,4 +66,12 @@ class User extends Authenticatable
                 group by assignment_id
             )');
     }
+
+    public function totalPoints(): float
+    {
+        return $this
+            ->submissions()
+            ->final()
+            ->sum('points');
+    }
 }

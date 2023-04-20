@@ -50,6 +50,11 @@ class Submission extends Model
         $query->where('status', SubmissionStatus::Completed);
     }
 
+    public function scopeFinal(Builder $query)
+    {
+        $query->where('is_final', true);
+    }
+
     public function assignment(): BelongsTo
     {
         return $this->belongsTo(Assignment::class);

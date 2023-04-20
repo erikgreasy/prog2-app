@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Http\Resources\StudentResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -17,10 +19,11 @@ class StudentController extends Controller
             $query = User::query();
         }
 
-        return $query
-            ->where('role', Role::STUDENT->value)
-            ->get()
-            ->load('finalAssignmentSubmissions');
+        return StudentResource::collection(
+            $query
+                ->where('role', Role::STUDENT->value)
+                ->get()
+        );
     }
 
     public function show(User $student)

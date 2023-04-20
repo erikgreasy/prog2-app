@@ -9,16 +9,27 @@ import TableCell from '@/components/admin/TableCell.vue';
 import AppInput from '@/components/admin/forms/AppInput.vue';
 import debounce from 'debounce'
 import { useAssignmentsIndex } from '@/composables/assignmentsIndex'
+import StudentOverview from "@/components/admin/StudentOverview.vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute()
 
 const users = ref([])
 
-const search = ref('')
+const params = route.query
+
+const search = ref(params.search || '')
 
 const { assignments, getAssignments } = useAssignmentsIndex()
 
+const loading = ref(false)
+
 const getStudents = async () => {
+    loading.value = true
     const res = await axios.get(`/api/students?search=${search.value}`)
     users.value = res.data
+
+    loading.value = false
 }
 
 onMounted(() => {
@@ -39,26 +50,29 @@ const assignmentTableHeadCols = computed(() => {
 <template>
     <div>
         <PageHeader title="Študenti" />
-        
+
         <div class="w-1/2 mb-3">
             <AppInput v-model="search" placeholder="Vyhľadávať študentov..." />
         </div>
 
-        <AdminTable>
-            <TableHead :head="['Meno'].concat(assignmentTableHeadCols)" />
+        <div class="py-5">
+            <div v-if="loading">
+                Loading...
+            </div>
 
-            <TableRow v-for="item in users" :key="item.id">
-                <TableCell>
-                    <router-link :to="{name: 'admin.students.show', params: {id: item.id}}"  class="font-semibold text-primary">
-                        {{ item.name }}
-                    </router-link>
-                </TableCell>
-                
-                <TableCell v-for="assignment in assignments.slice().reverse()">
-                    {{ item.final_assignment_submissions.find(submission => submission.assignment_id == assignment.id)?.points || '-' }}
+            <div v-else-if="users.length">
+                <StudentOverview
+                    v-for="student in users"
+                    :key="student.id"
+                    :assignments="assignments"
+                    :student="student"
+                />
+            </div>
 
-                </TableCell>
-            </TableRow>
-        </AdminTable>
+            <div v-else>
+                Neboli nájdené žiadne výsledky
+            </div>
+        </div>
+<!--        {{users}}-->
     </div>
 </template>

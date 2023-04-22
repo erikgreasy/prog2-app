@@ -19,16 +19,18 @@ class CommandLineTester implements Tester
 
         $encodedTesterData = json_encode($input->toJson());
 
-        $process = new Process(["{$testerPath} {$encodedTesterData}"]);
+        $output = shell_exec("{$testerPath} {$encodedTesterData}");
+//
+//        $process = new Process(["{$testerPath} {$encodedTesterData}"]);
+//
+//        info($process->getCommandLine());
+//
+//        $process->run();
+//
+//        if (!$process->isSuccessful()) {
+//            throw new \Exception('Running command line tester was not successful. Error: ' . $process->getErrorOutput());
+//        }
 
-        info($process->getCommandLine());
-
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \Exception('Running command line tester was not successful. Error: ' . $process->getErrorOutput());
-        }
-
-        return TesterData::fromJson($process->getOutput());
+        return TesterData::fromJson($output);
     }
 }

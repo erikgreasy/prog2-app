@@ -4,17 +4,20 @@ namespace App;
 
 use App\Contracts\Tester;
 use App\Dto\TesterData;
+use App\Models\Submission;
 use Symfony\Component\Process\Process;
 
 class CommandLineTester implements Tester
 {
     public function run(TesterData $input): TesterData
     {
-        if (!$input->testerPath) {
+        $testerPath = '/home/ploi/ctester_json';
+
+        if (!$testerPath) {
             throw new \Exception('Tester path not set when calling command line tester.');
         }
 
-        $process = new Process(['php', $input->testerPath, json_encode($input)]);
+        $process = new Process([$testerPath, json_encode($input)]);
 
         $process->run();
 

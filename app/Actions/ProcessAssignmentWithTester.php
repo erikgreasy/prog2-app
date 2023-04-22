@@ -27,7 +27,16 @@ class ProcessAssignmentWithTester
     {
         $submission->update(['status' => SubmissionStatus::Processing]);
 
-        $result = $this->tester->run($input);
+        try {
+            $result = $this->tester->run($input);
+        } catch (\Exception $e) {
+            $this->abortSubmissionProcessing->execute($submission, new FailMessage(
+                actualOutput: $e->getMessage(),
+                publicOutput: 'Nepodarilo sa ohodnotiť zadanie.',
+            ));
+
+            return;
+        }
 
         // first of all, save the raw report! We can play with other stuff later
         $submission->update([

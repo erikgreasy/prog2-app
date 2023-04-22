@@ -30,19 +30,19 @@ class TestScenarioController extends Controller
         foreach ($request->validated('cases') as $case) {
             if (isset($case['id'])) {
                 TestCase::find($case['id'])->update([
-                    'gcc_macro_defs' => $case['gcc_macro_defs'],
-                    'stdin' => $case['stdin'],
-                    'cmdin' => $case['cmdin'],
-                    'stdout' => $case['stdout'],
-                    'errout' => $case['errout']
+                    'gcc_macro_defs' => $case['gcc_macro_defs'] ?? null,
+                    'stdin' => $case['stdin'] ?? null,
+                    'cmdin' => $case['cmdin'] ?? null,
+                    'stdout' => $case['stdout'] ?? null,
+                    'errout' => $case['errout'] ?? null
                 ]);
             } else {
                 $test->cases()->create([
-                    'gcc_macro_defs' => $case['gcc_macro_defs'],
-                    'stdin' => $case['stdin'],
-                    'cmdin' => $case['cmdin'],
-                    'stdout' => $case['stdout'],
-                    'errout' => $case['errout']
+                    'gcc_macro_defs' => $case['gcc_macro_defs'] ?? null,
+                    'stdin' => $case['stdin'] ?? null,
+                    'cmdin' => $case['cmdin'] ?? null,
+                    'stdout' => $case['stdout'] ?? null,
+                    'errout' => $case['errout'] ?? null,
                 ]);
             }
         }

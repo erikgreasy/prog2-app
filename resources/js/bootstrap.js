@@ -29,10 +29,8 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     wsHost: window.location.hostname,
     wsPort: 6001,
-    forceTLS: false,
-    encrypted: false,
+    wssPort: 6001,
     disableStats: true,
-    enabledTransports: ['ws', 'wss'],
 });
 
 window.Echo.channel('test-channel')

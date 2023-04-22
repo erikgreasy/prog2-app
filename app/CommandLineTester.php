@@ -17,7 +17,9 @@ class CommandLineTester implements Tester
             throw new \Exception('Tester path not set when calling command line tester.');
         }
 
-        $process = new Process([$testerPath, json_encode($input->toJson())]);
+        $encodedTesterData = json_encode($input->toJson());
+
+        $process = new Process(["{$testerPath} {$encodedTesterData}"]);
 
         info($process->getCommandLine());
 

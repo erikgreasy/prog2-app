@@ -19,6 +19,8 @@ class CommandLineTester implements Tester
 
         $process = new Process([$testerPath, json_encode($input)]);
 
+        info($process->getCommandLine());
+
         $process->run();
 
         if (!$process->isSuccessful()) {

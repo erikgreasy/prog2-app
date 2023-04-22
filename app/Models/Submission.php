@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Dto\TesterData;
 use App\Enums\SubmissionSource;
 use App\Enums\SubmissionStatus;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,5 +64,14 @@ class Submission extends Model
     public function resultScenarios(): HasMany
     {
         return $this->hasMany(SubmissionTestScenario::class);
+    }
+
+    public function toTesterData(): TesterData
+    {
+        return new TesterData(
+            $this->id,
+            $this->file_path,
+            $this->assignment->getTesterScenariosArray()
+        );
     }
 }

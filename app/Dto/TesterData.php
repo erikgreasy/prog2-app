@@ -74,4 +74,34 @@ class TesterData
 //            })->toArray(),
 //        );
     }
+
+    public function toJson(): string
+    {
+        return json_encode([
+            'id' => $this->id,
+            'src' => $this->src,
+            'scenarios' => collect($this->scenarios)->map(function (TesterScenario $scenario) {
+                return [
+                    'id' => $scenario->id,
+                    'cases' => collect($scenario->cases)->map(function (TesterCase $case) {
+                        return [
+                            'id' => $case->id,
+                            'build_status' => $case->buildStatus,
+                            'gcc_errors' => $case->gccErrors,
+                            'gcc_warnings' => $case->gccWarnings,
+                            'success' => $case->success,
+                            'gcc_macro_defs' => $case->gccMacroDefs,
+                            'cmdin' => $case->cmdin,
+                            'stdin' => $case->stdin,
+                            'stdout' => $case->stdout,
+                            'stderr' => $case->stderr,
+                            'actual_stdout' => $case->actualStdout,
+                            'actual_stderr' => $case->actualStderr,
+                            'messages' => $case->messages,
+                        ];
+                    })->toArray(),
+                ];
+            })->toArray(),
+        ]);
+    }
 }

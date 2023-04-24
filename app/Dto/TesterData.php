@@ -102,6 +102,6 @@ class TesterData
                     })->toArray(),
                 ];
             })->toArray(),
-        ]);
+        ], JSON_UNESCAPED_SLASHES);
     }
 }

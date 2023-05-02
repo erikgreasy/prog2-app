@@ -55,7 +55,7 @@ defineProps({
             </div>
         </div>
 
-        <div v-if="resultCase.gcc_macro_defs" class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
+        <div v-if="resultCase.gcc_macro_defs" class="lg:grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
             <div class="justify-self-end">
                 <i class="fa-solid fa-hammer"></i> kompilácia:
             </div>
@@ -65,7 +65,7 @@ defineProps({
         </div>
 
         <div v-if="resultCase.build_status">
-            <div v-if="resultCase.cmdin" class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
+            <div v-if="resultCase.cmdin" class="lg:grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                 <div class="justify-self-end">
                     CMD IN:
                 </div>
@@ -74,7 +74,7 @@ defineProps({
                 </div>
             </div>
 
-            <div v-if="resultCase.stdin" class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
+            <div v-if="resultCase.stdin" class="lg:grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                 <div class="justify-self-end">
                     <i class="fas fa-keyboard" aria-hidden="true"></i> stdin:
                 </div>
@@ -84,7 +84,7 @@ defineProps({
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
+            <div class="lg:grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                 <div class="justify-self-end">
                     stdout:
                 </div>
@@ -94,7 +94,7 @@ defineProps({
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
+            <div class="lg:grid grid-cols-4 gap-x-10 py-5 px-10 items-center">
                 <div class="justify-self-end">
                     Správny stdout:
                 </div>

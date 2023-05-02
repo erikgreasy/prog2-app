@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="flex justify-center gap-x-5 text-sm my-10">
+    <div class="flex flex-col align-center w-1/2 mx-auto justify-center gap-5 text-sm my-10 lg:flex-row lg:w-auto">
         <div
             :class="{
                 'bg-green-200': buildStatus,

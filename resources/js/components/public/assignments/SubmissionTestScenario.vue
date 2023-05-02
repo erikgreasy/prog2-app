@@ -26,11 +26,16 @@ defineEmits([
                 <span class="text-xl font-bold">
                     {{ id + 1 }}. Testovací scenár
                 </span>
+                <div class="lg:hidden">
+                    {{ resultScenario.scenario.title }}
+                </div>
 <!--                {{ resultScenario.is_success ? 'OK' : 'FAIL' }}-->
             </div>
 
             <div class="flex items-center gap-x-3">
-                {{ resultScenario.scenario.title }}
+                <div class="hidden lg:block">
+                    {{ resultScenario.scenario.title }}
+                </div>
 
                 <div
                     class="px-2 py-2 font-bold border border-[#c9c9c9]"

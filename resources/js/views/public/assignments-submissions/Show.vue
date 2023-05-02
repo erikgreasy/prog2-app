@@ -29,7 +29,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="container" v-if="submission">
+    <div v-if="submission">
         <h2 class="text-2xl font-bold text-center mb-10">Report: {{ submission.try }}. pokus</h2>
 
         <div v-if="submission.fail_messages" class="bg-red-600 py-5 px-10 text-center text-white mt-10">
@@ -39,8 +39,8 @@ onMounted(async () => {
             </div>
         </div>
 
-        <div v-else>
-            <div class="border border-primaryDark rounded-lg px-10">
+        <div v-else class="overflow-auto">
+            <div class="border w-fit border-primaryDark rounded-lg lg:px-10 lg:w-full">
                 <SubmissionPointsTable :submission="submission" />
             </div>
 

@@ -32,8 +32,8 @@ const togglDarkMode = () => {
 
 <template>
     <div>
-        <div 
-            v-if="authStore.loggedIn && (!authStore.user.vcs_username || !authStore.user.github_repo || !authStore.user.github_access_token)" 
+        <div
+            v-if="authStore.loggedIn && (!authStore.user.vcs_username || !authStore.user.github_repo || !authStore.user.github_access_token)"
             class="bg-red-600 text-white py-2"
         >
             <div class="container">
@@ -52,7 +52,7 @@ const togglDarkMode = () => {
                         </svg>
                     </button>
                 </div>
-                
+
                 <ul v-if="isDesktop || navbarVisible" class="lg:flex lg:items-center lg:ml-auto lg:gap-x-10">
                     <NavbarItem @clicked="navbarVisible = false" route-name="home">
                         Domov
@@ -61,7 +61,7 @@ const togglDarkMode = () => {
                     <NavbarItem @clicked="navbarVisible = false" route-name="assignments.index">
                         Zadania
                     </NavbarItem>
-                    
+
                     <AppButton v-if="!authStore.loggedIn" @click.prevent="openLogin" href="/login" size="small" raw>
                         Prihlásiť sa
                     </AppButton>
@@ -106,8 +106,6 @@ const togglDarkMode = () => {
                             <path d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z" stroke="#718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </button>
-
-                    <a href="/login-dev">Login dev</a>
                 </ul>
             </nav>
         </div>

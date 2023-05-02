@@ -40,7 +40,7 @@ onMounted(async () => {
         </div>
 
         <div v-else class="overflow-auto">
-            <div class="border w-fit border-primaryDark rounded-lg lg:px-10 lg:w-full">
+            <div class="border w-fit min-w-full border-primaryDark rounded-lg lg:px-10 lg:w-full">
                 <SubmissionPointsTable :submission="submission" />
             </div>
 

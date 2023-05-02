@@ -45,8 +45,8 @@ const mainSections = computed(() => {
 </script>
 
 <template>
-    <section class="grid grid-cols-4">
-        <div class="border-r border-[#D1D1D1] pr-10">
+    <section class="lg:grid lg:grid-cols-4">
+        <div class="mb-14 border-r border-[#D1D1D1] pr-10">
             <aside class="sticky top-10">
                 <nav>
                     <ul class="grid gap-y-5">
@@ -65,7 +65,7 @@ const mainSections = computed(() => {
                 </nav>
             </aside>
         </div>
-        <div class="col-span-3 pl-10">
+        <div class="lg:col-span-3 lg:pl-10">
             <ContentParser :content="assignment.content" />
         </div>
     </section>

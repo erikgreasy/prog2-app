@@ -117,7 +117,7 @@ const togglDarkMode = () => {
         <footer>
             <div class="container text-center text-sliver py-5 text-sm">
                 <div>
-                    Copyright © 2022 Pavol Marák a <a href="https://greasy.dev" target="_blank" rel="noopener noreferrer">Erik Masný</a>, ÚIM FEI STU
+                    Copyright © {{ new Date().getFullYear() }} Pavol Marák a <a href="https://greasy.dev" target="_blank" rel="noopener noreferrer">Erik Masný</a>, ÚIM FEI STU
                 </div>
                 <div>
                     Powered by Laravel, Vue.js and Tailwind CSS

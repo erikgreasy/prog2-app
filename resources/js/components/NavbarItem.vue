@@ -14,7 +14,7 @@ defineEmits(['clicked'])
         <router-link
             @click="$emit('clicked')"
             :to="{name: routeName}"
-            class="py-5 block font-semibold text-sm text-sliver"
+            class="py-5 block font-semibold text-sm text-sliver dark:text-darkText"
             :class="[additionalClass]"
         >
             <slot></slot>

@@ -6,7 +6,8 @@ import UserNotifications from '@/components/public/UserNotifications.vue';
 import { useAuthStore } from '@/stores/auth.js'
 import { useAuth } from '@/composables/auth';
 import { ref, computed } from 'vue';
-import { onClickOutside } from '@vueuse/core'
+import {onClickOutside, useDark} from '@vueuse/core'
+import {useDarkModeStore} from "@/stores/darkMode";
 
 const authStore = useAuthStore()
 
@@ -25,13 +26,15 @@ const isDesktop = computed(() => {
     return window.innerWidth >= 1024
 })
 
+const darkModeStore = useDarkModeStore()
+
 const togglDarkMode = () => {
-    alert('toggl dark mode')
+    darkModeStore.toggle()
 }
 </script>
 
 <template>
-    <div>
+    <div class="dark:text-white dark:bg-black">
         <div
             v-if="authStore.loggedIn && (!authStore.user.vcs_username || !authStore.user.github_repo || !authStore.user.github_access_token)"
             class="bg-red-600 text-white py-2"

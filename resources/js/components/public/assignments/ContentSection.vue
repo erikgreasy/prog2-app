@@ -46,7 +46,7 @@ const mainSections = computed(() => {
 
 <template>
     <section class="lg:grid lg:grid-cols-4">
-        <div class="mb-14 border-r border-[#D1D1D1] pr-10">
+        <div class="mb-14 border-r border-[#D1D1D1] pr-10 dark:border-gray-600">
             <aside class="sticky top-10">
                 <nav>
                     <ul class="grid gap-y-5">

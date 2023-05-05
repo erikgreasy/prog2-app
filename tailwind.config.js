@@ -7,6 +7,7 @@ module.exports = {
         'node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}',
         'node_modules/flowbite/**/*.{js,jsx,ts,tsx}'
     ],
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {
@@ -20,9 +21,10 @@ module.exports = {
                 }
             },
             colors: {
-                primary: '#4E56A6',
+                primary: '#616bc4',
                 primaryDark: '#41488A',
                 sliver: '#718096',
+                darkText: '#c5c5c5',
             }
         },
     },

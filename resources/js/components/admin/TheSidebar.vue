@@ -10,7 +10,7 @@ const authStore = useAuthStore()
 <template>
     <aside class="fixed z-10 top-16 left-0 w-64 h-[calc(100%-2.5rem)]" aria-label="Sidenav">
         <div
-            class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200">
             <ul class="space-y-2">
                 <AdminNavItem route-name="admin.dashboard">
                     <template #icon>

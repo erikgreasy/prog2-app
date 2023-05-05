@@ -1,16 +1,21 @@
 <script setup>
 import Public from '@/views/layouts/Public.vue';
+import {useDarkModeStore} from "@/stores/darkMode";
+
+const darkModeStore = useDarkModeStore()
 </script>
 
 <template>
-    <component :is="$route.meta.layout || Public">
-        <router-view v-slot="{Component}">
-            <transition name="fade" mode="out-in">
-                <component :is="Component" :key="$route.path"></component>
-            </transition>
-        </router-view>
+    <div :class="{dark: darkModeStore.darkMode}">
+        <component :is="$route.meta.layout || Public">
+            <router-view v-slot="{Component}">
+                <transition name="fade" mode="out-in">
+                    <component :is="Component" :key="$route.path"></component>
+                </transition>
+            </router-view>
 
-    </component>
+        </component>
+    </div>
 </template>
 
 <style>

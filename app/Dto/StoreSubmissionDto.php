@@ -14,6 +14,7 @@ class StoreSubmissionDto
         public readonly ?float $points = null,
         public readonly ?object $report = null,
         public readonly ?string $filePath = null,
+        public readonly ?int $try = null,
     )
     {
     }

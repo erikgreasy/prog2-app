@@ -51,7 +51,7 @@ defineProps({
                     <div v-if="student.submissions.filter(submission => submission.assignment_id === assignment.id).length">
                         <div v-for="submission in student.submissions.filter(submission => submission.assignment_id === assignment.id)" class="px-5 mb-5">
                             <div class="text-primary">
-                                <router-link :to="{name: 'admin.users.submissions.show', params: {userId: student.id, submissionId: submission.id}}">
+                                <router-link :to="{name: 'admin.users.submissions.show', params: {userId: student.id, id: submission.id}}">
                                     Odovzdanie: {{ submission.created_at.readable }}
                                     (
                                     <span v-if="submission.status !== 'failed'">pokus {{ submission.try }}</span>

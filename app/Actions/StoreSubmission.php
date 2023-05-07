@@ -17,7 +17,7 @@ class StoreSubmission
         return Submission::create([
             'user_id' => $storeSubmissionDto->userId,
             'assignment_id' => $storeSubmissionDto->assignmentId,
-            'try' => $this->resolveTry($storeSubmissionDto),
+            'try' => $storeSubmissionDto->try ?? $this->resolveTry($storeSubmissionDto),
             'source' => $storeSubmissionDto->source,
             'ip' => $storeSubmissionDto->ip,
             'report' => $storeSubmissionDto->report,

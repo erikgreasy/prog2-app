@@ -22,6 +22,8 @@ class CommandLineTester implements Tester
         info("RUNNING TESTER: {$testerPath} {$encodedTesterData}");
 
         $output = shell_exec("{$testerPath} {$encodedTesterData}");
+
+        info('Program output: ' . json_encode($output));
 //
 //        $process = new Process(["{$testerPath} {$encodedTesterData}"]);
 //

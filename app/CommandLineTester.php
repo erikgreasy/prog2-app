@@ -24,6 +24,10 @@ class CommandLineTester implements Tester
         $output = shell_exec("{$testerPath} {$encodedTesterData}");
 
         info('Program output: ' . json_encode($output));
+
+        if (!$output) {
+            throw new \Exception('Did not get any output from exec.');
+        }
 //
 //        $process = new Process(["{$testerPath} {$encodedTesterData}"]);
 //

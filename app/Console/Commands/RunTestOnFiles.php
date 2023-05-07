@@ -114,9 +114,9 @@ class RunTestOnFiles extends Command
     {
         $oldAssignmentAssignment = Assignment::where('slug', str()->slug('Zadanie č. 2 - Konské dostihy'))->first();
 
-        $oldAssignmentAssignment->submissions()->delete();
+        $oldAssignmentAssignment?->submissions()->delete();
 
-        $oldAssignmentAssignment->delete();
+        $oldAssignmentAssignment?->delete();
 
 
         $assignment = Assignment::create([

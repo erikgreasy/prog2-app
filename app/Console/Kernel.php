@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             app(CancelStaleSubmissions::class)->execute();
-        })->everyTenMinutes();
+        })->everyFiveMinutes();
 
         $schedule->command('backup:run')->daily();
         $schedule->command('backup:clean')->daily();

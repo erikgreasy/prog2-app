@@ -18,7 +18,7 @@ class CancelStaleSubmissions
     {
         $submissionsToCancel = Submission::query()
             ->whereIn('status', [SubmissionStatus::Created, SubmissionStatus::Processing])
-            ->where('created_at', '<', now()->subMinutes(5)->toDateTimeString())
+            ->where('created_at', '<', now()->subMinutes(10)->toDateTimeString())
             ->get();
 
         foreach ($submissionsToCancel as $submission) {

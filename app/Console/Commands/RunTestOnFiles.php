@@ -79,7 +79,7 @@ class RunTestOnFiles extends Command
             ]);
 
             app(ProcessAssignmentWithTester::class)
-                ->onQueue()
+                ->onQueue('tester')
                 ->execute(
                     $submission,
                     new TesterData(

@@ -35,7 +35,7 @@ class ManualAssignmentSubmissionController extends Controller
         ]);
 
         $processAssignmentWithTester
-            ->onQueue()
+            ->onQueue('tester')
             ->execute(
                 $submission,
                 new TesterData(

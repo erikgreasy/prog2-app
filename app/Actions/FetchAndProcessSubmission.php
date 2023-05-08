@@ -74,7 +74,7 @@ class FetchAndProcessSubmission
             'file_content' => File::get($filePath),
         ]);
 
-        $this->processAssignmentWithTester->onQueue()->execute(
+        $this->processAssignmentWithTester->onQueue('tester')->execute(
             $submission,
             new TesterData(
                 $submission->id,

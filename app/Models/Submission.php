@@ -18,6 +18,10 @@ class Submission extends Model
 
     protected $guarded = ['id'];
 
+    protected $hidden = [
+        'report',
+    ];
+
     protected $casts = [
         'report' => 'object',
         'source' => SubmissionSource::class,

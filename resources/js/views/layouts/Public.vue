@@ -81,7 +81,7 @@ const togglDarkMode = () => {
                             </svg>
                         </span>
 
-                        <div v-if="myprofileDropdownOpen" class="absolute bg-white px-8 py-4 rounded-lg bottom-2 translate-y-full right-0 shadow-lg z-10">
+                        <div v-if="myprofileDropdownOpen" class="absolute bg-white px-8 py-4 rounded-lg bottom-2 translate-y-full right-0 shadow-lg z-10 dark:bg-[#0D0D0D]">
                             <ul class="whitespace-nowrap">
                                 <li class="py-1">
                                     <router-link @click="myprofileDropdownOpen = false" :to="{name: 'myprofile'}" class="block py-1">

@@ -25,7 +25,10 @@ class ProcessAssignmentWithTester
 
     public function execute(Submission $submission, TesterData $input, string $testerPath): void
     {
+        info('start of the job');
         $submission->update(['status' => SubmissionStatus::Processing]);
+
+        info('status updated to processing');
 
         try {
             $result = $this->tester->run($input);
@@ -38,12 +41,18 @@ class ProcessAssignmentWithTester
             return;
         }
 
+        info('cmd tester complete');
+
         // first of all, save the raw report! We can play with other stuff later
         $submission->update([
             'report' => $result,
         ]);
 
+        info('updated report to submission');
+
         $this->storeTesterOutput->execute($result, $submission);
+
+        info('stored output to DB structures');
 
         try {
             $submission->update([
@@ -58,6 +67,8 @@ class ProcessAssignmentWithTester
 
             return;
         }
+
+        info('completed now, lets notify');
 
         $submission->user->notify(new SubmissionProcessed($submission));
     }

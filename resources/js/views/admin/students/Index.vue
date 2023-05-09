@@ -24,9 +24,21 @@ const { assignments, getAssignments } = useAssignmentsIndex()
 
 const loading = ref(false)
 
+const page = ref(1)
+
+const changePage = url => {
+    const urlObj = new URL(url)
+
+    const searchParams = urlObj.searchParams
+    const newPage = searchParams.get('page')
+
+    page.value = newPage
+    getStudents()
+}
+
 const getStudents = async () => {
     loading.value = true
-    const res = await axios.get(`/api/students?search=${search.value}`)
+    const res = await axios.get(`/api/students?search=${search.value}&page=${page.value}`)
     users.value = res.data
 
     loading.value = false
@@ -39,6 +51,7 @@ onMounted(() => {
 
 watch(search, debounce(async (oldSearch, newSearch) => {
     console.log('change search: ' + search.value)
+    page.value = 1
     getStudents()
 }, 500))
 
@@ -60,9 +73,9 @@ const assignmentTableHeadCols = computed(() => {
                 Loading...
             </div>
 
-            <div v-else-if="users.length">
+            <div v-else-if="users.data?.length">
                 <StudentOverview
-                    v-for="student in users"
+                    v-for="student in users.data"
                     :key="student.id"
                     :assignments="assignments"
                     :student="student"
@@ -72,6 +85,20 @@ const assignmentTableHeadCols = computed(() => {
             <div v-else>
                 Neboli nájdené žiadne výsledky
             </div>
+        </div>
+
+        <div v-if="users.data" class="flex gap-x-4 items-center justify-center">
+            <component
+                v-for="(link, index) in users.meta.links"
+                :is="link.url ? 'button' : 'span'"
+                :key="index"
+                @click="changePage(link.url)"
+                v-html="link.label"
+                :class="{
+                    'font-bold' : link.active,
+                    'opacity-50': !link.url,
+                }"
+            ></component>
         </div>
 <!--        {{users}}-->
     </div>

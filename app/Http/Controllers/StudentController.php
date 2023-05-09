@@ -22,7 +22,7 @@ class StudentController extends Controller
         return StudentResource::collection(
             $query
                 ->where('role', Role::STUDENT->value)
-                ->get()
+                ->paginate()
         );
     }
 

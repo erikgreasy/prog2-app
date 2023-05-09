@@ -53,7 +53,7 @@ defineEmits([
             </div>
         </div>
 
-        <div v-show="isOpen">
+        <div v-if="isOpen">
             <SubmissionTestCase
                 v-for="(resultCase, index) in resultScenario.result_cases"
                 :key="resultCase.id"

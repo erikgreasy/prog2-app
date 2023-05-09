@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Http\Resources\SubmissionResource;
 use App\Models\User;
 use App\Models\Assignment;
 use App\Models\Submission;
@@ -36,6 +37,6 @@ class SubmissionController extends Controller
 
     public function show(Submission $submission)
     {
-        return $submission;
+        return new SubmissionResource($submission);
     }
 }

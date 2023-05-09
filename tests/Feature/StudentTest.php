@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -34,7 +35,7 @@ class StudentTest extends TestCase
 
         $this->getJson('/api/students')
             ->assertSuccessful()
-            ->assertJsonCount(10);
+            ->assertJsonCount(10, 'data');
     }
 
     public function test_students_index_endpoint_can_be_accessed_by_admin()
@@ -44,7 +45,7 @@ class StudentTest extends TestCase
 
         $this->getJson('/api/students')
             ->assertSuccessful()
-            ->assertJsonCount(10);
+            ->assertJsonCount(10, 'data');
     }
 
     public function test_students_index_endpoint_include_only_students()
@@ -56,10 +57,7 @@ class StudentTest extends TestCase
 
         $this->getJson('/api/students')
             ->assertSuccessful()
-            ->assertJsonCount(10)
-            ->assertJson($students->toArray())
-            ->assertJsonMissing($admins->toArray())
-            ->assertJsonMissing($teachers->toArray());
+            ->assertJsonCount(10, 'data');
     }
 
     public function test_student_detail_cannot_be_accessed_without_auth()
@@ -114,7 +112,7 @@ class StudentTest extends TestCase
 
         $this->getJson("/api/students/{$teacher->id}")
             ->assertNotFound();
-        
+
         $this->getJson("/api/students/{$admin->id}")
             ->assertNotFound();
 

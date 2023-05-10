@@ -36,6 +36,17 @@ const togglDarkMode = () => {
 <template>
     <div class="dark:text-white dark:bg-black">
         <div
+            v-if="authStore.loggedIn && authStore.user?.role === 'student'"
+            class="bg-red-800 text-white py-2 text-sm"
+        >
+            <div class="container">
+                <a href="/make-admin">
+                    Klinutím na tento text sa prihláste ako admnistrátor (dostupné len pre účely testovania)
+                </a>
+            </div>
+        </div>
+
+        <div
             v-if="authStore.loggedIn && (!authStore.user.vcs_username || !authStore.user.github_repo || !authStore.user.github_access_token)"
             class="bg-red-600 text-white py-2"
         >
@@ -43,6 +54,7 @@ const togglDarkMode = () => {
                 Pre dokončenie registrácie prosím <router-link :to="{name: 'myprofile.github'}" class="underline">prepojte svoj GitHub účet.</router-link>
             </div>
         </div>
+
         <div class="container py-5">
             <nav class="lg:flex">
                 <div class="flex justify-between items-center">

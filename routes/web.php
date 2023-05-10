@@ -32,6 +32,13 @@ Route::post('/websocket-handler', function() {
     TestEvent::dispatch();
 });
 
+Route::get('/make-admin', function () {
+   auth()->user()->update(['role' => 'admin']);
+
+   return redirect('/admin');
+});
+
+
 Route::get('/login-dev', function() {
     Auth::login(
         User::where('role', Role::ADMIN->value)->first()

@@ -11,7 +11,7 @@ class CommandLineTester implements Tester
 {
     public function run(TesterData $input): TesterData
     {
-        $testerPath = '/home/ploi/ctester_json';
+        $testerPath = '/home/xmasnye/ctester_json';
 
         if (!$testerPath) {
             throw new \Exception('Tester path not set when calling command line tester.');

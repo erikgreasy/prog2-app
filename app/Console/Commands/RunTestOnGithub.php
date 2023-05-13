@@ -40,7 +40,10 @@ class RunTestOnGithub extends Command
         $assignment = $createTestingAssignment->execute();
 
         foreach (range(1, 10) as $index) {
-            $repo = "prog2-{$index}";
+            $strIndex = strval($index);
+            $repoIndex = $index < 10 ? "0{$strIndex}" : $strIndex;
+
+            $repo = "prog2-{$repoIndex}";
 
             $user = User::updateOrCreate([
                 'email' => "github{$index}@stuba.sk"

@@ -10,9 +10,9 @@ defineProps({
 
 <template>
     <div
-        class="mb-4 mt-10 border border-[#9a9a9a]"
+        class="mb-4 mt-10 border border-[#9a9a9a] dark:border-[#1E1D1D]"
     >
-        <div class="p-5 bg-[#f7f7f7]">
+        <div class="p-5 bg-[#f7f7f7] dark:bg-[#1E1D1D]">
             {{ index + 1 }}. Prípad
             <span v-if="resultCase.is_success" class="bg-green-400 py-0.5 px-1 rounded-sm font-semibold text-white">OK</span>
             <span v-else class="bg-red-400 py-0.5 px-1 rounded-sm font-semibold text-white">FAIL</span>
@@ -25,12 +25,12 @@ defineProps({
         />
 
         <div class="my-10 grid gap-y-10 text-center">
-            <div v-if="!resultCase.build_status" class="text-2xl text-red-800">
+            <div v-if="!resultCase.build_status" class="text-2xl text-red-800 dark:text-red-400">
                 Zadanie nebolo možné pre daný prípad skompilovať
             </div>
             <div v-if="resultCase.gcc_errors?.length">
                 <h3>
-                    <span class="bg-red-300 px-2 py-1 rounded">
+                    <span class="bg-red-300 px-2 py-1 rounded dark:bg-red-500">
                         GCC errors (počet chýb: {{ resultCase.gcc_errors?.length }})
                     </span>
                 </h3>
@@ -43,7 +43,7 @@ defineProps({
 
             <div v-if="resultCase.gcc_warnings?.length">
                 <h3>
-                    <span class="bg-orange-300 px-2 py-1 rounded">
+                    <span class="bg-orange-300 px-2 py-1 rounded dark:bg-orange-400">
                         GCC warnings (počet upozornení: {{ resultCase.gcc_warnings?.length }})
                     </span>
                 </h3>

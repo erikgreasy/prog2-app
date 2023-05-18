@@ -15,7 +15,7 @@ class UploadFileController extends Controller
         return response()->json([
             'success' => true,
             'file' => [
-                'url' => asset($path)
+                'url' => asset("/storage/{$path}")
             ]
         ]);
     }
